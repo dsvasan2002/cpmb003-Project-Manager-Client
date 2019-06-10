@@ -1,18 +1,60 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-
-import { AppRoutingModule } from './app-routing.module';
+import { NgModule, Injectable, ErrorHandler } from '@angular/core';
+import * as Sentry from "@sentry/browser";
 import { AppComponent } from './app.component';
+import { HeaderComponent } from './header/header.component';
+import { ViewtaskComponent } from './task/viewtask/viewtask.component';
+import { AddtaskComponent } from './task/addtask/addtask.component';
+// import { UpdatetaskComponent } from './task/updatetask/updatetask.component';
+import { AppRoutingModule } from './app-routing.module';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {HttpInterceptorService} from './service/http-interceptor.service';
+// import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
+import { AddprojectComponent } from './project/addproject/addproject.component';
+import { AdduserComponent } from './user/adduser/adduser.component';
+
+//Init sentry with our dsn key to log the logs in sentry
+Sentry.init({
+  dsn: "https://d55a54047dd94ebaab13f8c9bc01f9c0@sentry.io/1478190"
+});
+
+//setup custom config to capture the user info to log
+Sentry.configureScope((scope)=>{
+  scope.setUser({'email':'dsvasan2002@gmail.com'});
+})
+
+@Injectable()
+//pass error handler to sentry
+export class SentryErrorHandler implements ErrorHandler {
+  constructor(){}
+  handleError(error: any) {
+    Sentry.captureException(error.originalError || error);
+    Sentry.captureEvent(error.originalError || error);
+    throw error;
+  }
+}
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HeaderComponent,
+    ViewtaskComponent,
+    AddtaskComponent,
+    AddprojectComponent,
+    AdduserComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    {provide: ErrorHandler, useClass: SentryErrorHandler},
+    {provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true}
+  ],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }

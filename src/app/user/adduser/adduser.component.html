@@ -1,0 +1,93 @@
+<!-- <p>
+  adduser works!
+</p> -->
+
+<h1 *ngIf="errorBlock" >
+  <div class="errorBanner">{{errorText}}</div> 
+</h1>
+
+<!-- New User Input fields -->
+<div class="panel-body container col-md-6">
+
+  <div class="form-inline" [class.has-error]="firstNameControl.invalid && firstNameControl.touched" [class.has-success]="firstNameControl.valid">
+    <label for="firstName" class="control-label" >First Name: </label>
+    <input id="firstName" required type="text" class="form-control col col-md-9 float-right" name="firstName" [(ngModel)]="anUser.firstName" #firstNameControl="ngModel">
+    <span class="help-block" *ngIf="firstNameControl.invalid && firstNameControl.touched">
+         First Name is required
+    </span>
+  </div>
+
+  <div class="form-inline" [class.has-error]="lastNameControl.invalid && lastNameControl.touched" [class.has-success]="lastNameControl.valid">
+    <label for="lastName" class="control-label" >Last Name: </label>
+    <input id="lastName" required type="text" class="form-control col col-md-9 float-right" name="lastName" [(ngModel)]="anUser.lastName" #lastNameControl="ngModel">
+      <span class="help-block" *ngIf="lastNameControl.invalid && lastNameControl.touched">
+         Last Name is required
+      </span>
+  </div>
+
+  <div class="form-inline" [class.has-error]="employeeIdControl.invalid && employeeIdControl.touched" [class.has-success]="employeeIdControl.valid">
+    <label for="employeeId" class="control-label" >Employee ID: </label>
+    <input id="employeeId" required type="text" class="form-control col col-md-9 float-right" name="employeeId" [(ngModel)]="anUser.employeeId" #employeeIdControl="ngModel">
+      <span class="help-block" *ngIf="employeeIdControl.invalid && employeeIdControl.touched">
+         Employee ID is required
+      </span>
+  </div>
+  <button class="btn btn-primary" (click)="resetPage()"> Reset </button>
+  <button *ngIf="!isEditMode" class="btn btn-primary" (click)="addNewUser(anUser)"> Add </button>
+  <button *ngIf="isEditMode" class="btn btn-primary" (click)="updateUser(anUser)"> Update </button>
+</div>
+
+<br><hr>
+<!-- Sort fields -->
+<div class="container col-md-16">
+  <div class="row col-md-16">
+    <div class="col col-md-5">
+      <input type="text" class="form-control" placeholder="Search..." name="search" (input)="searchUser($event.target.value)">
+    </div>
+    <div class="col col-md-1">
+      <label>Sort:</label>
+    </div>
+    <div class="col col-md-6">
+      <button type="button" (click)="sortUsers('firstname')" >First Name</button> &nbsp;
+      <button type="button" (click)="sortUsers('lastname')" >Last Name</button> &nbsp;
+      <button type="button" (click)="sortUsers('employeeId')">Id</button> &nbsp;
+    </div>
+  </div>
+</div>
+
+<br><hr>
+<!-- user list fields -->
+<div class="container col-md-16">
+  <div class="list-group col-md-16" *ngFor="let user of usersList">
+    <div class="list-item col-md-16" >
+
+      <div class="row col-md-16">
+        <div class="col col-md-9 float-left">
+          <input type="text" [value]="user.firstName" id="firstName" readonly class="form-control" >
+        </div>
+        <div class="col col-md-3 float-right">
+          <button class="col col-md-10" type="button" (click)="editUser(user)">Edit</button>
+        </div>
+      </div>
+
+      <div class="row col-md-16">
+        <div class="col col-md-9 float-left">
+          <input type="text" [value]="user.lastName" id="lastName" readonly class="form-control" >
+        </div>
+        <div class="col col-md-3 float-right">
+          <button class="col col-md-10" type="button" (click)="deleteUser(user.userId)">Delete</button>
+        </div>
+      </div>
+
+      <div class="row col-md-16">
+        <div class="col col-md-4 float-left">
+          <input type="text" [value]="user.employeeID" id="employeeId" readonly class="form-control" >
+        </div>
+       <div class="col col-md-2 float-right">
+          <input type="hidden">
+        </div>
+      </div>
+    </div>
+  <hr>
+  </div>
+</div>
