@@ -10,9 +10,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {HttpInterceptorService} from './service/http-interceptor.service';
 // import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddprojectComponent } from './project/addproject/addproject.component';
 import { AdduserComponent } from './user/adduser/adduser.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 //Init sentry with our dsn key to log the logs in sentry
 Sentry.init({
@@ -47,8 +48,10 @@ export class SentryErrorHandler implements ErrorHandler {
   imports: [
     BrowserModule,
     AppRoutingModule,
+    ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule.forRoot()
   ],
   providers: [
     {provide: ErrorHandler, useClass: SentryErrorHandler},

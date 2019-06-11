@@ -7,7 +7,63 @@
 </h1>
 
 <!-- New User Input fields -->
-<div class="panel-body container col-md-6">
+<div class=" container col-md-6">
+  <div class=" container col-md-16">
+    <form [formGroup]="mainFormGroup" (ngSubmit)="addOrUpdateUser()">   
+      <div class="form-group row col-md-16">
+        <div class="col col-md-3">
+            <label for="firstName">First Name:</label>
+        </div>
+        <div class="col col-md-9 float-right">
+          <input type="text" class="form-control" name="firstName" formControlName="firstName">
+          <div *ngIf= "mainFormGroup.controls['firstName'].invalid && (mainFormGroup.controls['firstName'].dirty)" class="alert alert-danger ">
+            <div *ngIf = "mainFormGroup.controls['firstName'].errors.required"> 
+               A valid First Name is required
+            </div>
+          </div>
+        </div>
+      </div>
+   
+      <div class="form-group row col-md-16">
+        <div class="col col-md-3">
+          <label for="lastName">Last Name:</label>
+        </div>
+        <div class="col col-md-9 float-right">
+          <input type="text" class="form-control"  name="lastName" formControlName="lastName">
+          <div *ngIf= "mainFormGroup.controls['lastName'].invalid && (mainFormGroup.controls['lastName'].dirty)" class="alert alert-danger">
+             <div *ngIf = "mainFormGroup.controls['lastName'].errors.required"> 
+                A valid Last Name is required
+             </div>
+          </div>
+        </div>
+      </div>
+   
+      <div class="form-group row col-md-16">
+        <div class="col col-md-3">
+          <label for="employeeId">Employee ID:</label>
+        </div>
+        <div class="col col-md-5 float-right">
+          <input type="text" class="form-control" name="employeeId" formControlName="employeeId">
+          <div *ngIf= "mainFormGroup.controls['employeeId'].invalid && (mainFormGroup.controls['employeeId'].dirty)" class="alert alert-danger">
+            <div *ngIf = "mainFormGroup.controls['employeeId'].errors.required"> 
+                A valid Employee ID is required
+            </div>
+          </div>          
+        </div>
+      </div>    
+   
+      <div class="form-group row col-md-8 float-right">
+        <button class="col col-md-16" type="submit" #AddOrUpdate [disabled]="mainFormGroup.pristine || mainFormGroup.invalid"> {{ _AddUpdateButton }} </button> &nbsp;
+        <!-- <button class="col col-md-16" *ngIf="this.isEditMode" type="submit" #AddOrUpdate [disabled]="mainFormGroup.pristine || UserAddUpdForm.invalid"> Update </button> &nbsp; -->
+        <button class="col col-md-16" type="submit" #reset [disabled]="mainFormGroup.pristine || mainFormGroup.invalid" (click)="resetUserAddUpdateForm()">Reset</button>
+      </div>
+    </form> 
+  </div>
+
+  <br>
+  <hr> 
+
+<!-- <div class="panel-body container col-md-6">
 
   <div class="form-inline" [class.has-error]="firstNameControl.invalid && firstNameControl.touched" [class.has-success]="firstNameControl.valid">
     <label for="firstName" class="control-label" >First Name: </label>
@@ -35,30 +91,33 @@
   <button class="btn btn-primary" (click)="resetPage()"> Reset </button>
   <button *ngIf="!isEditMode" class="btn btn-primary" (click)="addNewUser(anUser)"> Add </button>
   <button *ngIf="isEditMode" class="btn btn-primary" (click)="updateUser(anUser)"> Update </button>
-</div>
+</div> -->
 
 <br><hr>
 <!-- Sort fields -->
 <div class="container col-md-16">
   <div class="row col-md-16">
     <div class="col col-md-5">
-      <input type="text" class="form-control" placeholder="Search..." name="search" (input)="searchUser($event.target.value)">
+      <!-- <input type="text" class="form-control" placeholder="Search..." name="search" (input)="searchUser($event.target.value)"> -->
+      <div class="form-inline">
+        <input id="searchUserString" form="searchUserString" type="text" placeholder="Search User" class="form-control" [(ngModel)]="searchUserString" #searchUserStringControl="ngModel" [ngModelOptions]="{standalone: true}">
+     </div>
     </div>
-    <div class="col col-md-1">
+    <div class="col col-md-1" >
       <label>Sort:</label>
     </div>
     <div class="col col-md-6">
-      <button type="button" (click)="sortUsers('firstname')" >First Name</button> &nbsp;
-      <button type="button" (click)="sortUsers('lastname')" >Last Name</button> &nbsp;
-      <button type="button" (click)="sortUsers('employeeId')">Id</button> &nbsp;
+      <button type="button" (click)="sortUsersList('firstName')" >First Name</button> &nbsp;
+      <button type="button" (click)="sortUsersList('lastName')" >Last Name</button> &nbsp;
+      <button type="button" (click)="sortUsersList('employeeId')">Id</button> &nbsp;
     </div>
   </div>
 </div>
 
-<br><hr>
+<!-- <br><hr> -->
 <!-- user list fields -->
 <div class="container col-md-16">
-  <div class="list-group col-md-16" *ngFor="let user of usersList">
+  <div class="list-group col-md-16" *ngFor="let user of filteredUserList">
     <div class="list-item col-md-16" >
 
       <div class="row col-md-16">
@@ -81,7 +140,7 @@
 
       <div class="row col-md-16">
         <div class="col col-md-4 float-left">
-          <input type="text" [value]="user.employeeID" id="employeeId" readonly class="form-control" >
+          <input type="text" [value]="user.employeeId" id="employeeId" readonly class="form-control" >
         </div>
        <div class="col col-md-2 float-right">
           <input type="hidden">

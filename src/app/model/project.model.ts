@@ -1,4 +1,4 @@
-export class Project {
+export class ProjectClass {
     public projectId: number;
     public projectName: string;
     public startDate: Date;
