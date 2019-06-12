@@ -14,6 +14,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddprojectComponent } from './project/addproject/addproject.component';
 import { AdduserComponent } from './user/adduser/adduser.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { UserSearchComponent } from './project/modal/user-search/user-search.component';
+import { ProjectSearchComponent } from './task/addtask/modal/project-search/project-search.component';
 
 //Init sentry with our dsn key to log the logs in sentry
 Sentry.init({
@@ -43,7 +45,9 @@ export class SentryErrorHandler implements ErrorHandler {
     ViewtaskComponent,
     AddtaskComponent,
     AddprojectComponent,
-    AdduserComponent
+    AdduserComponent,
+    UserSearchComponent,
+    ProjectSearchComponent
   ],
   imports: [
     BrowserModule,

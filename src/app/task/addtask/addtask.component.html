@@ -1,3 +1,102 @@
-<p>
-  addtask works!
-</p>
+<h1 *ngIf="errorBlock" >
+  <div class="errorBanner">{{errorText}}</div> 
+</h1>
+
+<!-- New User Task fields -->
+<div class=" container col-md-6">
+  <div class=" container col-md-16">
+    <form [formGroup]="mainFormGroup" (ngSubmit)="addOrUpdateTaskButton()">   
+      
+
+
+      <!-- Project -->
+      <div class="form-group row col-md-16">
+        <div class="col col-md-3">
+          <label for="projectName">Project</label>
+        </div>
+        <div class="col col-md-5 float-right">
+          <input type="text" class="form-control" formControlName='projectName' id="projectName" name='projectName' aria-describedby='projectName' readonly>
+        </div>
+        <div class="col col-md-2">
+          <button type="button" class="btn btn-default border" data-toggle="modal" data-target="#projectSearchModal" style="border-radius: 100%">Search</button>
+        </div>
+      </div>  
+
+      <!-- Task Name -->
+      <div class="form-group row col-md-16">
+        <div class="col col-md-3">
+            <label for="taskName">Task:</label>
+        </div>
+        <div class="col col-md-9 float-right">
+          <input type="text" class="form-control" name="taskName" formControlName="taskName">
+          <div *ngIf= "mainFormGroup.controls['taskName'].invalid && (mainFormGroup.controls['taskName'].dirty)" class="alert alert-danger ">
+            <div *ngIf = "mainFormGroup.controls['taskName'].errors.required"> 
+               A valid Task Name is required
+            </div>
+          </div>
+        </div>
+      </div>
+   
+  
+   
+      <div class="form-group row col-md-8 float-right">
+        <button class="col col-md-16" type="submit" #AddOrUpdate [disabled]="mainFormGroup.pristine || mainFormGroup.invalid"> {{ _AddUpdateButton }} </button> &nbsp;
+        <!-- <button class="col col-md-16" *ngIf="this.isEditMode" type="submit" #AddOrUpdate [disabled]="mainFormGroup.pristine || UserAddUpdForm.invalid"> Update </button> &nbsp; -->
+        <button class="col col-md-16" type="submit" #reset [disabled]="mainFormGroup.pristine || mainFormGroup.invalid" (click)="resetUserAddUpdateForm()">Reset</button>
+      </div>
+    </form> 
+  </div>
+
+  <br>
+  <hr> 
+  <app-project-search (selectedProject)="selectedProject($event)"></app-project-search>
+
+
+
+<!-- <h1 *ngIf="errorBlock" >
+    <div class="errorBanner">{{errorText}}</div> 
+  </h1>
+  
+  <div class="panel-body">
+  
+    <div class="form-inline" [class.has-error]="taskNameControl.invalid && taskNameControl.touched" [class.has-success]="taskNameControl.valid">
+      <label for="taskName" class="control-label" >Task: </label>
+      <input id="taskName" required type="text" class="form-control" name="taskName" [(ngModel)]="aTask.taskName" #taskNameControl="ngModel">
+      <span class="help-block" *ngIf="taskNameControl.invalid && taskNameControl.touched">
+           Task Name is required
+      </span>
+    </div>
+  
+    <div class="form-inline" [class.has-error]="priorityControl.invalid && priorityControl.touched" [class.has-success]="priorityControl.valid">
+        <label for="priority" class="control-label" >Priority:</label>
+        <input id="priority" type="range" min=1 max=30 step=1 value=1 class="form-control" name="priority" [(ngModel)]="aTask.priority" #priorityControl="ngModel">
+        <span class="help-block" *ngIf="priorityControl.invalid && priorityControl.touched">
+             Priority is required
+        </span>
+    </div>
+    
+    <div class="form-inline" >
+        <label for="parentTaskName" class="control-label" >Parent Task:</label>
+        <input id="parentTaskName" required=false type="text" class="form-control" name="parentTaskName" [(ngModel)]="aTask.parentId" #parentTaskNameControl="ngModel">
+      </div>
+    
+  
+      <div class="form-inline" [class.has-error]="startDateControl.invalid && startDateControl.touched" [class.has-success]="startDateControl.valid">
+          <label for="startDate" class="control-label" >Start Date:</label>
+          <input id="startDate" required type="date" class="form-control" name="startDate" [(ngModel)]="aTask.startDate" #startDateControl="ngModel">
+          <span class="help-block" *ngIf="startDateControl.invalid && startDateControl.touched">
+               Start Date is required
+          </span>
+      </div>
+  
+      <div class="form-inline" [class.has-error]="endDateControl.invalid && endDateControl.touched" [class.has-success]="endDateControl.valid">
+          <label for="endDate" class="control-label" >End Date:</label>
+          <input id="endDate" required type="date" class="form-control" name="endDate" [(ngModel)]="aTask.endDate" #endDateControl="ngModel">
+          <span class="help-block" *ngIf="endDateControl.invalid && endDateControl.touched">
+               Start Date is required
+          </span>
+      </div>
+      <button class="btn" (click)="resetPage()"> Reset </button>
+      <button class="btn btn-primary" (click)="addNewTask()"> Add Task </button>
+  </div> -->
+  

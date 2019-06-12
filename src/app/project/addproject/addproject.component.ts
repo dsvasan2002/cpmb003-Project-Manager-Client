@@ -27,18 +27,34 @@ export class AddprojectComponent implements OnInit {
   isEditMode: boolean;
   setProjectDates: boolean;
   isDesc: boolean;
+  private _searchProjectString: string;
 
-  constructor(private _projectService: ProjectService, private _userService: UserService, private _formBuilder: FormBuilder) { }
+  constructor(private _projectService: ProjectService, private _userService: UserService, private _formBuilder: FormBuilder) { 
+    this.initMainForm();
+    this.projectManager = new UserClass();
+    this.aProject = new ProjectClass();
+
+  }
 
   ngOnInit() {
     this.getAllProjects();
+    this.dateValidation();
+  }
+
+  public get searchProjectString(): string {
+    return this._searchProjectString;
+  }
+  public set searchProjectString(value: string) {
+    this._searchProjectString = value;
+    this.filteredProjectsList = this.filterProjectsByName(this._searchProjectString);
   }
 
   getAllProjects() {
     this._projectService.getAllProjects().subscribe((response: any)=>{
-      if (response['status'] == 'success') {
+      if (response['success']) {
         this.projectsList = response['data'];
         this.filteredProjectsList = response['data'];
+        console.log(this.filteredProjectsList);
       } 
     }, (error: any) => {
       this.errorBlock = true;
@@ -54,7 +70,7 @@ export class AddprojectComponent implements OnInit {
     startDate: [{value: '', disabled: true}, Validators.required],
     endDate: [{value: '', disabled: true}, Validators.required],
     priority: 0,
-    manager: 0,
+    projectManager: ' ',
     projectId: ''
   });
   this.isEditMode = false;
@@ -66,8 +82,9 @@ export class AddprojectComponent implements OnInit {
       project.projectName.toLowerCase().indexOf(searchString.toLowerCase()) !== -1);
   }
 
-    // Load project Form based on Users choice
-  addOrUpdateProject() {
+  // Load project Form based on Users choice
+  addOrUpdateProjectButton() {
+    console.log("in addOrUpdateProjectButton");
     this.aProject.projectName = this.mainFormGroup.controls['projectName'].value;
     this.aProject.priority = this.mainFormGroup.controls['priority'].value;
     if (this.setProjectDates) {
@@ -86,19 +103,48 @@ export class AddprojectComponent implements OnInit {
     }
   }
   
-  // editProject(aProject: ProjectClass) {
-  //   this.isEditMode = true;
-  //   this.mainFormGroup.reset();
-  //   this._AddUpdateButton = "Update";
-  //   this.mainFormGroup = this._formBuilder.group({
-  //     firstName: [anUser.firstName, Validators.required],
-  //     lastName: [anUser.lastName, Validators.required],
-  //     employeeId: [anUser.employeeId, Validators.required],
-  //     userId: [anUser.userId, Validators.required]
-  //   });
-  // }
+  handleSuspendButton(aProjectId: number) {
+    this.deleteProject(aProjectId);
+  }
 
+  handleEditButton(aProject: ProjectClass) {
+    this.isEditMode = true;
+    this.mainFormGroup.reset();
+    this._AddUpdateButton = "Update";
+    if (aProject) {
+      this.mainFormGroup.controls["projectName"].setValue(aProject.projectName);
+      this.mainFormGroup.controls["projectId"].setValue(aProject.projectId);          
+      this.mainFormGroup.controls["priority"].setValue(aProject.priority);
+      this.mainFormGroup.controls["projectName"].setValidators(Validators.required);       
+      var projStartDate: NgbDateStruct;
+      var projEndDate: NgbDateStruct;
+      if (aProject.startDate || aProject.endDate) {
+        this.mainFormGroup.controls["setProjectDates"].setValue(true);
+        let newStarDate = new Date(aProject.startDate)
+        let newEndDate  = new Date(aProject.endDate)
 
+        projStartDate = <NgbDateStruct>{ year  : newStarDate.getFullYear(), month : newStarDate.getMonth() + 1,day   : newStarDate.getDate()  };
+
+        projEndDate = <NgbDateStruct>{year  : newEndDate.getFullYear(), month : newEndDate.getMonth() + 1, day   : newEndDate.getDate()};
+        this.mainFormGroup.controls["startDate"].setValue(projStartDate);
+        this.mainFormGroup.controls["endDate"].setValue(projEndDate);
+      }
+      else {
+        this.mainFormGroup.controls["setProjectDates"].setValue(false);
+      }
+      if (aProject.managerId) {
+        this._userService.getAnUser(aProject.managerId)
+          .subscribe(response => {
+            this.projectManager = response['data'];
+            if (response['data']) {
+              this.mainFormGroup.controls["projectManager"].setValue(`${this.projectManager.firstName} ${this.projectManager.lastName}`);
+            }
+          });
+      }
+
+    }
+
+  }
   
   addNewProject(aProject: ProjectClass) {
     this._projectService.addNewProject(aProject).subscribe((res: any)=>{
@@ -169,6 +215,14 @@ export class AddprojectComponent implements OnInit {
     this.isEditMode = false;
   }
   
+
+
+  //Method called by event emitted from user search modal
+  selectedProjectManager(anUser: UserClass) {
+    this.projectManager = anUser;
+    this.mainFormGroup.get('projectManager').setValue(`${this.projectManager.firstName} ${this.projectManager.lastName}`);
+  }
+
 
   dateValidation() {
     this.mainFormGroup.get('setProjectDates').valueChanges.subscribe(
