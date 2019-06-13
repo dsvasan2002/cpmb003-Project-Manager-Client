@@ -7,6 +7,8 @@ import { TaskService } from 'src/app/service/task.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { ProjectClass } from 'src/app/model/project.model';
+import { ParentTaskClass } from 'src/app/model/parent-task.model';
+import { UserClass } from 'src/app/model/user.model';
 
 @Component({
   selector: 'app-addtask',
@@ -28,6 +30,8 @@ export class AddtaskComponent implements OnInit {
   _AddUpdateButton: string;
   projectId: number;
   aProject: ProjectClass;
+  aParentTask: ParentTaskClass;
+  anUser: any;
 
   constructor(private _taskService: TaskService, private _formBuilder: FormBuilder) {
     this.aTask = new TaskClass();
@@ -44,10 +48,10 @@ export class AddtaskComponent implements OnInit {
       taskName: ['', Validators.required],
       isParentTask: false,
       priority: ['', Validators.required],
-      parentTask: '', 
+      parentTaskName: '', 
       startDate: [' ', Validators.required],
       endDate: ['', Validators.required],
-      user: ' '
+      userName: ' '
     });
     this.isEditMode = false;
     this._AddUpdateButton = "Add";
@@ -58,7 +62,6 @@ export class AddtaskComponent implements OnInit {
   addOrUpdateTaskButton() {
     this.aTask.taskName = this.mainFormGroup.controls['taskName'].value;
     this.aTask.projectId = this.projectId;
-    //  this.mainFormGroup.controls['projectName'].value;
     if (this.mainFormGroup.controls['isParentTask'].value) {
       //Add or update the parent task table
     } 
@@ -109,6 +112,16 @@ export class AddtaskComponent implements OnInit {
   selectedProject(aProject: ProjectClass) {
     this.aProject = aProject;
     this.mainFormGroup.get('projectName').setValue(`${this.aProject.projectName}`);
+  }
+  //Method called by event emitted from parent task search modal
+  selectedParentTask(aParentTask: ParentTaskClass) {
+    this.aParentTask = aParentTask;
+    this.mainFormGroup.get('parentTaskName').setValue(`${this.aParentTask.parentTaskName}`);
+  }
+  //Method called by event emitted from user search modal
+  selectedUser(anUser: UserClass) {
+    this.anUser = anUser;
+    this.mainFormGroup.get('userName').setValue(`${this.anUser.firstName}`+" "+`${this.anUser.lastName}`);
   }
 
 }

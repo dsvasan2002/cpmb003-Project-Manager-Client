@@ -1,3 +1,38 @@
 <p>
   viewtask works!
 </p>
+
+
+<h1 *ngIf="errorBlock" >
+  <div class="errorBanner">{{errorText}}</div> 
+</h1>
+
+<div class="container" style="margin-top: 70px;">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Task</th>
+          <th>Parent</th>
+          <th>Priority</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let task of filteredTasksList">
+            <td> {{task.taskName }} </td>
+            <td> {{task.parent }} </td>
+            <td> {{task.priority }} </td>
+            <td> {{task.startDate | date }} </td>
+            <td> {{task.endDate | date }} </td>
+          <td>
+            <button *ngIf="!task.hasFinished" class="btn btn-primary" (click)="updateSelectedTask(task)"> Edit</button>
+            <button *ngIf="task.hasFinished" class="btn btn-primary" (click)="updateSelectedTask(task)"> View</button>
+          </td>
+          <td>
+              <button *ngIf="!task.hasFinished" class="btn btn-danger" (click)="finishTask(task)"> End Task </button>
+            </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

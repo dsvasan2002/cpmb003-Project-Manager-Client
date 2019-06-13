@@ -6,7 +6,7 @@ export class TaskClass {
     public startDate: Date;
     public endDate: Date;
     public priority: number = 0;
-    public hasFinished: boolean = true;
+    public hasFinished: boolean = false;
     public user: any;
     constructor(){}
 }
