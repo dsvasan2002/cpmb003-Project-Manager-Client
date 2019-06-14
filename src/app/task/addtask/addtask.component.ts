@@ -9,6 +9,7 @@ import * as moment from 'moment';
 import { ProjectClass } from 'src/app/model/project.model';
 import { ParentTaskClass } from 'src/app/model/parent-task.model';
 import { UserClass } from 'src/app/model/user.model';
+import { ParentTaskService } from 'src/app/service/parent-task.service';
 
 @Component({
   selector: 'app-addtask',
@@ -31,9 +32,10 @@ export class AddtaskComponent implements OnInit {
   projectId: number;
   aProject: ProjectClass;
   aParentTask: ParentTaskClass;
+
   anUser: any;
 
-  constructor(private _taskService: TaskService, private _formBuilder: FormBuilder) {
+  constructor(private _taskService: TaskService, private _formBuilder: FormBuilder, private _parentTaskService: ParentTaskService) {
     this.aTask = new TaskClass();
     this.initMainForm();
    }
@@ -61,12 +63,29 @@ export class AddtaskComponent implements OnInit {
   // Load project Form based on Users choice
   addOrUpdateTaskButton() {
     this.aTask.taskName = this.mainFormGroup.controls['taskName'].value;
-    this.aTask.projectId = this.projectId;
-    if (this.mainFormGroup.controls['isParentTask'].value) {
-      //Add or update the parent task table
-    } 
     this.aTask.startDate = moment(this.mainFormGroup.controls['startDate'].value).add(-1, 'months').toDate();
     this.aTask.endDate = moment(this.mainFormGroup.controls['endDate'].value).add(-1, 'months').toDate();
+
+    if (this.aParentTask) {
+      this.aTask.parentTask = this.aParentTask;
+    }
+    if (this.aProject) {
+      this.aTask.project = this.aProject;
+    }
+    if (this.mainFormGroup.controls['isParentTask'].value) {
+      //Add or update the parent task table
+      let aParentTask = new ParentTaskClass();
+      aParentTask.parentTaskName = this.aTask.taskName;
+      aParentTask.projectId = this.aProject.projectId;
+      this._parentTaskService.addNewParentTask(aParentTask).subscribe((res: any)=> {
+        if (res['success']) {
+          alert('Parent Task Added');
+        } else {
+          alert('Error in adding Parent Task');
+        }
+      });
+
+    } 
 
     if (this.isEditMode) {
       this.aTask.taskId = this.mainFormGroup.controls['taskId'].value;
@@ -79,8 +98,14 @@ export class AddtaskComponent implements OnInit {
 
   addNewTask(aTask: TaskClass) {
     this._taskService.addNewTask(aTask).subscribe((response: any)=>{
-        alert('Task added successfully');
-        this.errorBlock = false;
+
+        if (response['success']) {
+          alert('Task added successfully');
+          this.errorBlock = false;
+        } else {
+          alert('Error in adding Task' + " " + response['message']);
+        }
+
       }, error => {
         this.errorBlock = true;
         this.errorText = error['message'];
@@ -99,13 +124,13 @@ export class AddtaskComponent implements OnInit {
     });
   }
 
-  resetPage() {
-    this.aTask.taskName = null;
-    this.aTask.priority = 0;
-    this.aTask.parentId = null;
-    this.aTask.startDate = null;
-    this.aTask.endDate = null;
-  }
+  // resetPage() {
+  //   this.aTask.taskName = null;
+  //   this.aTask.priority = 0;
+  //   this.aTask.parentId = null;
+  //   this.aTask.startDate = null;
+  //   this.aTask.endDate = null;
+  // }
 
 
   //Method called by event emitted from project search modal

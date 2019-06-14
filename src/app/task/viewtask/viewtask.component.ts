@@ -53,7 +53,7 @@ export class ViewtaskComponent implements OnInit {
   //   this._router.navigate(['/updateTask', aTask]);
   // }
 
-  finishTask (aTask: ITask) {
+  finishTask (aTask: TaskClass) {
     console.log("In finishTask");
     aTask.hasFinished = true;
     console.log(aTask);

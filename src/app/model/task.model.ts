@@ -1,13 +1,17 @@
+import { ParentTaskClass } from './parent-task.model';
+import { ProjectClass } from './project.model';
+import { UserClass } from './user.model';
+
 export class TaskClass {
     public taskId: Number;
     public taskName: string;
-    public parentId: any;
-    public projectId: any;
+    public parentTask: ParentTaskClass;
+    public project: ProjectClass;
     public startDate: Date;
     public endDate: Date;
     public priority: number = 0;
     public hasFinished: boolean = false;
-    public user: any;
+    public user: UserClass;
     constructor(){}
 }
 
