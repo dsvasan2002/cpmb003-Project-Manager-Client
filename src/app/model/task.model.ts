@@ -1,9 +1,9 @@
-import { ParentTaskClass } from './parent-task.model';
-import { ProjectClass } from './project.model';
-import { UserClass } from './user.model';
+import { ParentTaskClass, IParentTask } from './parent-task.model';
+import { ProjectClass, IProject } from './project.model';
+import { UserClass, IUser } from './user.model';
 
 export class TaskClass {
-    public taskId: Number;
+    public taskId: number;
     public taskName: string;
     public parentTask: ParentTaskClass;
     public project: ProjectClass;
@@ -16,13 +16,13 @@ export class TaskClass {
 }
 
 export interface ITask {
-    taskId: Number;
+    taskId: number;
     taskName: string;
-    parentId: any;
-    projectId: any;
+    parentId: IParentTask;
+    projectId: IProject;
     startDate: Date;
     endDate: Date;
     priority: number;
     hasFinished: boolean;
-    user: any;
+    user: IUser;
 }

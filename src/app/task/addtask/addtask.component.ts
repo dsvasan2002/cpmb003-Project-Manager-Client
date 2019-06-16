@@ -10,6 +10,8 @@ import { ProjectClass } from 'src/app/model/project.model';
 import { ParentTaskClass } from 'src/app/model/parent-task.model';
 import { UserClass } from 'src/app/model/user.model';
 import { ParentTaskService } from 'src/app/service/parent-task.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-addtask',
@@ -33,19 +35,72 @@ export class AddtaskComponent implements OnInit {
   aProject: ProjectClass;
   aParentTask: ParentTaskClass;
 
-  anUser: any;
+  anUser: UserClass;
+  aTaskId: number;
 
-  constructor(private _taskService: TaskService, private _formBuilder: FormBuilder, private _parentTaskService: ParentTaskService) {
-    this.aTask = new TaskClass();
-    this.initMainForm();
+  constructor(private _taskService: TaskService, 
+    private _formBuilder: FormBuilder, 
+    private _parentTaskService: ParentTaskService, 
+    private _activatedRoute: ActivatedRoute) {
+      this.aTask = new TaskClass();
+      this.initMainForm();
    }
 
   ngOnInit() {
+    this._activatedRoute.queryParams.subscribe(params=> {
+         this.aTaskId = params['taskId'];
+    });
+    if (this.aTaskId) {
+      this.setTaskToUpdate();
+    }
   }
+
+
+
+  setTaskToUpdate() {
+    this._taskService.getATask(this.aTaskId).subscribe((response: any)=> {
+      if (response['success']) {
+        this.aTask = response['data'];
+        this.initMainForm();
+        this.isEditMode = true;
+        this._AddUpdateButton = "Update";
+        this.mainFormGroup.controls["taskId"].setValue(this.aTask.taskId);
+        this.mainFormGroup.controls["projectName"].setValue(this.aTask.project.projectName);
+        this.mainFormGroup.controls["taskName"].setValue(this.aTask.taskName);
+        this.mainFormGroup.controls["priority"].setValue(this.aTask.priority);
+        if (this.aTask.parentTask) {
+          this.mainFormGroup.controls["parentTaskName"].setValue(this.aTask.parentTask.parentTaskName);
+        }
+        if (this.aTask.startDate) {
+          let newStarDate = new Date(this.aTask.startDate);
+          let taskStartDate = <NgbDateStruct>{ year  : newStarDate.getFullYear(), month : newStarDate.getMonth() + 1,day   : newStarDate.getDate()  };
+          this.mainFormGroup.controls["startDate"].setValue(taskStartDate);
+        }
+        if (this.aTask.endDate) {
+          let newEndDate = new Date(this.aTask.endDate);
+          let taskEndDate = <NgbDateStruct>{year  : newEndDate.getFullYear(), month : newEndDate.getMonth() + 1, day   : newEndDate.getDate()};
+          this.mainFormGroup.controls["endDate"].setValue(taskEndDate);
+        } 
+
+        if (this.aTask.user) {
+          this.mainFormGroup.get('userName').setValue(`${this.aTask.user.firstName}`+" "+`${this.aTask.user.lastName}`);
+        }
+  
+      } else {
+        //Handle error here
+      }
+    }, error => {
+      this.errorBlock = true;
+      this.errorText = error['message'];
+      alert('Error in adding Task ' + this.errorText);
+  });  
+  }
+
 
   // Initialize the form to collect details
   initMainForm(){
     this.mainFormGroup = this._formBuilder.group({
+      taskId: ' ',
       projectName: ['', Validators.required],
       taskName: ['', Validators.required],
       isParentTask: false,
@@ -65,6 +120,7 @@ export class AddtaskComponent implements OnInit {
     this.aTask.taskName = this.mainFormGroup.controls['taskName'].value;
     this.aTask.startDate = moment(this.mainFormGroup.controls['startDate'].value).add(-1, 'months').toDate();
     this.aTask.endDate = moment(this.mainFormGroup.controls['endDate'].value).add(-1, 'months').toDate();
+    this.aTask.priority = this.mainFormGroup.controls['priority'].value;
 
     if (this.aParentTask) {
       this.aTask.parentTask = this.aParentTask;
@@ -88,7 +144,9 @@ export class AddtaskComponent implements OnInit {
     } 
 
     if (this.isEditMode) {
+      console.log(this.aTask);
       this.aTask.taskId = this.mainFormGroup.controls['taskId'].value;
+      console.log(this.aTask);
       this.updateTask(this.aTask);
     } else  {
         this.addNewTask(this.aTask);
@@ -114,24 +172,21 @@ export class AddtaskComponent implements OnInit {
   }
 
   updateTask(aTask: TaskClass) {
-    this._taskService.updateTask(aTask).subscribe((response: any)=>{
-        alert('Task updated successfully');
-        this.errorBlock = false;
+    this._taskService.updateATask(aTask).subscribe((response: any)=>{
+        if (response['success']) {
+          alert('Task updated successfully');
+          this.errorBlock = false;
+        } else {
+          this.errorBlock = true;
+          this.errorText = response['message'];
+          alert('Error in updating Task. ' + this.errorText);
+        }
       }, error => {
         this.errorBlock = true;
         this.errorText = error['message'];
         alert('Error in updating Task ' + this.errorText);
     });
   }
-
-  // resetPage() {
-  //   this.aTask.taskName = null;
-  //   this.aTask.priority = 0;
-  //   this.aTask.parentId = null;
-  //   this.aTask.startDate = null;
-  //   this.aTask.endDate = null;
-  // }
-
 
   //Method called by event emitted from project search modal
   selectedProject(aProject: ProjectClass) {

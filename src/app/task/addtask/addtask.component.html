@@ -18,7 +18,7 @@
           <input type="text" class="form-control" formControlName='projectName' id="projectName" name='projectName' aria-describedby='projectName' readonly>
         </div>
         <div class="col col-md-2">
-          <button type="button" class="btn btn-default border" data-toggle="modal" data-target="#projectSearchModal" style="border-radius: 100%">Search</button>
+          <button type="button" class="btn btn-default border" data-toggle="modal" data-target="#projectSearchModal" style="border-radius: 100%" [disabled]="taskId > 0" >Search</button>
         </div>
       </div>  
 
@@ -42,7 +42,7 @@
         <div class="col col-md-3">
            <div class="row">
               <div class="col col-md-9 float-right">
-                <input type="checkbox" value="isParentTask" formControlName='isParentTask' name='isParentTask' [disabled]="isEditMode">
+                <input type="checkbox" value="isParentTask" formControlName='isParentTask' name='isParentTask' [disabled]="taskId > 0">
                 <div class="col col-md-12">
                     <label for="parentTask" class="chkBxPadding"> Parent Task</label>
                 </div>

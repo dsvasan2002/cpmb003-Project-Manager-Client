@@ -3,6 +3,32 @@
 </p>
 
 
+<div class="container col-md-14 p-0 m-10">
+  <div class="col col-md-1">
+     <b><label>Project:</label></b>
+  </div>
+  <div class="col col-md-4">
+     <input type="text" class="form-control" name="aProject.projectName" aria-describedby="aProject.projectName" 
+     readonly [(ngModel)]="aProject && aProject.projectName">
+  </div>
+  <div class="col col-md-1">
+     <button class="btn btn-default border" style="border-radius: 50%" 
+     data-toggle="modal" data-target="#projectSearchModal">Search</button>
+  </div>
+ <div class="col col-md-2">
+    <label style="padding-left: 30%"> Sort Task By:</label>
+ </div>
+ <div class="col col-md-4">
+       <button type="button" style="width :65px; height:30px ;font-size: 10px" [disabled]="!filteredTasksList" (click)="sortTasksList('startDate')">Start Date</button> &nbsp;
+       <button type="button" style="width :65px; height:30px ;font-size: 10px" [disabled]="!filteredTasksList" (click)="sortTasksList('endDate')">End Date</button>&nbsp;
+       <button type="button" style="width :65px; height:30px ;font-size: 10px" [disabled]="!filteredTasksList" (click)="sortTasksList('priority')">Priority</button>&nbsp;
+       <button type="button" style="width :65px; height:30px ;font-size: 10px" [disabled]="!filteredTasksList" (click)="sortTasksList('hasFinished')">Completed</button>&nbsp;
+ </div>
+</div>
+
+<app-project-search (selectedProject)="selectedProject($event)"></app-project-search>
+
+
 <h1 *ngIf="errorBlock" >
   <div class="errorBanner">{{errorText}}</div> 
 </h1>
@@ -11,6 +37,7 @@
     <table class="table table-hover">
       <thead>
         <tr>
+          <th>ProjectID</th>
           <th>Task</th>
           <th>Parent</th>
           <th>Priority</th>
@@ -20,9 +47,13 @@
       </thead>
       <tbody>
         <tr *ngFor="let task of filteredTasksList">
+            <td> {{task.project.projectId}} </td>
             <td> {{task.taskName }} </td>
-            <td> {{task.parent }} </td>
-            <td> {{task.priority }} </td>
+            <td>
+                <label style ="font-size: 11px; font-weight: normal; background-color:#f2f2f2 ;width: 175px; height: 60px;" *ngIf="!task.parentTask">This Task has NO Parent</label>
+                <label style ="font-size: 11px; font-weight: normal; background-color:#f2f2f2 ; width: 175px; height: 60px;" *ngIf="task.parentTask">{{task.parentTask.parentTaskName}}</label>
+              </td>
+                <td> {{task.priority }} </td>
             <td> {{task.startDate | date }} </td>
             <td> {{task.endDate | date }} </td>
           <td>

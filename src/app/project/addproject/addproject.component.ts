@@ -52,6 +52,7 @@ export class AddprojectComponent implements OnInit {
   getAllProjects() {
     this._projectService.getAllProjects().subscribe((response: any)=>{
       if (response['success']) {
+        console.log(response['data']);
         this.projectsList = response['data'];
         this.filteredProjectsList = response['data'];
         console.log(this.filteredProjectsList);
@@ -84,7 +85,6 @@ export class AddprojectComponent implements OnInit {
 
   // Load project Form based on Users choice
   addOrUpdateProjectButton() {
-    console.log("in addOrUpdateProjectButton");
     this.aProject.projectName = this.mainFormGroup.controls['projectName'].value;
     this.aProject.priority = this.mainFormGroup.controls['priority'].value;
     if (this.setProjectDates) {
@@ -128,8 +128,7 @@ export class AddprojectComponent implements OnInit {
         projEndDate = <NgbDateStruct>{year  : newEndDate.getFullYear(), month : newEndDate.getMonth() + 1, day   : newEndDate.getDate()};
         this.mainFormGroup.controls["startDate"].setValue(projStartDate);
         this.mainFormGroup.controls["endDate"].setValue(projEndDate);
-      }
-      else {
+      } else {
         this.mainFormGroup.controls["setProjectDates"].setValue(false);
       }
       if (aProject.managerId) {

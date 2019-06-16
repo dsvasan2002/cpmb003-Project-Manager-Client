@@ -7,6 +7,9 @@ import { Observable } from 'rxjs';
 import { consoleSandbox } from '@sentry/utils';
 import { Router } from '@angular/router';
 import { ProjectClass } from 'src/app/model/project.model';
+import { ParentTaskService } from 'src/app/service/parent-task.service';
+import { ProjectService } from 'src/app/service/project.service';
+import { ParentTaskClass } from 'src/app/model/parent-task.model';
 
 @Component({
   selector: 'app-viewtask',
@@ -21,10 +24,13 @@ export class ViewtaskComponent implements OnInit {
   public filteredTasksList: TaskClass[];
   private _searchByTaskName: string;
   aProject: ProjectClass;
+  isDesc: boolean;
 
   constructor(
     private _taskService: TaskService,
-    private _router: Router) { 
+    private _router: Router,
+    private _parentTaskService: ParentTaskService,
+    private _projectService: ProjectService) { 
   }   
 
   ngOnInit() {
@@ -33,6 +39,7 @@ export class ViewtaskComponent implements OnInit {
 
   private getTasksList( ) {
     this._taskService.getAllTasks().subscribe((res) => {
+        let a:number = 0;
         console.log(res['data']);
         //api response struct is {success: true or false, data: tasks}
         if (res['success']) {
@@ -48,34 +55,58 @@ export class ViewtaskComponent implements OnInit {
     )
   } 
 
-  // updateSelectedTask(aTask: ITask) {
-  //   console.log("updateSelectedTask Function");
-  //   this._router.navigate(['/updateTask', aTask]);
-  // }
+  //Call the add task page with update option
+  updateSelectedTask(aTask: TaskClass) {
+    this._router.navigate(['/addTask'], { queryParams: { taskId: aTask.taskId } });
+  }
 
   finishTask (aTask: TaskClass) {
-    console.log("In finishTask");
     aTask.hasFinished = true;
-    console.log(aTask);
-    this._taskService.updateTask(aTask).subscribe(
+    this._taskService.updateATask(aTask).subscribe(
       (response: any) => {
-        this.filterTaskByProjectId(this.aProject.projectId);
+        if (response['success']) {
+          alert('Updated the task as complete');
+        } else {
+          this.errorBlock = true;
+          this.errorText = response['message'];
+          alert(this.errorText);
+        }
       }, (error: any) => {
         this.errorBlock = true;
         this.errorText = error['message'];
+        alert(this.errorText);
       }
-    )
+    );
   }
 
   //Method called by event emitted from project search modal
   selectedProject(aProject: ProjectClass) {
     this.aProject = aProject;
-    this.filterTaskByProjectId(this.aProject.projectId);
+    this.filteredTasksList = this.filterTaskByProjectId(this.aProject.projectId);
   }
 
-  filterTaskByProjectId(projectId: number) {
-    throw new Error("Method not implemented.");
+  filterTaskByProjectId(projectId: number): TaskClass[] {
+    return this.tasksList.filter(task=>
+      task.project.projectId == projectId);
+    // throw  new Error("Method not implemented.");
   }
+  
+
+    //Sort Tasks List based on user choice
+    sortTasksList(sortStr: string) {
+      this.isDesc = !this.isDesc; //change the direction    
+      let direction = this.isDesc ? 1 : -1;
+  
+      this.filteredTasksList = this.filteredTasksList.sort(function(a, b){
+        if (a[sortStr] < b[sortStr]){
+            return -1 * direction;
+        } else if( a[sortStr] > b[sortStr]){
+            return 1 * direction;
+        } else {
+            return 0;
+        }
+      });
+    }
   
 
 }
