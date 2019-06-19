@@ -10,6 +10,7 @@ import { ProjectClass } from 'src/app/model/project.model';
 import { ParentTaskService } from 'src/app/service/parent-task.service';
 import { ProjectService } from 'src/app/service/project.service';
 import { ParentTaskClass } from 'src/app/model/parent-task.model';
+import { FormGroup, FormControl, Validators, FormBuilder }  from '@angular/forms';
 
 @Component({
   selector: 'app-viewtask',

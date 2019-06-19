@@ -54,14 +54,24 @@ export class SentryErrorHandler implements ErrorHandler {
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     NgbModule.forRoot()
   ],
   providers: [
     {provide: ErrorHandler, useClass: SentryErrorHandler},
     {provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true}
+  ],
+  exports: [
+    HeaderComponent,
+    ViewtaskComponent,
+    AddtaskComponent,
+    AddprojectComponent,
+    AdduserComponent,
+    UserSearchComponent,
+    ProjectSearchComponent,
+    TaskSearchComponent
   ],
 
   bootstrap: [AppComponent]

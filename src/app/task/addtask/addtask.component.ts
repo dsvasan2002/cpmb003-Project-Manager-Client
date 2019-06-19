@@ -11,7 +11,7 @@ import { ParentTaskClass } from 'src/app/model/parent-task.model';
 import { UserClass } from 'src/app/model/user.model';
 import { ParentTaskService } from 'src/app/service/parent-task.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct, NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-addtask',

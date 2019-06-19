@@ -10,11 +10,11 @@ import { consoleSandbox } from '@sentry/utils';
   templateUrl: './adduser.component.html',
   styleUrls: ['./adduser.component.css']
 })
+
 export class AdduserComponent implements OnInit {
 
   usersList: UserClass[];
   filteredUserList: UserClass[];
-
   anUser: UserClass;
   isEditMode: boolean = false;
   errorBlock: boolean;
@@ -158,9 +158,9 @@ export class AdduserComponent implements OnInit {
     let direction = this.isDesc ? 1 : -1;
 
     this.filteredUserList = this.filteredUserList.sort(function(a, b){
-      if (a[sortStr] < b[sortStr]){
+      if (a[sortStr] < b[sortStr]) {
           return -1 * direction;
-      } else if( a[sortStr] > b[sortStr]){
+      } else if( a[sortStr] > b[sortStr]) {
           return 1 * direction;
       } else {
           return 0;
