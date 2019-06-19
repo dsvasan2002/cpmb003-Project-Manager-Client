@@ -34,7 +34,6 @@ export class AdduserComponent implements OnInit {
 
   ngOnInit() {
     this.getAllUsers();
-    this._sortUserString = "employeeId";
   }
 
   // Initialize the form to collect user details

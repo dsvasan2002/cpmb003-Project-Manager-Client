@@ -15,7 +15,7 @@ import { UserClass } from 'src/app/model/user.model';
 describe('AdduserComponent', () => {
   let component: AdduserComponent;
   let fixture: ComponentFixture<AdduserComponent>;
-  let service: UserService;
+  let userService: UserService;
 
 
   beforeEach(async(() => {
@@ -30,7 +30,7 @@ describe('AdduserComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AdduserComponent);
     component = fixture.componentInstance;
-    service = TestBed.get(UserService);
+    userService = TestBed.get(UserService);
     fixture.detectChanges();
   });
 
@@ -41,37 +41,30 @@ describe('AdduserComponent', () => {
   });
 
   it('call addNewUser when a new User is added', () => {
-    const spy = spyOn(service, 'addNewUser').and.returnValue(
+    const spy = spyOn(userService, 'addNewUser').and.returnValue(
       of({success: true} )
     );
     
     component._AddUpdateButton = 'Add';
+    component.isEditMode = false;
     component.addOrUpdateUser();
     expect(spy).toHaveBeenCalled();
 
   });
 
   it('call updateUser when a existing User is updated', () => {
-    const spy = spyOn(service, 'updateUser').and.returnValue(
+    const spy = spyOn(userService, 'updateUser').and.returnValue(
       of({success: true} )
     );
     
     component._AddUpdateButton = 'Update';
+    component.isEditMode = true;
     component.addOrUpdateUser();
     expect(spy).toHaveBeenCalled();
   });
 
 
   it ('retriveUserList component show user details', () => {
-    // const anUser = [{
-    //   userId: 1,
-    //   firstName: 'TestnameFirst',
-    //   lastName: 'TestnameLast',
-    //   employeeId: 111,
-    //   projectId: 1,
-    //   taskId: 1
-    // }];
-
 
     let anUser = new UserClass();
     anUser.userId = 1;
@@ -85,14 +78,22 @@ describe('AdduserComponent', () => {
     fixture.detectChanges();
 
     fixture.whenStable().then( ()=> {
-      const idelement: HTMLInputElement = fixture.debugElement.query(By.css('#employeeId')).nativeElement;
+      const employeeIdElement: HTMLInputElement = fixture.debugElement.query(By.css('#employeeId')).nativeElement;
       const firstnameelement: HTMLInputElement = fixture.debugElement.query(By.css('#firstName')).nativeElement;
       const lastnameelement: HTMLInputElement = fixture.debugElement.query(By.css('#lastName')).nativeElement;
       component.usersList[0] = anUser;
       
+      expect(employeeIdElement.value).toContain(anUser.employeeId);
       expect(firstnameelement.value).toContain(anUser.firstName);
       expect(lastnameelement.value).toContain(anUser.lastName);
     })
+  });
+
+
+  it('call resetUserAddUpdateForm',() => {
+    component.resetUserAddUpdateForm();
+    expect (component.isEditMode).toBe(false);
+    expect (component._AddUpdateButton).toBe('Add');
   })
 
 });
