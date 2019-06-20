@@ -4,6 +4,14 @@ import { ViewtaskComponent } from './viewtask.component';
 import { TaskService } from 'src/app/service/task.service';
 import { of } from 'rxjs';
 import { TaskClass } from 'src/app/model/task.model';
+import { FormsModule, ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { TaskSearchComponent } from '../addtask/modal/task-search/task-search.component';
+import { ProjectSearchComponent } from '../addtask/modal/project-search/project-search.component';
+import { UserSearchComponent } from 'src/app/project/modal/user-search/user-search.component';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { UserService } from 'src/app/service/user.service';
 
 describe('ViewtaskComponent', () => {
   let component: ViewtaskComponent;
@@ -12,7 +20,10 @@ describe('ViewtaskComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ViewtaskComponent ]
+      declarations: [ ViewtaskComponent, TaskSearchComponent, ProjectSearchComponent, UserSearchComponent ],
+      imports:[ FormsModule, ReactiveFormsModule, HttpClientModule, HttpClientTestingModule, NgbModule.forRoot() ],
+      providers: [FormBuilder, UserService]
+
     })
     .compileComponents();
   }));

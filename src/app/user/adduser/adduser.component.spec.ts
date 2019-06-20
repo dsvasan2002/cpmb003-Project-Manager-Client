@@ -9,6 +9,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { By } from '@angular/platform-browser';
 import { Observable, of } from 'rxjs';
 import { UserClass } from 'src/app/model/user.model';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 // import { componentNeedsResolution } from '@angular/core/src/metadata/resource_loading';
 
 
@@ -21,7 +22,7 @@ describe('AdduserComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ AdduserComponent ],
-      imports:[ FormsModule, ReactiveFormsModule, HttpClientModule, HttpClientTestingModule ],
+      imports:[ FormsModule, ReactiveFormsModule, HttpClientModule, HttpClientTestingModule, NgbModule.forRoot() ],
       providers: [FormBuilder, UserService]
     })
     .compileComponents();
@@ -68,11 +69,11 @@ describe('AdduserComponent', () => {
 
     let anUser = new UserClass();
     anUser.userId = 1;
-      anUser.firstName = 'TestnameFirst';
-      anUser.lastName = 'TestnameLast';
-      anUser.employeeId = '111';
-      anUser.projectId = '1';
-      anUser.taskId = ['1'];
+    anUser.firstName = 'TestnameFirst';
+    anUser.lastName = 'TestnameLast';
+    anUser.employeeId = '111';
+    anUser.projectId = '1';
+    anUser.taskId = ['1'];
 
     component.ngOnInit();
     fixture.detectChanges();
