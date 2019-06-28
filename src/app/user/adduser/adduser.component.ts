@@ -118,8 +118,6 @@ export class AdduserComponent implements OnInit {
   }
 
   updateUser(anUser: UserClass) {
-    console.log("in updateUSer");
-    console.log(anUser);
     this._userService.updateUser(anUser).subscribe((response: any)=>{
       if (response['success']) {
         alert('Update user Successfull');

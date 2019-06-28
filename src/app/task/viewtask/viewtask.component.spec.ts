@@ -12,6 +12,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from 'src/app/service/user.service';
+import { RouterModule, Router,  } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+
+import * as moment from 'moment';
 
 describe('ViewtaskComponent', () => {
   let component: ViewtaskComponent;
@@ -21,7 +25,7 @@ describe('ViewtaskComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ ViewtaskComponent, TaskSearchComponent, ProjectSearchComponent, UserSearchComponent ],
-      imports:[ FormsModule, ReactiveFormsModule, HttpClientModule, HttpClientTestingModule, NgbModule.forRoot() ],
+      imports:[ FormsModule, ReactiveFormsModule, HttpClientModule, HttpClientTestingModule, NgbModule.forRoot(), RouterTestingModule ],
       providers: [FormBuilder, UserService]
 
     })
@@ -40,12 +44,42 @@ describe('ViewtaskComponent', () => {
   });
 
   it ('call finishTask with task', fakeAsync(() => {
-    const spy = spyOn(service, 'updateATask').and.returnValue(
-    of({success: false})
-  );
+    const spy = spyOn(service, 'updateATask').and.returnValue(of({success: true}));
 
-  component.finishTask(component.tasksList[0]);
-  expect (spy).toHaveBeenCalledWith(component.tasksList[0]);
-}));
+    var startDate = new Date();
+    var endDate = new Date();
 
+    const tasksList: TaskClass[] = [{
+      taskId     : 1,
+      parentTask : {parentTaskId: 1, parentTaskName: 'Parent1', projectId: 1},
+      project    : {projectId: 1, projectName  : 'Project1', priority : 10,
+                    startDate: moment(startDate.getDate()).add(-1, 'months').toDate(),
+                    endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+                    managerId: 1},
+      taskName   : 'TaskName1',
+      startDate  : moment(startDate.getDate()).add(-1, 'months').toDate(),
+      endDate    : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+      priority   : 5,    
+      user       : {userId: 1, firstName: 'FirstName', lastName: 'LastName', employeeId: '12345', projectId: '1', taskId: ['1']},
+      hasFinished: false
+    },{
+      taskId     : 2,
+      parentTask : {parentTaskId: 1, parentTaskName: 'Parent1', projectId: 1},
+      project    : {projectId: 1, projectName  : 'Project1', priority : 10,
+                    startDate: moment(startDate.getDate()).add(-1, 'months').toDate(),
+                    endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+                    managerId: 1},
+      taskName   : 'TaskName2',
+      startDate  : moment(startDate.getDate()).add(-1, 'months').toDate(),
+      endDate    : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+      priority   : 5,    
+      user       : {userId: 1, firstName: 'FirstName', lastName: 'LastName', employeeId: '12345', projectId: '1', taskId: ['1']},
+      hasFinished: false
+    }];
+
+    component.tasksList =  tasksList;
+    component.finishTask(component.tasksList[0]);
+    expect (spy).toHaveBeenCalledWith(component.tasksList[0]);
+  }));
+ 
 });
