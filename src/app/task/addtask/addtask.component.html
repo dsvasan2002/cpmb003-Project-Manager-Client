@@ -1,12 +1,12 @@
-<h1 *ngIf="errorBlock" >
-  <div class="errorBanner">{{errorText}}</div> 
+<h1 *ngIf="errorBlock">
+  <div class="errorBanner">{{errorText}}</div>
 </h1>
 
 <!-- New User Task fields -->
 <div class=" container col-md-6">
   <div class=" container col-md-16">
-    <form [formGroup]="mainFormGroup" (ngSubmit)="addOrUpdateTaskButton()">   
-      
+    <form [formGroup]="mainFormGroup" (ngSubmit)="addOrUpdateTaskButton()">
+
 
 
       <!-- Project -->
@@ -15,39 +15,38 @@
           <label for="projectName">Project</label>
         </div>
         <div class="col col-md-5 float-right">
-          <input type="text" class="form-control" formControlName='projectName' id="projectName" name='projectName' aria-describedby='projectName' readonly>
+          <input type="text" class="form-control" formControlName='projectName' id="projectName" name='projectName'
+            aria-describedby='projectName' readonly>
         </div>
         <div class="col col-md-2">
-          <button type="button" class="btn btn-default border" data-toggle="modal" data-target="#projectSearchModal" style="border-radius: 100%" [disabled]="taskId > 0" >Search</button>
+          <button type="button" class="btn btn-default border" data-toggle="modal" data-target="#projectSearchModal"
+            style="border-radius: 100%" [disabled]="taskId > 0">Search</button>
         </div>
-      </div>  
+      </div>
 
       <!-- Task Name -->
       <div class="form-group row col-md-16">
         <div class="col col-md-3">
-            <label for="taskName">Task:</label>
+          <label for="taskName">Task:</label>
         </div>
         <div class="col col-md-9 float-right">
           <input type="text" class="form-control" name="taskName" formControlName="taskName">
-          <div *ngIf= "mainFormGroup.controls['taskName'].invalid && (mainFormGroup.controls['taskName'].dirty)" class="alert alert-danger ">
-            <div *ngIf = "mainFormGroup.controls['taskName'].errors.required"> 
-               A valid Task Name is required
+          <div *ngIf="mainFormGroup.controls['taskName'].invalid && (mainFormGroup.controls['taskName'].dirty)"
+            class="alert alert-danger ">
+            <div *ngIf="mainFormGroup.controls['taskName'].errors.required">
+              A valid Task Name is required
             </div>
           </div>
         </div>
       </div>
-   
+
       <!-- Parent task check box -->
       <div class="form-group row col-md-16">
-        <div class="col col-md-3">
-           <div class="row">
-              <div class="col col-md-9 float-right">
-                <input type="checkbox" value="isParentTask" formControlName='isParentTask' name='isParentTask' [disabled]="taskId > 0">
-                <div class="col col-md-12">
-                    <label for="parentTask" class="chkBxPadding"> Parent Task</label>
-                </div>
-              </div>
-            </div>
+        <div class="col col-md-3"></div>
+        <div class="col col-md-3 float-right">
+          <input type="checkbox" value="isParentTask" formControlName='isParentTask' name='isParentTask'
+            [disabled]="taskId > 0">
+          <label for="parentTask" class="chkBxPadding"> Parent Task</label>
         </div>
       </div>
 
@@ -58,11 +57,12 @@
         </div>
         <div class="col col-md-13">
           <span>
-         <i>0 </i> <input type="range" id= "priority" name="priority" formControlName="priority" min="0" max="30" step="1" style="width: 90%"><i> 30</i>
-         </span>
+            <i>0 </i> <input type="range" id="priority" name="priority" formControlName="priority" min="0" max="30"
+              step="1" style="width: 90%"><i> 30</i>
+          </span>
         </div>
-      </div>    
-   
+      </div>
+
 
       <!-- Parent task modal -->
       <!-- <div class="row col-md-16 form-group">
@@ -82,37 +82,38 @@
       </div>   -->
       <!-- test -->
       <div class="form-group row col-md-16">
-          <div class="col col-md-3">
-            <label for="parentTaskName">Parent Task: </label>
-          </div>
-          <div class="col col-md-5 float-right">
-            <input type="text" class="form-control" formControlName='parentTaskName' id="parentTaskName" name='parentTaskName' aria-describedby='parentTaskName' readonly>
-          </div>
-          <div class="col col-md-2">
-            <button type="button" class="btn btn-default border" data-toggle="modal" data-target="#parentTaskSearchModal" style="border-radius: 70%">Search</button>
-          </div>
-        </div>    
-  
+        <div class="col col-md-3">
+          <label for="parentTaskName">Parent Task: </label>
+        </div>
+        <div class="col col-md-5 float-right">
+          <input type="text" class="form-control" formControlName='parentTaskName' id="parentTaskName"
+            name='parentTaskName' aria-describedby='parentTaskName' readonly>
+        </div>
+        <div class="col col-md-2">
+          <button type="button" class="btn btn-default border" data-toggle="modal" data-target="#parentTaskSearchModal"
+            style="border-radius: 70%">Search</button>
+        </div>
+      </div>
+
       <!-- Task dates fields -->
       <div class="form-group row col-md-16">
-        <div class="col col-md-2"></div>
         <div class="col col-md-16">
-           <div class="row">
-              <div class="col col-md-3">
-                  <label for="startDate">Start Date:</label>
-              </div>
-              <div class="col-md-4 col-sm-12">
-                <input class="form-control" placeholder="Start Date" name='startDate' aria-describedby="startDate"
-                formControlName='startDate'  ngbDatepicker #startDate="ngbDatepicker" (focus)="startDate.toggle()"/> 
-              </div>
-                <div class="col col-md-3">
-                    <label for="endDate">End Date:</label>
-                </div>
-                <div class="col col-md-4 col-sm-12">
-                <input class="form-control" placeholder="End Date" name='endDate' aria-describedby="endDate"
-                 formControlName='endDate' ngbDatepicker #endDate="ngbDatepicker" (focus)="endDate.toggle()"> 
-              </div> 
+          <div class="row">
+            <div class="col col-md-3">
+              <label for="startDate">Start Date:</label>
             </div>
+            <div class="col-md-3 col-sm-12">
+              <input class="form-control" placeholder="Start Date" name='startDate' aria-describedby="startDate"
+                formControlName='startDate' ngbDatepicker #startDate="ngbDatepicker" (focus)="startDate.toggle()" />
+            </div>
+            <div class="col col-md-3">
+              <label for="endDate">End Date:</label>
+            </div>
+            <div class="col col-md-3 col-sm-12">
+              <input class="form-control" placeholder="End Date" name='endDate' aria-describedby="endDate"
+                formControlName='endDate' ngbDatepicker #endDate="ngbDatepicker" (focus)="endDate.toggle()">
+            </div>
+          </div>
         </div>
       </div>
 
@@ -122,32 +123,36 @@
           <label for="userName">User</label>
         </div>
         <div class="col col-md-5 float-right">
-          <input type="text" class="form-control" formControlName='userName' id="userName" name='userName' aria-describedby='userName' readonly>
+          <input type="text" class="form-control" formControlName='userName' id="userName" name='userName'
+            aria-describedby='userName' readonly>
         </div>
         <div class="col col-md-2">
-          <button type="button" class="btn btn-default border" data-toggle="modal" data-target="#userSearchModal" style="border-radius: 70%">Search</button>
+          <button type="button" class="btn btn-default border" data-toggle="modal" data-target="#userSearchModal"
+            style="border-radius: 70%">Search</button>
         </div>
-      </div>    
+      </div>
 
 
 
       <!-- form buttons  -->
       <div class="form-group row col-md-8 float-right">
-        <button class="col col-md-16" type="submit" #AddOrUpdate [disabled]="mainFormGroup.pristine || mainFormGroup.invalid"> {{ _AddUpdateButton }} </button> &nbsp;
-        <button class="col col-md-16" type="submit" #reset [disabled]="mainFormGroup.pristine || mainFormGroup.invalid" (click)="resetUserAddUpdateForm()">Reset</button>
+        <button class="col col-md-16" type="submit" #AddOrUpdate
+          [disabled]="mainFormGroup.pristine || mainFormGroup.invalid"> {{ _AddUpdateButton }} </button> &nbsp;
+        <button class="col col-md-16" type="submit" #reset [disabled]="mainFormGroup.pristine || mainFormGroup.invalid"
+          (click)="resetUserAddUpdateForm()">Reset</button>
       </div>
-    </form> 
+    </form>
   </div>
 
   <br>
-  <hr> 
+  <hr>
   <app-project-search (selectedProject)="selectedProject($event)"></app-project-search>
   <app-task-search (selectedParentTask)="selectedParentTask($event)"></app-task-search>
   <app-user-search (selectedUser)="selectedUser($event)"></app-user-search>
 
 
 
-<!-- <h1 *ngIf="errorBlock" >
+  <!-- <h1 *ngIf="errorBlock" >
     <div class="errorBanner">{{errorText}}</div> 
   </h1>
   
@@ -193,4 +198,3 @@
       <button class="btn" (click)="resetPage()"> Reset </button>
       <button class="btn btn-primary" (click)="addNewTask()"> Add Task </button>
   </div> -->
-  

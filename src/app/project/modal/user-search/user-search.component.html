@@ -1,0 +1,51 @@
+<!-- user search modal start -->
+<div class="modal" id="userSearchModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" data-dismiss="modal"> &times; </button>
+        <h4 class="modal-tittle"> User Search</h4>
+      </div>
+      <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <!-- <input type="text" class="form-control" placeholder="Search user.." name="searchUserString" (input)="searchUser($event.target.value)"> -->
+              <input id="searchUserString" form="searchUserString" type="text" placeholder="Search User" class="form-control" [(ngModel)]="searchUserString" #searchUserStringControl="ngModel" [ngModelOptions]="{standalone: true}">
+
+              <br>
+              <div class="row">
+                <div class="col-md-12 searchTable">
+                  <table class="table table-striped table-responsive table-hover table-bordered" *ngIf="filteredUserList && filteredUserList.length > 0">
+                    <thead class="thread-light">
+                      <tr>
+                        <td></td>
+                        <td><b>First Name</b></td>
+                        <td><b>Last Name</b></td>
+                        <td><b>Employee ID</b></td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let user of filteredUserList">
+                        <td>
+                          <input type="radio" [value]="user.userId" name="user.userId" (change)="selectUser($event.target.value)">
+                        </td>
+                        <td>{{user.firstName}}</td>
+                        <td>{{user.lastName}}</td>
+                        <td>{{user.employeeId}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <label *ngIf="filteredUserList && filteredUserList.length == 0">User not found</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" style="width :100px; height:30px" [disabled]="!enableAddButton" (click)="addUser(user)">Add</button>
+            <button type="button" style="width :100px; height:30px" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+  </div>
+</div>
+<!-- user search modal End -->
