@@ -19,8 +19,6 @@ describe('AddprojectComponent', () => {
   let fixture: ComponentFixture<AddprojectComponent>;
   let projectService: ProjectService;
 
-
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ AddprojectComponent, TaskSearchComponent, ProjectSearchComponent, UserSearchComponent ],
@@ -43,14 +41,11 @@ describe('AddprojectComponent', () => {
   });
 
   it('call addNewProject when a new Project is added', () => {
-    const spy = spyOn(projectService, 'addNewProject').and.returnValue(of({success: true}));
-
     var startDate = new Date();
     var endDate = new Date();
-
     const anUser: UserClass = {userId: 1, firstName: 'FirstName1', lastName: 'LastName1', employeeId: '111', projectId: '1', taskId: ['1']};
     const aProject: ProjectClass = {projectId: 1, projectName  : 'Project1', priority : 10, startDate: moment(startDate.getDate()).add(-1, 'months').toDate(), endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(), managerId: 1};
-
+    const spy = spyOn(projectService, 'addNewProject').and.returnValue(of({success: true}));
 
     component._AddUpdateButton = 'Add';
     component.isEditMode = false;
@@ -63,9 +58,7 @@ describe('AddprojectComponent', () => {
   });
 
   it('call updateProject when a Project is updated', () => {
-    const spy = spyOn(projectService, 'updateProject').and.returnValue(
-      of({success: true} )
-    );
+    const spy = spyOn(projectService, 'updateProject').and.returnValue(of({success: true}));
 
     var startDate = new Date();
     var endDate = new Date();
@@ -83,6 +76,57 @@ describe('AddprojectComponent', () => {
 
   });
 
+  it ('check call to resetMainFormGroup', () => {
+    component.resetMainFormGroup();
+    expect(component._AddUpdateButton).toContain('Add');
+    expect(component.isEditMode).toBe(false);
+  });
+ 
+  it('check handleSuspendButton calls deleteProject', ()=>{
 
+    var startDate = new Date();
+    var endDate = new Date();
+    const aProject: ProjectClass = {projectId: 1, projectName  : 'Project1', priority : 10, startDate: moment(startDate.getDate()).add(-1, 'months').toDate(), endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(), managerId: 1};
+    const spyDelete = spyOn(projectService, 'deleteProject').and.returnValue(of({success:true}));
+    // const spyProject = spyOn(projectService, 'getAllProjects').and.returnValue(of({success:true, data: aProject}));
+
+    component.handleSuspendButton(aProject.projectId);
+    expect(spyDelete).toHaveBeenCalledWith(aProject.projectId);
+    // expect(spyProject).toHaveBeenCalled();
+  });
+
+
+  it('call selectedProjectManager', () => {
+    const anUser: UserClass = {userId: 1, firstName: 'FirstName1', lastName: 'LastName1', employeeId: '111', projectId: '1', taskId: ['1']};
+  
+   component.selectedProjectManager(anUser);
+   fixture.detectChanges();
+   expect (component.mainFormGroup.controls["projectManager"].value).toContain('FirstName1');
+   expect (component.mainFormGroup.controls["projectManager"].value).toContain('LastName1');
+  });
+
+
+  it ('check calling dateValidation without set project dates', () => {
+    component.mainFormGroup.controls['setProjectDates'].setValue(false);
+    fixture.detectChanges();
+    component.dateValidation();
+    expect(component.mainFormGroup.controls["startDate"].value=="")
+    expect(component.mainFormGroup.controls["endDate"].value=="")
+    expect(component.setProjectDates).toEqual(false); 
+  });
+
+  it ('check calling dateValidation with set project dates', () => {
+    var today = new Date();
+    var today30 = new Date();
+    var startDate = moment(today.getDate()).add(-1, 'months').toDate();
+    var endDate = moment(today30.getDate() + 30).add(-1, 'months').toDate();
+
+    component.mainFormGroup.controls['setProjectDates'].setValue(true);
+    fixture.detectChanges();
+    component.dateValidation();
+    expect(component.mainFormGroup.controls["startDate"].value == startDate)
+    expect(component.mainFormGroup.controls["endDate"].value == endDate)
+    expect(component.setProjectDates).toEqual(true); 
+  });
 
 });

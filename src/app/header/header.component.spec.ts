@@ -43,10 +43,7 @@ describe('HeaderComponent', () => {
     const fixture = TestBed.createComponent(HeaderComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to cpmb003-Project-Manager-Client');
+    expect(compiled.querySelector('h1').textContent).toContain('Welcome to CPMB003 Project Manager');
   });
 
-  // it ('can get RouterLinks from template',() =>{
-
-  // });
 });

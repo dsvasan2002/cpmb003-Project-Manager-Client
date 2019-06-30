@@ -43,6 +43,9 @@ export class AddtaskComponent implements OnInit {
     private _parentTaskService: ParentTaskService, 
     private _activatedRoute: ActivatedRoute) {
       this.aTask = new TaskClass();
+      this.aTask.parentTask = new ParentTaskClass();
+      this.aTask.project = new ProjectClass();
+      this.aTask.user = new UserClass();
       this.initMainForm();
    }
 
@@ -54,8 +57,6 @@ export class AddtaskComponent implements OnInit {
       this.setTaskToUpdate();
     }
   }
-
-
 
   setTaskToUpdate() {
     this._taskService.getATask(this.aTaskId).subscribe((response: any)=> {
@@ -144,9 +145,7 @@ export class AddtaskComponent implements OnInit {
     } 
 
     if (this.isEditMode) {
-      console.log(this.aTask);
       this.aTask.taskId = this.mainFormGroup.controls['taskId'].value;
-      console.log(this.aTask);
       this.updateTask(this.aTask);
     } else  {
         this.addNewTask(this.aTask);

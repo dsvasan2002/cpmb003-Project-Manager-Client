@@ -67,7 +67,7 @@ export class AdduserComponent implements OnInit {
         this.usersList = res['data'];
         this.filteredUserList = res['data'];
       } else {
-        console.log("Error: could not get all users");
+        //Error: could not get all users"
       }
     }, (error: any) => {
       this.errorBlock = true;
@@ -81,7 +81,6 @@ export class AdduserComponent implements OnInit {
     this.anUser.lastName = this.mainFormGroup.controls['lastName'].value;
     this.anUser.employeeId = this.mainFormGroup.controls['employeeId'].value;
     if (this.isEditMode) {
-      console.log(this.mainFormGroup.controls['userId'].value);
       this.anUser.userId = this.mainFormGroup.controls['userId'].value;
       this.updateUser(this.anUser);
     } else  {

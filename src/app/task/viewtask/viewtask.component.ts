@@ -41,7 +41,6 @@ export class ViewtaskComponent implements OnInit {
   private getTasksList( ) {
     this._taskService.getAllTasks().subscribe((res) => {
         let a:number = 0;
-        console.log(res['data']);
         //api response struct is {success: true or false, data: tasks}
         if (res['success']) {
           this.tasksList = res['data'];
