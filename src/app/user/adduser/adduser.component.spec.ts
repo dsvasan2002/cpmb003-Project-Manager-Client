@@ -100,6 +100,19 @@ describe('AdduserComponent', () => {
     expect(spy).toHaveBeenCalled();
 
   });
+  
+  it('check addNewUser handles error', () => {
+    const spy = spyOn(userService, 'addNewUser').and.returnValue(
+      of({success: false} )
+    );
+    
+    component._AddUpdateButton = 'Add';
+    component.isEditMode = false;
+    component.addOrUpdateUser();
+    expect(component.errorBlock).toBe(false);
+
+  });
+
 
   it('call updateUser when a existing User is updated', () => {
     const spy = spyOn(userService, 'updateUser').and.returnValue(

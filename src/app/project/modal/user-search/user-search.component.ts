@@ -37,11 +37,14 @@ export class UserSearchComponent implements OnInit {
         this.filteredUserList = res['data'];
       } else {
         //Error: could not get all users
+        this.errorBlock = false;
       }
-    }, (error: any) => {
-      this.errorBlock = true;
-      this.errorText = error['message'];
-    })
+    }
+    // , (error: any) => {
+    //   this.errorBlock = true;
+    //   this.errorText = error['message'];
+    // }
+    )
   }
 
   public get searchUserString(): string {

@@ -83,7 +83,46 @@ describe('ViewtaskComponent', () => {
     expect (spy).toHaveBeenCalledWith(component.tasksList[0]);
   }));
  
+  it ('call finishTask with task', fakeAsync(() => {
+    const spy = spyOn(service, 'updateATask').and.returnValue(of({success: false}));
 
+    var startDate = new Date();
+    var endDate = new Date();
+
+    const tasksList: TaskClass[] = [{
+      taskId     : 1,
+      parentTask : {parentTaskId: 1, parentTaskName: 'Parent1', projectId: 1},
+      project    : {projectId: 1, projectName  : 'Project1', priority : 10,
+                    startDate: moment(startDate.getDate()).add(-1, 'months').toDate(),
+                    endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+                    managerId: 1},
+      taskName   : 'TaskName1',
+      startDate  : moment(startDate.getDate()).add(-1, 'months').toDate(),
+      endDate    : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+      priority   : 5,    
+      user       : {userId: 1, firstName: 'FirstName', lastName: 'LastName', employeeId: '12345', projectId: '1', taskId: ['1']},
+      hasFinished: false
+    },{
+      taskId     : 2,
+      parentTask : {parentTaskId: 1, parentTaskName: 'Parent1', projectId: 1},
+      project    : {projectId: 1, projectName  : 'Project1', priority : 10,
+                    startDate: moment(startDate.getDate()).add(-1, 'months').toDate(),
+                    endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+                    managerId: 1},
+      taskName   : 'TaskName2',
+      startDate  : moment(startDate.getDate()).add(-1, 'months').toDate(),
+      endDate    : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+      priority   : 5,    
+      user       : {userId: 1, firstName: 'FirstName', lastName: 'LastName', employeeId: '12345', projectId: '1', taskId: ['1']},
+      hasFinished: false
+    }];
+
+    component.tasksList =  tasksList;
+    component.finishTask(component.tasksList[0]);
+    fixture.detectChanges();
+    expect (component.errorBlock).toBe(true);
+  }));
+ 
   it('check selectedProject call', () => {
     var startDate = new Date();
     var endDate = new Date();

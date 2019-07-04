@@ -111,35 +111,33 @@ export class AddprojectComponent implements OnInit {
     this.isEditMode = true;
     this.mainFormGroup.reset();
     this._AddUpdateButton = "Update";
-    if (aProject) {
-      this.mainFormGroup.controls["projectName"].setValue(aProject.projectName);
-      this.mainFormGroup.controls["projectId"].setValue(aProject.projectId);
-      this.mainFormGroup.controls["priority"].setValue(aProject.priority);
-      this.mainFormGroup.controls["projectName"].setValidators(Validators.required);
-      var projStartDate: NgbDateStruct;
-      var projEndDate: NgbDateStruct;
-      if (aProject.startDate || aProject.endDate) {
-        this.mainFormGroup.controls["setProjectDates"].setValue(true);
-        let newStarDate = new Date(aProject.startDate)
-        let newEndDate = new Date(aProject.endDate)
+    this.mainFormGroup.controls["projectName"].setValue(aProject.projectName);
+    this.mainFormGroup.controls["projectId"].setValue(aProject.projectId);
+    this.mainFormGroup.controls["priority"].setValue(aProject.priority);
+    this.mainFormGroup.controls["projectName"].setValidators(Validators.required);
+    var projStartDate: NgbDateStruct;
+    var projEndDate: NgbDateStruct;
+    if (aProject.startDate || aProject.endDate) {
+      this.mainFormGroup.controls["setProjectDates"].setValue(true);
+      let newStarDate = new Date(aProject.startDate)
+      let newEndDate = new Date(aProject.endDate)
 
-        projStartDate = <NgbDateStruct>{ year: newStarDate.getFullYear(), month: newStarDate.getMonth() + 1, day: newStarDate.getDate() };
+      projStartDate = <NgbDateStruct>{ year: newStarDate.getFullYear(), month: newStarDate.getMonth() + 1, day: newStarDate.getDate() };
 
-        projEndDate = <NgbDateStruct>{ year: newEndDate.getFullYear(), month: newEndDate.getMonth() + 1, day: newEndDate.getDate() };
-        this.mainFormGroup.controls["startDate"].setValue(projStartDate);
-        this.mainFormGroup.controls["endDate"].setValue(projEndDate);
-      } else {
-        this.mainFormGroup.controls["setProjectDates"].setValue(false);
-      }
-      if (aProject.managerId) {
-        this._userService.getAnUser(aProject.managerId)
-          .subscribe(response => {
-            this.projectManager = response['data'];
-            if (response['data']) {
-              this.mainFormGroup.controls["projectManager"].setValue(`${this.projectManager.firstName} ${this.projectManager.lastName}`);
-            }
-          });
-      }
+      projEndDate = <NgbDateStruct>{ year: newEndDate.getFullYear(), month: newEndDate.getMonth() + 1, day: newEndDate.getDate() };
+      this.mainFormGroup.controls["startDate"].setValue(projStartDate);
+      this.mainFormGroup.controls["endDate"].setValue(projEndDate);
+    } else {
+      this.mainFormGroup.controls["setProjectDates"].setValue(false);
+    }
+    if (aProject.managerId) {
+      this._userService.getAnUser(aProject.managerId)
+        .subscribe(response => {
+          this.projectManager = response['data'];
+          if (response['data']) {
+            this.mainFormGroup.controls["projectManager"].setValue(`${this.projectManager.firstName} ${this.projectManager.lastName}`);
+          }
+        });
     }
   }
 
@@ -230,7 +228,7 @@ export class AddprojectComponent implements OnInit {
           var tomo = new Date();
           tomo.setDate(today.getDate() + 1);
           if (tomo.getDate() == 1) {
-            tomo.setMonth(today.getMonth() + 2);
+            tomo.setMonth(today.getMonth() + 1);
           }
           if (tomo.getMonth() == 0) {
             tomo.setFullYear(today.getFullYear() + 1);

@@ -42,13 +42,13 @@ export class ViewtaskComponent implements OnInit {
 
   public getTasksList( ) {
     this._taskService.getAllTasks().subscribe((res) => {
-        let a:number = 0;
         //api response struct is {success: true or false, data: tasks}
         if (res['success']) {
           this.tasksList = res['data'];
           this.filteredTasksList = res['data'];
         } else {
            //Log the info to the log handler
+           this.errorBlock = false;
         }
       }, (error: any) => {
         this.errorBlock = true;
