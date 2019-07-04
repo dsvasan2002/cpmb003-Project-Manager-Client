@@ -19,7 +19,7 @@ export class ParentTaskService {
     return this._http.post(`${this.SERVICE_URL}`, aParentTask);
   }
 
-  getAllParentTasks(): Observable<ParentTaskClass[]>  {
+  getAllParentTasks(): Observable<any>  {
     return this._http.get<ParentTaskClass[]>(`${this.SERVICE_URL}`);
   }
 

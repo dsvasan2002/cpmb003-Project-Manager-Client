@@ -10,6 +10,7 @@ describe('UserService', () => {
   let userGetService: UserService;
   let userPostService: UserService;
   let userPutService: UserService;
+  let userDelService: UserService;
   let httpGetSpy: {
     get: jasmine.Spy
   };
@@ -18,6 +19,9 @@ describe('UserService', () => {
   };
   let httpPutSpy: {
     put: jasmine.Spy
+  };  
+  let httpDelSpy: {
+    delete: jasmine.Spy
   };
 
 
@@ -30,10 +34,12 @@ describe('UserService', () => {
     httpGetSpy = jasmine.createSpyObj('Value', ['get']);
     httpPostSpy = jasmine.createSpyObj('Value', ['post']);
     httpPutSpy = jasmine.createSpyObj('Value', ['put']);
+    httpDelSpy =  jasmine.createSpyObj('Value', ['delete']);
   
     userGetService = new UserService(<any>httpGetSpy);
     userPostService = new UserService(<any>httpPostSpy);
     userPutService = new UserService(<any>httpPutSpy);
+    userDelService = new UserService(<any>httpDelSpy);
   });
 
 
@@ -52,8 +58,13 @@ describe('UserService', () => {
     userGetService.getAllUsers().subscribe(
       data => {expect(usersList.length).toEqual(2)}
     )
+    httpGetSpy.get.and.returnValue(of({error:"Test Error"}));
+    userGetService.getAllUsers().subscribe(
+      data => {expect(data['error']).toEqual('Test Error')}
+    )
 
   });
+
 
   it ('should return expected user by id', () => {
     const anUser: UserClass = {userId: 1, firstName: 'FirstName1', lastName: 'LastName1', employeeId: '111', projectId: '1', taskId: ['1']};
@@ -79,6 +90,15 @@ describe('UserService', () => {
     httpPutSpy.put.and.returnValue(of(anUser));
     userPutService.updateUser(anUser).subscribe(
       data => {expect(anUser.firstName).toEqual('UpdatedFirstName1')}
+    )
+  });
+
+  it ('should delete an user ', () => {
+    const anUser: UserClass = {userId: 1, firstName: 'UpdatedFirstName1', lastName: 'LastName1', employeeId: '111', projectId: '1', taskId: ['1']};
+      
+    httpDelSpy.delete.and.returnValue(of({success:true}));
+    userDelService.deleteUser(anUser.userId).subscribe(
+      data => {expect(data['success']).toEqual(true)}
     )
   });
 

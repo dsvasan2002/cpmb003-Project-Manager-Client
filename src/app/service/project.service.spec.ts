@@ -11,6 +11,7 @@ describe('ProjectService', () => {
   let projectGetService: ProjectService;
   let projectPostService: ProjectService;
   let projectPutService: ProjectService;
+  let projectDelService: ProjectService;
   let httpGetSpy: {
     get: jasmine.Spy
   };
@@ -19,6 +20,9 @@ describe('ProjectService', () => {
   };
   let httpPutSpy: {
     put: jasmine.Spy
+  };  
+  let httpDelSpy: {
+    delete: jasmine.Spy
   };
 
 
@@ -31,10 +35,12 @@ describe('ProjectService', () => {
     httpGetSpy = jasmine.createSpyObj('Value', ['get']);
     httpPostSpy = jasmine.createSpyObj('Value', ['post']);
     httpPutSpy = jasmine.createSpyObj('Value', ['put']);
+    httpDelSpy = jasmine.createSpyObj('Value', ['delete']);
   
     projectGetService = new ProjectService(<any>httpGetSpy);
     projectPostService = new ProjectService(<any>httpPostSpy);
     projectPutService = new ProjectService(<any>httpPutSpy);
+    projectDelService = new ProjectService(<any>httpDelSpy);
   });
 
   it('should be created', () => {
@@ -103,6 +109,20 @@ describe('ProjectService', () => {
     httpPutSpy.put.and.returnValue(of(anproject));
     projectPutService.updateProject(anproject).subscribe(
       data => {expect(anproject.projectName).toEqual('UpdatedProject1')}
+    )
+  });
+
+  it ('should delete an project ', () => {
+    var startDate = new Date();
+    var endDate = new Date();
+    const anproject: ProjectClass = {projectId: 1, projectName  : 'UpdatedProject1', priority : 10,
+                    startDate: moment(startDate.getDate()).add(-1, 'months').toDate(),
+                    endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+                    managerId: 1};
+      
+    httpDelSpy.delete.and.returnValue(of({success:true}));
+    projectDelService.deleteProject(anproject.projectId).subscribe(
+      data => {expect(data['success']).toEqual(true)}
     )
   });
 

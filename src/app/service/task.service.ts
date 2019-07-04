@@ -20,7 +20,7 @@ export class TaskService {
     return this._http.post(`${this.SERVICE_URL}`, aTask);
   }
 
-  getAllTasks(): Observable<TaskClass[]>  {
+  getAllTasks(): Observable<any>  {
     return this._http.get<TaskClass[]>(`${this.SERVICE_URL}`);
   }
 

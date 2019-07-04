@@ -19,7 +19,7 @@ import { FormGroup, FormControl, Validators, FormBuilder }  from '@angular/forms
 })
 
 export class ViewtaskComponent implements OnInit {
-  errorBlock: boolean;
+  errorBlock: boolean = false;
   errorText: any;
   public tasksList: TaskClass[];
   public filteredTasksList: TaskClass[];
@@ -32,13 +32,15 @@ export class ViewtaskComponent implements OnInit {
     private _router: Router,
     private _parentTaskService: ParentTaskService,
     private _projectService: ProjectService) { 
+      this.aProject = new ProjectClass();
+      // this.tasksList[] = new TaskClass();
   }   
 
   ngOnInit() {
     this.getTasksList();
   }
 
-  private getTasksList( ) {
+  public getTasksList( ) {
     this._taskService.getAllTasks().subscribe((res) => {
         let a:number = 0;
         //api response struct is {success: true or false, data: tasks}
@@ -88,25 +90,24 @@ export class ViewtaskComponent implements OnInit {
   filterTaskByProjectId(projectId: number): TaskClass[] {
     return this.tasksList.filter(task=>
       task.project.projectId == projectId);
-    // throw  new Error("Method not implemented.");
   }
   
 
-    //Sort Tasks List based on user choice
-    sortTasksList(sortStr: string) {
-      this.isDesc = !this.isDesc; //change the direction    
-      let direction = this.isDesc ? 1 : -1;
-  
-      this.filteredTasksList = this.filteredTasksList.sort(function(a, b){
-        if (a[sortStr] < b[sortStr]){
-            return -1 * direction;
-        } else if( a[sortStr] > b[sortStr]){
-            return 1 * direction;
-        } else {
-            return 0;
-        }
-      });
-    }
+  //Sort Tasks List based on user choice
+  sortTasksList(sortStr: string) {
+    this.isDesc = !this.isDesc; //change the direction    
+    let direction = this.isDesc ? 1 : -1;
+
+    this.filteredTasksList = this.filteredTasksList.sort(function(a, b){
+      if (a[sortStr] < b[sortStr]){
+          return -1 * direction;
+      } else if( a[sortStr] > b[sortStr]){
+          return 1 * direction;
+      } else {
+          return 0;
+      }
+    });
+  }
   
 
 }

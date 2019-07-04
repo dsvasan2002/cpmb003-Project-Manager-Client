@@ -41,6 +41,54 @@ describe('AdduserComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('check getAllUsers call', () => {
+    const usersList: UserClass[] = [
+      {userId: 1, firstName: 'FirstName1', lastName: 'LastName1', employeeId: '111', projectId: '1', taskId: ['1']},
+      {userId: 2, firstName: 'FirstName2', lastName: 'LastName2', employeeId: '222', projectId: '1', taskId: ['1']}
+    ]
+
+    const spy = spyOn(userService, 'getAllUsers').and.returnValue(
+      of({success: true, data: usersList} )
+    );
+
+    component.getAllUsers();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalled();
+    expect(component.usersList[0].firstName).toEqual('FirstName1');
+  });
+
+  it('check getAllUsers call handles error', () => {
+    const usersList: UserClass[] = [
+      {userId: 1, firstName: 'FirstName1', lastName: 'LastName1', employeeId: '111', projectId: '1', taskId: ['1']},
+      {userId: 2, firstName: 'FirstName2', lastName: 'LastName2', employeeId: '222', projectId: '1', taskId: ['1']}
+    ]
+
+    const spy = spyOn(userService, 'getAllUsers').and.returnValue(
+      of({success: false} )
+    );
+
+    component.getAllUsers();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalled();
+    expect(component.errorBlock).toEqual(false); 
+  });
+
+  it('check ngOnInit call', () => {
+    const usersList: UserClass[] = [
+      {userId: 1, firstName: 'FirstName1', lastName: 'LastName1', employeeId: '111', projectId: '1', taskId: ['1']},
+      {userId: 2, firstName: 'FirstName2', lastName: 'LastName2', employeeId: '222', projectId: '1', taskId: ['1']}
+    ]
+
+    const spy = spyOn(userService, 'getAllUsers').and.returnValue(
+      of({success: true, data: usersList} )
+    );
+
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalled();
+  });
+
+
   it('call addNewUser when a new User is added', () => {
     const spy = spyOn(userService, 'addNewUser').and.returnValue(
       of({success: true} )
@@ -96,5 +144,18 @@ describe('AdduserComponent', () => {
     expect (component.isEditMode).toBe(false);
     expect (component._AddUpdateButton).toBe('Add');
   })
+
+  it('call initMainForm',() => {
+    component.initMainForm();
+    expect (component.isEditMode).toBe(false);
+    expect (component._AddUpdateButton).toBe('Add');
+  })
+
+  // it('call searchUserString',() => {
+  //   component._searchUserString = 'Test';
+  //   expect (component.searchUserString()).toBe('Test');
+    
+  // })
+
 
 });

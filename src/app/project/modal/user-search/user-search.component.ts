@@ -16,7 +16,7 @@ export class UserSearchComponent implements OnInit {
   usersList: UserClass[];
   filteredUserList: UserClass[];
   anUser: UserClass;
-  errorBlock: boolean;
+  errorBlock: boolean = false;
   errorText: any;
   _searchUserString: string;
   selectedUserId: number;
@@ -62,6 +62,9 @@ export class UserSearchComponent implements OnInit {
       if (res['success']) {
         this.anUser = res['data'];
         this.enableAddButton = true;
+      } else {
+        alert('error fetching user info. Please try again');
+        this.enableAddButton = false;
       }
     });
   }

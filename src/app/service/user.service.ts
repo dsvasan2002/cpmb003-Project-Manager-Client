@@ -20,7 +20,7 @@ export class UserService {
     return this._http.post(`${this.SERVICE_URL}`, anUser);
   }
 
-  getAllUsers(): Observable<UserClass[]>  {
+  getAllUsers(): Observable<any>  {
     return this._http.get<UserClass[]>(`${this.SERVICE_URL}`);
   }
   getAnUser(anUserId: number): Observable<any>  {

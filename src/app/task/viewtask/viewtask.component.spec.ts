@@ -16,6 +16,7 @@ import { RouterModule, Router,  } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import * as moment from 'moment';
+import { ProjectClass } from 'src/app/model/project.model';
 
 describe('ViewtaskComponent', () => {
   let component: ViewtaskComponent;
@@ -82,4 +83,102 @@ describe('ViewtaskComponent', () => {
     expect (spy).toHaveBeenCalledWith(component.tasksList[0]);
   }));
  
+
+  it('check selectedProject call', () => {
+    var startDate = new Date();
+    var endDate = new Date();
+    
+    var startDate = new Date();
+    var endDate = new Date();
+
+    const tasksList: TaskClass[] = [{
+      taskId     : 1,
+      parentTask : {parentTaskId: 1, parentTaskName: 'Parent1', projectId: 1},
+      project    : {projectId: 1, projectName  : 'Project1', priority : 10,
+                    startDate: moment(startDate.getDate()).add(-1, 'months').toDate(),
+                    endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+                    managerId: 1},
+      taskName   : 'TaskName1',
+      startDate  : moment(startDate.getDate()).add(-1, 'months').toDate(),
+      endDate    : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+      priority   : 5,    
+      user       : {userId: 1, firstName: 'FirstName', lastName: 'LastName', employeeId: '12345', projectId: '1', taskId: ['1']},
+      hasFinished: false
+    },{
+      taskId     : 2,
+      parentTask : {parentTaskId: 1, parentTaskName: 'Parent1', projectId: 1},
+      project    : {projectId: 1, projectName  : 'Project1', priority : 10,
+                    startDate: moment(startDate.getDate()).add(-1, 'months').toDate(),
+                    endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+                    managerId: 1},
+      taskName   : 'TaskName2',
+      startDate  : moment(startDate.getDate()).add(-1, 'months').toDate(),
+      endDate    : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+      priority   : 5,    
+      user       : {userId: 1, firstName: 'FirstName', lastName: 'LastName', employeeId: '12345', projectId: '1', taskId: ['1']},
+      hasFinished: false
+    }];
+
+    const anproject: ProjectClass = {projectId: 1, projectName  : 'UpdatedProject1', priority : 10,
+                    startDate: moment(startDate.getDate()).add(-1, 'months').toDate(),
+                    endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+                    managerId: 1};
+
+    component.tasksList = tasksList;
+    component.selectedProject(anproject);
+    fixture.detectChanges();
+    expect(component.aProject.projectName).toBe(anproject.projectName);
+  });
+
+
+  
+
+  it('check getTasksList call', () => {
+    var startDate = new Date();
+    var endDate = new Date();
+
+    const tasksList: TaskClass[] = [{
+      taskId     : 1,
+      parentTask : {parentTaskId: 1, parentTaskName: 'Parent1', projectId: 1},
+      project    : {projectId: 1, projectName  : 'Project1', priority : 10,
+                    startDate: moment(startDate.getDate()).add(-1, 'months').toDate(),
+                    endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+                    managerId: 1},
+      taskName   : 'TaskName1',
+      startDate  : moment(startDate.getDate()).add(-1, 'months').toDate(),
+      endDate    : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+      priority   : 5,    
+      user       : {userId: 1, firstName: 'FirstName', lastName: 'LastName', employeeId: '12345', projectId: '1', taskId: ['1']},
+      hasFinished: false
+    },{
+      taskId     : 2,
+      parentTask : {parentTaskId: 1, parentTaskName: 'Parent1', projectId: 1},
+      project    : {projectId: 1, projectName  : 'Project1', priority : 10,
+                    startDate: moment(startDate.getDate()).add(-1, 'months').toDate(),
+                    endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+                    managerId: 1},
+      taskName   : 'TaskName2',
+      startDate  : moment(startDate.getDate()).add(-1, 'months').toDate(),
+      endDate    : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+      priority   : 5,    
+      user       : {userId: 1, firstName: 'FirstName', lastName: 'LastName', employeeId: '12345', projectId: '1', taskId: ['1']},
+      hasFinished: false
+    }];
+
+    const spyService = spyOn(service, 'getAllTasks').and.returnValue(of({success: true, data: tasksList}));
+    component.getTasksList();
+    fixture.detectChanges();
+    
+    expect(spyService).toHaveBeenCalled();
+  });
+
+
+  it('check getTasksList call handles error', () => {
+    const spyService = spyOn(service, 'getAllTasks').and.returnValue(of({success: false}));
+    component.getTasksList();
+    fixture.detectChanges();
+    expect(component.errorBlock).toBe(false);
+  });
+
+
 });

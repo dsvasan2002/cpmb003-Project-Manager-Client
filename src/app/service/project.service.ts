@@ -21,7 +21,7 @@ export class ProjectService {
     return this._http.post(`${this.SERVICE_URL}`, aProject);
   }
 
-  getAllProjects(): Observable<ProjectClass[]>  {
+  getAllProjects(): Observable<any>  {
     return this._http.get<ProjectClass[]>(`${this.SERVICE_URL}`);
   }
 

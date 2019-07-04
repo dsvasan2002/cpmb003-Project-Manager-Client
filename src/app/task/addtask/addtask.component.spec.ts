@@ -87,6 +87,36 @@ describe('AddtaskComponent', () => {
 
   });
 
+  it('call addNewTask handles error', () => {
+    var startDate = new Date();
+    var endDate = new Date();
+    const anUser: UserClass = {userId: 1, firstName: 'FirstName1', lastName: 'LastName1', employeeId: '111', projectId: '1', taskId: ['1']};
+    const aProject: ProjectClass = {projectId: 1, projectName  : 'Project1', priority : 10, startDate: moment(startDate.getDate()).add(-1, 'months').toDate(), endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(), managerId: 1};
+    const spyAdd = spyOn(taskservice, 'addNewTask').and.returnValue(of({success: false}));
+
+    const aTask: TaskClass = {
+      taskId     : 2,
+      parentTask : {parentTaskId: 1, parentTaskName: 'Parent1', projectId: 1},
+      project    : {projectId: 1, projectName  : 'Project1', priority : 10,
+                    startDate: moment(startDate.getDate()).add(-1, 'months').toDate(),
+                    endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+                    managerId: 1},
+      taskName   : 'TestTask2',
+      startDate  : moment(startDate.getDate()).add(-1, 'months').toDate(),
+      endDate    : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+      priority   : 5,    
+      user       : {userId: 1, firstName: 'FirstName', lastName: 'LastName', employeeId: '12345', projectId: '1', taskId: ['1']},
+      hasFinished: false
+    };
+
+    component.addNewTask(aTask);
+    expect(spyAdd).toHaveBeenCalled();
+    fixture.detectChanges();
+    expect(component.errorBlock).toBe(false);
+
+  });
+
+
   it('call updateATask when a Task is updated', () => {
     var startDate = new Date();
     var endDate = new Date();
@@ -109,10 +139,38 @@ describe('AddtaskComponent', () => {
 
     component._AddUpdateButton = 'Update';
     component.isEditMode = true;
+    // component.aProject = aTask.project;
     component.addOrUpdateTaskButton();
     expect(spyUpd).toHaveBeenCalled();
     
 
+  });
+
+
+  it('check updateATask hanldes error', () => {
+    var startDate = new Date();
+    var endDate = new Date();
+    const spyUpd = spyOn(taskservice, 'updateATask').and.returnValue(of({success: false}));
+
+    const aTask: TaskClass = {
+      taskId     : 2,
+      parentTask : {parentTaskId: 1, parentTaskName: 'Parent1', projectId: 1},
+      project    : {projectId: 1, projectName  : 'Project1', priority : 10,
+                    startDate: moment(startDate.getDate()).add(-1, 'months').toDate(),
+                    endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+                    managerId: 1},
+      taskName   : 'TestTask2',
+      startDate  : moment(startDate.getDate()).add(-1, 'months').toDate(),
+      endDate    : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+      priority   : 5,    
+      user       : {userId: 1, firstName: 'FirstName', lastName: 'LastName', employeeId: '12345', projectId: '1', taskId: ['1']},
+      hasFinished: false
+    };
+
+    component.updateTask(aTask);
+    fixture.detectChanges();
+    expect(component.errorBlock).toBe(true);
+    
   });
 
   it('call addParentTask when a Paret task is added', () => {

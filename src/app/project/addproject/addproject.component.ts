@@ -19,7 +19,7 @@ export class AddprojectComponent implements OnInit {
   filteredProjectsList: ProjectClass[];
   aProject: ProjectClass;
   projectManager: UserClass;
-  errorBlock: boolean;
+  errorBlock: boolean = false;
   errorText: any;
   userAddUpdFormGroup: FormGroup;
   _AddUpdateButton: string = "Add";
@@ -54,6 +54,8 @@ export class AddprojectComponent implements OnInit {
       if (response['success']) {
         this.projectsList = response['data'];
         this.filteredProjectsList = response['data'];
+      } else {
+        //Handle error
       }
     }, (error: any) => {
       this.errorBlock = true;

@@ -26,10 +26,10 @@ import { NgbDateStruct, NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
 export class AddtaskComponent implements OnInit {
 
   public aTask: TaskClass;
-  errorBlock: boolean;
+  errorBlock: boolean = false;
   errorText: any;
   mainFormGroup: FormGroup;
-  isEditMode: boolean;
+  isEditMode: boolean = false;
   _AddUpdateButton: string;
   projectId: number;
   aProject: ProjectClass;

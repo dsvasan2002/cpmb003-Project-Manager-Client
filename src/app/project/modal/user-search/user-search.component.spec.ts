@@ -33,26 +33,56 @@ describe('UserSearchComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  
+  it ('check getAllUsers call', () => {
+    const anUser: UserClass = {userId: 1, firstName: 'FirstName1', lastName: 'LastName1', employeeId: '111', projectId: '1', taskId: ['1']};
+ 
+    const spy = spyOn(userService, 'getAllUsers').and.returnValue(of({sucess: true, data: anUser}));
+
+    component.getAllUsers();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalled();
+  });
+
+
+  it ('check getAllUsers hanldes error', () => {
+    const anUser: UserClass = {userId: 1, firstName: 'FirstName1', lastName: 'LastName1', employeeId: '111', projectId: '1', taskId: ['1']};
+ 
+    const spy = spyOn(userService, 'getAllUsers').and.returnValue(of({sucess: false}));
+
+    component.getAllUsers();
+    fixture.detectChanges();
+    expect(component.errorBlock).toBe(false);
+  });
 
   it ('selectUser should fetch the user information', () => {
     const anUser: UserClass = {userId: 1, firstName: 'FirstName1', lastName: 'LastName1', employeeId: '111', projectId: '1', taskId: ['1']};
-
-    // let anUser = new UserClass();
-
-    // anUser.userId = 1;
-    // anUser.firstName = 'FirstName1';
-    // anUser.lastName = 'LastName1';
-    // anUser.employeeId = '111',
-    // anUser.projectId = '1';
-    // anUser.taskId = ['1'];
-    
+ 
     component.anUser.userId = anUser.userId;
     const spy = spyOn(userService, 'getAnUser').and.returnValue(of({sucess: true, data: anUser}));
 
     component.selectUser(anUser.userId);
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledWith(anUser.userId);
-    // expect (component.enableAddButton).toBe(true);
   });
+
+  it ('selectUser should hanlde error', () => {
+    const anUser: UserClass = {userId: 1, firstName: 'FirstName1', lastName: 'LastName1', employeeId: '111', projectId: '1', taskId: ['1']};
+ 
+    component.anUser.userId = anUser.userId;
+    const spy = spyOn(userService, 'getAnUser').and.returnValue(of({sucess: false}));
+
+    component.selectUser(anUser.userId);
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledWith(anUser.userId);
+    expect(component.errorBlock).toBe(false);
+  });
+
+  // it ('searchUserString should set right value', () => {
+  //   const aString: string = 'AString';
+  //   component.searchUserString(aString);
+  //   fixture.detectChanges();
+  //   expect(component._searchUserString).toBe(aString);
+  // });
 
 });

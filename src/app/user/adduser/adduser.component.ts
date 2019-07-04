@@ -17,13 +17,13 @@ export class AdduserComponent implements OnInit {
   filteredUserList: UserClass[];
   anUser: UserClass;
   isEditMode: boolean = false;
-  errorBlock: boolean;
+  errorBlock: boolean = false;
   errorText: any;
   mainFormGroup: FormGroup;
   
   _AddUpdateButton: string = "Add";
   
-  private _searchUserString: string;
+  public _searchUserString: string;
   private _sortUserString: string;
   isDesc: boolean;
 

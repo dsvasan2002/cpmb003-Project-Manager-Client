@@ -10,11 +10,19 @@ describe('TaskService', () => {
 
   let taskservice: TaskService;
   let taskpostservice: TaskService;
+  let taskputservice: TaskService;
+  let taskDelService: TaskService;
   let httpGetSpy: {
     get: jasmine.Spy
   };
   let httpPostSpy: {
     post: jasmine.Spy
+  };  
+  let httpPutSpy: {
+    put: jasmine.Spy
+  };
+  let httpDelSpy: {
+    delete: jasmine.Spy
   };
 
   beforeEach(() => TestBed.configureTestingModule({
@@ -25,9 +33,13 @@ describe('TaskService', () => {
   beforeEach(() => {
     httpGetSpy = jasmine.createSpyObj('Value', ['get']);
     httpPostSpy = jasmine.createSpyObj('Value', ['post']);
-  
+    httpPutSpy = jasmine.createSpyObj('Value', ['put']);
+    httpDelSpy = jasmine.createSpyObj('Value', ['delete']);
+
     taskservice = new TaskService(<any>httpGetSpy);
     taskpostservice = new TaskService(<any>httpPostSpy);
+    taskputservice = new TaskService(<any>httpPutSpy);
+    taskDelService = new TaskService(<any>httpDelSpy);
   });
 
   it('should be created', () => {
@@ -150,6 +162,30 @@ describe('TaskService', () => {
     httpPostSpy.post.and.returnValue(of(aTask));
     taskpostservice.updateATask(aTask).subscribe(
       data => {expect(aTask.user.firstName).toEqual('UpdatedFirstName')}
+    )
+  });
+
+  it ('should delete an user ', () => {
+    var startDate = new Date();
+    var endDate = new Date();
+
+    const aTask: TaskClass = {
+      taskId     : 2,
+      parentTask : {parentTaskId: 1, parentTaskName: 'Parent1', projectId: 1},
+      project    : {projectId: 1, projectName  : 'Project1', priority : 10,
+                    startDate: moment(startDate.getDate()).add(-1, 'months').toDate(),
+                    endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+                    managerId: 1},
+      taskName   : 'TestTask2',
+      startDate  : moment(startDate.getDate()).add(-1, 'months').toDate(),
+      endDate    : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+      priority   : 5,    
+      user       : {userId: 1, firstName: 'UpdatedFirstName', lastName: 'LastName', employeeId: '12345', projectId: '1', taskId: ['1']},
+      hasFinished: false
+    };      
+    httpDelSpy.delete.and.returnValue(of({success:true}));
+    taskDelService.deleteATask(aTask.taskId).subscribe(
+      data => {expect(data['success']).toEqual(true)}
     )
   });
 

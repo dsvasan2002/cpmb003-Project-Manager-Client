@@ -36,6 +36,27 @@ describe('TaskSearchComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('check getAllParentTasks call', () => {
+
+    const parentsList: ParentTaskClass[] = [
+      {parentTaskId: 1, parentTaskName: 'ParentTaskName1', projectId: 1},
+      {parentTaskId: 2, parentTaskName: 'ParentTaskName2', projectId: 1}
+    ]
+    const spy = spyOn(ptaskService, 'getAllParentTasks').and.returnValue(of({success: true, data: parentsList}));
+    
+    component.getAllParentTasks();
+    expect(spy).toHaveBeenCalled();
+
+  });
+
+  it('check getAllParentTasks handles error', () => {
+    const spy = spyOn(ptaskService, 'getAllParentTasks').and.returnValue(of({success: false}));
+    
+    component.getAllParentTasks();
+    expect(component.errorBlock).toBe(false);
+
+  });
+
 
   it('call selectParentTask', () => {
     const aParentTask: ParentTaskClass = {parentTaskId: 1, parentTaskName: 'UpdatedParentTaskName1', projectId: 1};
@@ -46,6 +67,17 @@ describe('TaskSearchComponent', () => {
     expect(spyService).toHaveBeenCalledWith(aParentTask.parentTaskId);
     expect(component.aParentTask.parentTaskId).toBe(aParentTask.parentTaskId);
     expect(component.enableAddButton).toBe(true);
+  });
+
+  it('check selectParentTask handles error', () => {
+    const aParentTask: ParentTaskClass = {parentTaskId: 1, parentTaskName: 'UpdatedParentTaskName1', projectId: 1};
+    const spyService = spyOn(ptaskService, 'getAParentTask').and.returnValue(of({success: false}));
+    component.selectParentTask(aParentTask.parentTaskId);
+    fixture.detectChanges();
+
+    expect(spyService).toHaveBeenCalledWith(aParentTask.parentTaskId);
+    fixture.detectChanges();
+    expect(component.enableAddButton).toBe(false);
   });
 
 });

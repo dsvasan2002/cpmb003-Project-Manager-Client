@@ -17,7 +17,7 @@ export class TaskSearchComponent implements OnInit {
   parentTasksList: ParentTaskClass[];
   aParentTask: ParentTaskClass;
   private _searchParentTaskString: string;
-  errorBlock: boolean;
+  errorBlock: boolean = false;
   errorText: any;
   enableAddButton: boolean = false;
 
@@ -62,6 +62,9 @@ export class TaskSearchComponent implements OnInit {
         this.aParentTask.parentTaskId = aParentTaskId;
         this.aParentTask = res['data'];
         this.enableAddButton = true;
+      } else {
+        //Handle error
+        this.enableAddButton = false;
       }
     });
   }

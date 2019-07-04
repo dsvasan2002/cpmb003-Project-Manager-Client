@@ -35,6 +35,28 @@ describe('ProjectSearchComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('check getAllProjects call', () => {
+
+    var startDate = new Date();
+    var endDate = new Date();
+    const aProject: ProjectClass = {projectId: 1, projectName  : 'Project1', priority : 10, startDate: moment(startDate.getDate()).add(-1, 'months').toDate(), endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(), managerId: 1};
+    const spy = spyOn(projectService, 'getAllProjects').and.returnValue(of({success: true, data: aProject}));
+    
+    component.getAllProjects();
+    expect(spy).toHaveBeenCalled();
+
+  });
+
+
+  it('check getAllProjects call handles error', () => {
+
+    const spy = spyOn(projectService, 'getAllProjects').and.returnValue(of({success: false}));
+    
+    component.getAllProjects();
+    expect(component.errorBlock).toBe(false);
+
+  });
+
   it('call selectProject', () => {
 
     var startDate = new Date();
@@ -53,5 +75,21 @@ describe('ProjectSearchComponent', () => {
     expect(component.enableAddButton).toBe(true);
   });
 
+  it('call selectProject handles error', () => {
+
+    var startDate = new Date();
+    var endDate = new Date();
+    const aProject: ProjectClass = {projectId: 1, projectName  : 'Project1', priority : 10,
+                    startDate: moment(startDate.getDate()).add(-1, 'months').toDate(),
+                    endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+                    managerId: 1};
+
+    const spyService = spyOn(projectService, 'getAProject').and.returnValue(of({success: false}));
+    component.selectProject(aProject.projectId);
+    fixture.detectChanges();
+
+    expect(spyService).toHaveBeenCalledWith(aProject.projectId);
+    expect(component.enableAddButton).toBe(false);
+  });
 
 });

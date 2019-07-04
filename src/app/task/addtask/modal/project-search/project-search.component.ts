@@ -17,7 +17,7 @@ export class ProjectSearchComponent implements OnInit {
   projectsList: ProjectClass[];
   aProject: ProjectClass;
   _searchProjectString: string;
-  errorBlock: boolean;
+  errorBlock: boolean = false;
   errorText: any;
   enableAddButton: boolean = false;
 
@@ -59,6 +59,9 @@ export class ProjectSearchComponent implements OnInit {
       if (res['success']) {
         this.aProject = res['data'];
         this.enableAddButton = true;
+      }  else {
+        alert('Error in fetching the project.. please try again');
+        this.enableAddButton = false;
       }
     });
   }

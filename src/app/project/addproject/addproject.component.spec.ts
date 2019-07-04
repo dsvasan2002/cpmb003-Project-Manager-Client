@@ -40,6 +40,31 @@ describe('AddprojectComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('check getAllProjects call', () => {
+
+    var startDate = new Date();
+    var endDate = new Date();
+    const aProject: ProjectClass = {projectId: 1, projectName  : 'Project1', priority : 10, startDate: moment(startDate.getDate()).add(-1, 'months').toDate(), endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(), managerId: 1};
+    const spy = spyOn(projectService, 'getAllProjects').and.returnValue(of({success: true, data: aProject}));
+    
+    component.getAllProjects();
+    expect(spy).toHaveBeenCalled();
+
+  });
+
+  it('check getAllProjects call handles error', () => {
+
+    var startDate = new Date();
+    var endDate = new Date();
+    const aProject: ProjectClass = {projectId: 1, projectName  : 'Project1', priority : 10, startDate: moment(startDate.getDate()).add(-1, 'months').toDate(), endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(), managerId: 1};
+    const spy = spyOn(projectService, 'getAllProjects').and.returnValue(of({success: false}));
+    
+    component.getAllProjects();
+    fixture.detectChanges();
+    expect(component.errorBlock).toBe(false);
+
+  });
+
   it('call addNewProject when a new Project is added', () => {
     var startDate = new Date();
     var endDate = new Date();
