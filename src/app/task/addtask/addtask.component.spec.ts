@@ -56,13 +56,44 @@ describe('AddtaskComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('setTaskToUpdate should call getATask', ()=>{
+    var startDate = new Date();
+    var endDate = new Date();
+    const anUser: UserClass = {userId: 1, firstName: 'FirstName1', lastName: 'LastName1', employeeId: '111', projectId: '1', taskId: ['1']};
+    const aProject: ProjectClass = {projectId: 1, projectName  : 'Project1', priority : 10, startDate: moment(startDate.getDate()).add(-1, 'months').toDate(), endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(), managerId: 1};
+    const aParentTask: ParentTaskClass = {parentTaskId: 1, parentTaskName: 'Parent1', projectId: 1}
+    const aTask: TaskClass = {
+      taskId     : 2,
+      parentTask : {parentTaskId: 1, parentTaskName: 'Parent1', projectId: 1},
+      project    : {projectId: 1, projectName  : 'Project1', priority : 10,
+                    startDate: moment(startDate.getDate()).add(-1, 'months').toDate(),
+                    endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+                    managerId: 1},
+      taskName   : 'TestTask2',
+      startDate  : moment(startDate.getDate()).add(-1, 'months').toDate(),
+      endDate    : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+      priority   : 5,    
+      user       : {userId: 1, firstName: 'FirstName', lastName: 'LastName', employeeId: '12345', projectId: '1', taskId: ['1']},
+      hasFinished: false
+    };
+    const spyGetTask = spyOn(taskservice, 'getATask').and.returnValue(of({success: true, data: aTask}));
+    component._AddUpdateButton = 'Update';
+    component.isEditMode = true;
+    component.aTask = aTask;
+    component.aProject = aProject;
+    component.aParentTask = aParentTask;
+    component.setTaskToUpdate();
+    expect(spyGetTask).toHaveBeenCalled();
+
+  });
+
   it('call addNewTask when a new Task is added', () => {
     var startDate = new Date();
     var endDate = new Date();
     const anUser: UserClass = {userId: 1, firstName: 'FirstName1', lastName: 'LastName1', employeeId: '111', projectId: '1', taskId: ['1']};
     const aProject: ProjectClass = {projectId: 1, projectName  : 'Project1', priority : 10, startDate: moment(startDate.getDate()).add(-1, 'months').toDate(), endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(), managerId: 1};
     const spyAdd = spyOn(taskservice, 'addNewTask').and.returnValue(of({success: true}));
-
+    const aParentTask: ParentTaskClass = {parentTaskId: 1, parentTaskName: 'Parent1', projectId: 1}
     const aTask: TaskClass = {
       taskId     : 2,
       parentTask : {parentTaskId: 1, parentTaskName: 'Parent1', projectId: 1},
@@ -82,6 +113,7 @@ describe('AddtaskComponent', () => {
     component.isEditMode = false;
     component.aTask = aTask;
     component.aProject = aProject;
+    component.aParentTask = aParentTask;
     component.addOrUpdateTaskButton();
     expect(spyAdd).toHaveBeenCalled();
 
@@ -114,6 +146,12 @@ describe('AddtaskComponent', () => {
     fixture.detectChanges();
     expect(component.errorBlock).toBe(false);
 
+  });
+
+  it('initMainForm should set default values', () => {
+    component.initMainForm();
+    expect(component.isEditMode).toBe(false);
+    expect(component._AddUpdateButton).toBe("Add");
   });
 
 

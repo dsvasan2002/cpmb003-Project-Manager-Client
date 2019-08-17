@@ -126,6 +126,15 @@ describe('AdduserComponent', () => {
   });
 
 
+  it('deleteUser function should cal deleteUser service', () => {
+    const spy = spyOn(userService, 'deleteUser').and.returnValue(
+      of({success: true} )
+    );
+    
+    component.deleteUser(1);
+    expect(spy).toHaveBeenCalled();
+  });
+
   it ('retriveUserList component show user details', () => {
 
     let anUser = new UserClass();
@@ -156,7 +165,22 @@ describe('AdduserComponent', () => {
     component.resetUserAddUpdateForm();
     expect (component.isEditMode).toBe(false);
     expect (component._AddUpdateButton).toBe('Add');
-  })
+  });
+
+  it('call resetPage',() => {
+    
+    const usersList: UserClass[] = [
+      {userId: 1, firstName: 'FirstName1', lastName: 'LastName1', employeeId: '111', projectId: '1', taskId: ['1']},
+      {userId: 2, firstName: 'FirstName2', lastName: 'LastName2', employeeId: '222', projectId: '1', taskId: ['1']}
+    ]
+
+    component.anUser = usersList[0];
+    component.resetPage();
+    fixture.detectChanges();
+
+    expect (component.anUser.firstName).toBe(null);
+  });
+
 
   it('call initMainForm',() => {
     component.initMainForm();
@@ -164,11 +188,23 @@ describe('AdduserComponent', () => {
     expect (component._AddUpdateButton).toBe('Add');
   })
 
-  // it('call searchUserString',() => {
-  //   component._searchUserString = 'Test';
-  //   expect (component.searchUserString()).toBe('Test');
-    
-  // })
+  it ('filterUserByName should filter as expected', () => {
+    const anUserList: UserClass[] = 
+    [{userId: 1, firstName: 'FirstName1', lastName: 'LastName1', employeeId: '111', projectId: '1', taskId: ['1']},
+    {userId: 2, firstName: 'TestFilter', lastName: 'TestFilter', employeeId: '123', projectId: '1', taskId: ['1']}];
+ 
+    component.usersList = anUserList;
+    const anFileteredList: UserClass[] = component.filterUserByName("Test");
+    fixture.detectChanges();
+    expect(anFileteredList.length).toBe(1);
 
+    component.searchUserString = "Test";
+    expect(component._searchUserString).toBe("Test");
+
+    component.editUser(anUserList[0]);
+    expect(component.isEditMode).toBe(true);
+    expect(component._AddUpdateButton).toBe("Update");
+
+  });
 
 });

@@ -80,4 +80,16 @@ describe('TaskSearchComponent', () => {
     expect(component.enableAddButton).toBe(false);
   });
 
+  it('check filterParentTasksByName is called by setting searchstring and filters as expected', () => {
+    const aParentTaskList: ParentTaskClass[] = [
+      {parentTaskId: 1, parentTaskName: 'UpdatedParentTaskName1', projectId: 1},
+      {parentTaskId: 2, parentTaskName: 'TestFilter', projectId: 1}
+    ];
+    component.parentTasksList = aParentTaskList;
+    component.searchParentTaskString = "Test";
+    fixture.detectChanges();
+    expect(component.searchParentTaskString).toBe("Test");
+    expect(component.filteredParentTasksList.length).toBe(1);
+  });
+
 });

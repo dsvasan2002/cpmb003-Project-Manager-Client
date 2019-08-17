@@ -1,0 +1,8 @@
+version: '3'
+services:
+  app:
+    container_name: docker-angular-webapp
+    restart: always
+    build: .
+    ports:
+      - '4300:4201'

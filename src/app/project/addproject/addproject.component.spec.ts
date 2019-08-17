@@ -40,6 +40,12 @@ describe('AddprojectComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('initMainForm should set default values', () => {
+    component.initMainForm();
+    expect(component.isEditMode).toBe(false);
+    expect(component._AddUpdateButton).toBe("Add");
+  });
+
   it('check getAllProjects call', () => {
 
     var startDate = new Date();
@@ -152,6 +158,30 @@ describe('AddprojectComponent', () => {
     expect(component.mainFormGroup.controls["startDate"].value == startDate)
     expect(component.mainFormGroup.controls["endDate"].value == endDate)
     expect(component.setProjectDates).toEqual(true); 
+  });
+
+
+  
+  it('filterProjectsByName should be called by setting searchstring filter as exptected', () => {
+
+    var startDate = new Date();
+    var endDate = new Date();
+    const aProjectList: ProjectClass[] = [{projectId: 1, projectName  : 'Project1', priority : 10,
+                    startDate: moment(startDate.getDate()).add(-1, 'months').toDate(),
+                    endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+                    managerId: 1},
+                    {projectId: 2, projectName  : 'TestFilter', priority : 10,
+                    startDate: moment(startDate.getDate()).add(-1, 'months').toDate(),
+                    endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+                    managerId: 1}];
+
+
+    component.projectsList = aProjectList;
+    component.searchProjectString = "Test";
+
+    fixture.detectChanges();
+    expect(component.searchProjectString).toBe("Test");
+    expect(component.filteredProjectsList.length).toBe(1);
   });
 
 });

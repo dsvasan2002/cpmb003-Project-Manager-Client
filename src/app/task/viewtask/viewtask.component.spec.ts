@@ -17,6 +17,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import * as moment from 'moment';
 import { ProjectClass } from 'src/app/model/project.model';
+import { componentFactoryName } from '@angular/compiler';
 
 describe('ViewtaskComponent', () => {
   let component: ViewtaskComponent;
@@ -217,6 +218,51 @@ describe('ViewtaskComponent', () => {
     component.getTasksList();
     fixture.detectChanges();
     expect(component.errorBlock).toBe(false);
+  });
+
+
+  it('filterTaskByProjectId should be called when a Project is set and should filter tasks by project id', () => {
+    var startDate = new Date();
+    var endDate = new Date();
+
+    const tasksList: TaskClass[] = [{
+      taskId     : 1,
+      parentTask : {parentTaskId: 1, parentTaskName: 'Parent1', projectId: 1},
+      project    : {projectId: 1, projectName  : 'Project1', priority : 10,
+                    startDate: moment(startDate.getDate()).add(-1, 'months').toDate(),
+                    endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+                    managerId: 1},
+      taskName   : 'TaskName1',
+      startDate  : moment(startDate.getDate()).add(-1, 'months').toDate(),
+      endDate    : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+      priority   : 5,    
+      user       : {userId: 1, firstName: 'FirstName', lastName: 'LastName', employeeId: '12345', projectId: '1', taskId: ['1']},
+      hasFinished: false
+    },{
+      taskId     : 2,
+      parentTask : {parentTaskId: 1, parentTaskName: 'Parent1', projectId: 1},
+      project    : {projectId: 2, projectName  : 'TestFilterProject', priority : 10,
+                    startDate: moment(startDate.getDate()).add(-1, 'months').toDate(),
+                    endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+                    managerId: 1},
+      taskName   : 'TestFilter',
+      startDate  : moment(startDate.getDate()).add(-1, 'months').toDate(),
+      endDate    : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+      priority   : 5,    
+      user       : {userId: 1, firstName: 'FirstName', lastName: 'LastName', employeeId: '12345', projectId: '1', taskId: ['1']},
+      hasFinished: false
+    }];
+
+    
+    component.tasksList = tasksList;
+    component.aProject = tasksList[1].project;
+
+    component.selectedProject(tasksList[1].project);
+    fixture.detectChanges();
+    expect(component.aProject.projectName).toBe("TestFilterProject");
+    expect(component.filteredTasksList.length).toBe(1);
+   
+   
   });
 
 

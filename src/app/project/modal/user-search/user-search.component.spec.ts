@@ -33,6 +33,17 @@ describe('UserSearchComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it ('check ngOnInit calls getAllUsers', () => {
+    const anUser: UserClass = {userId: 1, firstName: 'FirstName1', lastName: 'LastName1', employeeId: '111', projectId: '1', taskId: ['1']};
+ 
+    const spy = spyOn(userService, 'getAllUsers').and.returnValue(of({sucess: true, data: anUser}));
+
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalled();
+  });
+
   
   it ('check getAllUsers call', () => {
     const anUser: UserClass = {userId: 1, firstName: 'FirstName1', lastName: 'LastName1', employeeId: '111', projectId: '1', taskId: ['1']};
@@ -78,11 +89,28 @@ describe('UserSearchComponent', () => {
     expect(component.errorBlock).toBe(false);
   });
 
-  // it ('searchUserString should set right value', () => {
-  //   const aString: string = 'AString';
-  //   component.searchUserString(aString);
-  //   fixture.detectChanges();
-  //   expect(component._searchUserString).toBe(aString);
-  // });
+  it ('filterUserByName should filter as expected', () => {
+    const anUserList: UserClass[] = 
+    [{userId: 1, firstName: 'FirstName1', lastName: 'LastName1', employeeId: '111', projectId: '1', taskId: ['1']},
+    {userId: 2, firstName: 'TestFilter', lastName: 'TestFilter', employeeId: '123', projectId: '1', taskId: ['1']}];
+ 
+    component.usersList = anUserList;
+    const anFileteredList: UserClass[] = component.filterUserByName("Test");
+    fixture.detectChanges();
+    expect(anFileteredList.length).toBe(1);
+  });
+
+
+  it ('filterUserByName should be called when search string is set ', () => {
+    const anUserList: UserClass[] = 
+    [{userId: 1, firstName: 'FirstName1', lastName: 'LastName1', employeeId: '111', projectId: '1', taskId: ['1']},
+    {userId: 2, firstName: 'TestFilter', lastName: 'TestFilter', employeeId: '123', projectId: '1', taskId: ['1']}];
+ 
+    component.usersList = anUserList;
+    component.searchUserString="Test"; 
+    fixture.detectChanges();
+    expect(component.filteredUserList.length).toBe(1);
+    expect(component.searchUserString).toBe("Test"); 
+  });
 
 });

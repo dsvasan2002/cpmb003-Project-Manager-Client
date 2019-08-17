@@ -47,12 +47,13 @@ export class UserSearchComponent implements OnInit {
     )
   }
 
-  public get searchUserString(): string {
-    return this._searchUserString;
-  }
   public set searchUserString(value: string) {
     this._searchUserString = value;
     this.filteredUserList = this.filterUserByName(this._searchUserString);
+  }
+
+  public get searchUserString(): string {
+    return this._searchUserString;
   }
 
   filterUserByName(searchString: string): UserClass[] {

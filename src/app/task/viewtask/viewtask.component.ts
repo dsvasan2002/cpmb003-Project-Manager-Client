@@ -92,22 +92,4 @@ export class ViewtaskComponent implements OnInit {
       task.project.projectId == projectId);
   }
   
-
-  //Sort Tasks List based on user choice
-  sortTasksList(sortStr: string) {
-    this.isDesc = !this.isDesc; //change the direction    
-    let direction = this.isDesc ? 1 : -1;
-
-    this.filteredTasksList = this.filteredTasksList.sort(function(a, b){
-      if (a[sortStr] < b[sortStr]){
-          return -1 * direction;
-      } else if( a[sortStr] > b[sortStr]){
-          return 1 * direction;
-      } else {
-          return 0;
-      }
-    });
-  }
-  
-
 }

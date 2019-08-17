@@ -148,22 +148,6 @@ export class AdduserComponent implements OnInit {
    
   }
 
-  //Sort user List based on user choice
-  sortUsersList(sortStr: string) {
-    this.isDesc = !this.isDesc; //change the direction    
-    let direction = this.isDesc ? 1 : -1;
-
-    this.filteredUserList = this.filteredUserList.sort(function(a, b){
-      if (a[sortStr] < b[sortStr]) {
-          return -1 * direction;
-      } else if( a[sortStr] > b[sortStr]) {
-          return 1 * direction;
-      } else {
-          return 0;
-      }
-    });
-  }
-
   resetPage() {
     this.anUser.firstName = null;
     this.anUser.lastName = null;
