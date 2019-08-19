@@ -73,12 +73,7 @@ export class ViewtaskComponent implements OnInit {
           this.errorText = response['message'];
           alert(this.errorText);
         }
-      }, (error: any) => {
-        this.errorBlock = true;
-        this.errorText = error['message'];
-        alert(this.errorText);
-      }
-    );
+      });
   }
 
   //Method called by event emitted from project search modal
@@ -91,5 +86,20 @@ export class ViewtaskComponent implements OnInit {
     return this.tasksList.filter(task=>
       task.project.projectId == projectId);
   }
-  
+
+  //Sort Tasks List based on user choice
+  sortTasksList(sortStr: string) {
+    this.isDesc = !this.isDesc; //change the direction    
+    let direction = this.isDesc ? 1 : -1;
+
+    this.filteredTasksList = this.filteredTasksList.sort(function(a, b){
+      if (a[sortStr] < b[sortStr]){
+          return -1 * direction;
+      } else if( a[sortStr] > b[sortStr]){
+          return 1 * direction;
+      } else {
+          return 0;
+      }
+    });
+  }
 }

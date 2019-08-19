@@ -39,12 +39,7 @@ export class UserSearchComponent implements OnInit {
         //Error: could not get all users
         this.errorBlock = false;
       }
-    }
-    // , (error: any) => {
-    //   this.errorBlock = true;
-    //   this.errorText = error['message'];
-    // }
-    )
+    })
   }
 
   public set searchUserString(value: string) {
@@ -63,7 +58,7 @@ export class UserSearchComponent implements OnInit {
 
   selectUser(anUserId:number) {
     this._userService.getAnUser(anUserId).subscribe((res: any)=>{
-      if (res['success']) {
+      if (res['success'] == true) {
         this.anUser = res['data'];
         this.enableAddButton = true;
       } else {

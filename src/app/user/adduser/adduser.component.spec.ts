@@ -33,9 +33,7 @@ describe('AdduserComponent', () => {
     component = fixture.componentInstance;
     userService = TestBed.get(UserService);
     fixture.detectChanges();
-  });
-
-  
+  });  
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -126,7 +124,7 @@ describe('AdduserComponent', () => {
   });
 
 
-  it('deleteUser function should cal deleteUser service', () => {
+  it('deleteUser function should call deleteUser service', () => {
     const spy = spyOn(userService, 'deleteUser').and.returnValue(
       of({success: true} )
     );
@@ -134,6 +132,15 @@ describe('AdduserComponent', () => {
     component.deleteUser(1);
     expect(spy).toHaveBeenCalled();
   });
+
+  it('deleteUser function should handle error', () => {
+    const spy = spyOn(userService, 'deleteUser').and.returnValue(
+      of({success: false} )
+    );
+    component.deleteUser(1);
+    expect(spy).toHaveBeenCalled();
+  });
+
 
   it ('retriveUserList component show user details', () => {
 

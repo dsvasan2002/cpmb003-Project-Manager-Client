@@ -18,6 +18,7 @@ describe('AddprojectComponent', () => {
   let component: AddprojectComponent;
   let fixture: ComponentFixture<AddprojectComponent>;
   let projectService: ProjectService;
+  let userService: UserService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -32,6 +33,7 @@ describe('AddprojectComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AddprojectComponent);
     projectService = TestBed.get(ProjectService);
+    userService = TestBed.get(UserService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -174,8 +176,7 @@ describe('AddprojectComponent', () => {
                     startDate: moment(startDate.getDate()).add(-1, 'months').toDate(),
                     endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
                     managerId: 1}];
-
-
+                    
     component.projectsList = aProjectList;
     component.searchProjectString = "Test";
 
@@ -183,5 +184,49 @@ describe('AddprojectComponent', () => {
     expect(component.searchProjectString).toBe("Test");
     expect(component.filteredProjectsList.length).toBe(1);
   });
+
+  it('handleEditButton should set the project details in screen', () => {
+
+    var startDate = new Date();
+    var endDate = new Date();
+    const aProjectList: ProjectClass[] = [{projectId: 1, projectName  : 'Project1', priority : 10,
+                    startDate: moment(startDate.getDate()).add(-1, 'months').toDate(),
+                    endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+                    managerId: 1},
+                    {projectId: 2, projectName  : 'TestFilter', priority : 10,
+                    startDate: moment(startDate.getDate()).add(-1, 'months').toDate(),
+                    endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+                    managerId: 1}];
+    const anUserList: UserClass[] = 
+              [{userId: 1, firstName: 'FirstName1', lastName: 'LastName1', employeeId: '111', projectId: '1', taskId: ['1']},
+               {userId: 2, firstName: 'TestFilter', lastName: 'TestFilter', employeeId: '123', projectId: '1', taskId: ['1']}];
+    const spy = spyOn(userService, 'getAnUser').and.returnValue(of({success: true, date: anUserList[0]}));
+
+    component.handleEditButton(aProjectList[0]);
+    fixture.detectChanges();
+    expect(component.isEditMode).toBe(true);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('sortProjectsList should sort as expected', () => {
+
+    var startDate = new Date();
+    var endDate = new Date();
+    const aProjectList: ProjectClass[] = [{projectId: 1, projectName  : 'TestFilter', priority : 10,
+                    startDate: moment(startDate.getDate()).add(-1, 'months').toDate(),
+                    endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+                    managerId: 1},
+                    {projectId: 2, projectName  : 'Project1', priority : 1,
+                    startDate: moment(startDate.getDate()).add(-1, 'months').toDate(),
+                    endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+                    managerId: 1}];
+                    
+    component.filteredProjectsList = aProjectList;
+    component.sortProjectsList('priority');
+
+    fixture.detectChanges();
+    expect(component.filteredProjectsList[0].projectName).toBe("Project1");
+  });
+
 
 });

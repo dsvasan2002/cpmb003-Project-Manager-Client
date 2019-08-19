@@ -8,6 +8,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from 'src/app/service/user.service';
 import { UserClass } from 'src/app/model/user.model';
 import { of } from 'rxjs';
+// import {Child} from 
 
 describe('UserSearchComponent', () => {
   let component: UserSearchComponent;
@@ -53,6 +54,7 @@ describe('UserSearchComponent', () => {
     component.getAllUsers();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalled();
+    
   });
 
 
@@ -75,6 +77,7 @@ describe('UserSearchComponent', () => {
     component.selectUser(anUser.userId);
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledWith(anUser.userId);
+    expect(component.anUser.userId).toEqual(anUser.userId);
   });
 
   it ('selectUser should hanlde error', () => {
@@ -111,6 +114,18 @@ describe('UserSearchComponent', () => {
     fixture.detectChanges();
     expect(component.filteredUserList.length).toBe(1);
     expect(component.searchUserString).toBe("Test"); 
+  });
+
+  it ('Should emit the selected user ', () => {
+    const anUserList: UserClass[] = 
+    [{userId: 1, firstName: 'FirstName1', lastName: 'LastName1', employeeId: '111', projectId: '1', taskId: ['1']},
+    {userId: 2, firstName: 'TestFilter', lastName: 'TestFilter', employeeId: '123', projectId: '1', taskId: ['1']}];
+ 
+    component.usersList = anUserList;
+    component.anUser = anUserList[0];
+    component.selectedUser.subscribe(x=>{
+      expect(x).toEqual(component.anUser)
+    });
   });
 
 });

@@ -18,6 +18,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import * as moment from 'moment';
 import { ProjectClass } from 'src/app/model/project.model';
 import { componentFactoryName } from '@angular/compiler';
+import { CommonModule } from '@angular/common';
 
 describe('ViewtaskComponent', () => {
   let component: ViewtaskComponent;
@@ -43,6 +44,11 @@ describe('ViewtaskComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('constructor should instantiate aProject ', () => {
+    TestBed.createComponent(ViewtaskComponent);
+    expect(component.aProject.priority).toBe(0);
   });
 
   it ('call finishTask with task', fakeAsync(() => {
@@ -171,8 +177,6 @@ describe('ViewtaskComponent', () => {
   });
 
 
-  
-
   it('check getTasksList call', () => {
     var startDate = new Date();
     var endDate = new Date();
@@ -256,14 +260,55 @@ describe('ViewtaskComponent', () => {
     
     component.tasksList = tasksList;
     component.aProject = tasksList[1].project;
-
     component.selectedProject(tasksList[1].project);
     fixture.detectChanges();
     expect(component.aProject.projectName).toBe("TestFilterProject");
-    expect(component.filteredTasksList.length).toBe(1);
-   
+    expect(component.filteredTasksList.length).toBe(1); 
    
   });
 
+  it ('sortTasksList shold sort tasks as expectedk', () => {
+      var startDate = new Date();
+      var endDate = new Date();
+  
+      const tasksList: TaskClass[] = [{
+        taskId     : 1,
+        parentTask : {parentTaskId: 1, parentTaskName: 'Parent1', projectId: 1},
+        project    : {projectId: 1, projectName  : 'Project1', priority : 10,
+                      startDate: moment(startDate.getDate()).add(-1, 'months').toDate(),
+                      endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+                      managerId: 1},
+        taskName   : 'BTaskName1',
+        startDate  : moment(startDate.getDate()).add(-1, 'months').toDate(),
+        endDate    : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+        priority   : 5,    
+        user       : {userId: 1, firstName: 'FirstName', lastName: 'LastName', employeeId: '12345', projectId: '1', taskId: ['1']},
+        hasFinished: false
+      },{
+        taskId     : 2,
+        parentTask : {parentTaskId: 1, parentTaskName: 'Parent1', projectId: 1},
+        project    : {projectId: 2, projectName  : 'TestFilterProject', priority : 10,
+                      startDate: moment(startDate.getDate()).add(-1, 'months').toDate(),
+                      endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+                      managerId: 1},
+        taskName   : 'ATaskName1',
+        startDate  : moment(startDate.getDate()).add(-1, 'months').toDate(),
+        endDate    : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
+        priority   : 5,    
+        user       : {userId: 1, firstName: 'FirstName', lastName: 'LastName', employeeId: '12345', projectId: '1', taskId: ['1']},
+        hasFinished: false
+      }];
+  
+      
+      component.filteredTasksList = tasksList;
+      component.sortTasksList('taskName');
+      fixture.detectChanges();
+      expect(component.filteredTasksList[0].taskName).toBe('ATaskName1'); 
 
+      component.isDesc = true;
+      component.sortTasksList('taskName');
+      fixture.detectChanges();
+      expect(component.filteredTasksList[0].taskName).toBe('BTaskName1'); 
+     });
+  
 });
