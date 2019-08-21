@@ -39,7 +39,7 @@
           <label for="employeeId">Employee ID:</label>
         </div>
         <div class="col col-md-5 float-right">
-          <input type="text"  required pattern=".*\S+.*" class="form-control" name="employeeId" formControlName="employeeId">
+          <input type="text" required pattern=".*\S+.*" class="form-control" name="employeeId" formControlName="employeeId">
           <div *ngIf= "mainFormGroup.controls['employeeId'].invalid && (mainFormGroup.controls['employeeId'].dirty)" class="alert alert-danger">
             <div *ngIf = "mainFormGroup.controls['employeeId'].errors.required"> 
                 A valid Employee ID is required
