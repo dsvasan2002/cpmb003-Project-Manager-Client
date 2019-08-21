@@ -109,6 +109,7 @@ export class AddprojectComponent implements OnInit {
 
   handleEditButton(aProject: ProjectClass) {
     this.isEditMode = true;
+    this.aProject = aProject;
     this.mainFormGroup.reset();
     this._AddUpdateButton = "Update";
     this.mainFormGroup.controls["projectName"].setValue(aProject.projectName);
@@ -145,7 +146,7 @@ export class AddprojectComponent implements OnInit {
     this._projectService.addNewProject(aProject).subscribe((res: any) => {
 
       if (res['success']) {
-        alert('Add user Successfull');
+        alert('Add Project Successfull');
         this.getAllProjects();
         this.resetMainFormGroup();
       } else {
@@ -164,7 +165,7 @@ export class AddprojectComponent implements OnInit {
         this.initMainForm();
         this.getAllProjects();
       } else {
-        alert('Update user failed' + response['message']);
+        alert('Update Project failed. ' + response['message']);
       }
     }, error => {
       this.errorBlock = true;
@@ -210,14 +211,13 @@ export class AddprojectComponent implements OnInit {
     this.isEditMode = false;
   }
 
-
-
   //Method called by event emitted from user search modal
   selectedProjectManager(anUser: UserClass) {
+
     this.projectManager = anUser;
     this.mainFormGroup.get('projectManager').setValue(`${this.projectManager.firstName} ${this.projectManager.lastName}`);
+    this.mainFormGroup.markAsTouched();
   }
-
 
   dateValidation() {
     this.mainFormGroup.get('setProjectDates').valueChanges.subscribe(
@@ -233,11 +233,11 @@ export class AddprojectComponent implements OnInit {
           if (tomo.getMonth() == 0) {
             tomo.setFullYear(today.getFullYear() + 1);
           }
-          var startDate = <NgbDateStruct>{ year: today.getFullYear(), month: today.getMonth() + 1, day: today.getDate() };
+          var startDate = <NgbDateStruct>{ year: today.getFullYear(), month: today.getMonth()+1, day: today.getDate() };
           this.mainFormGroup.get('startDate').setValidators([Validators.required]);
           this.mainFormGroup.get('startDate').setValue(startDate);
           this.mainFormGroup.get('startDate').enable({ emitEvent: true });
-          var endDate = <NgbDateStruct>{ year: tomo.getFullYear(), month: tomo.getMonth(), day: tomo.getDate() };
+          var endDate = <NgbDateStruct>{ year: tomo.getFullYear(), month: tomo.getMonth()+1, day: tomo.getDate() };
           this.mainFormGroup.get('endDate').setValidators([Validators.required]);
           this.mainFormGroup.get('endDate').setValue(endDate);
           this.mainFormGroup.get('endDate').enable({ emitEvent: true });

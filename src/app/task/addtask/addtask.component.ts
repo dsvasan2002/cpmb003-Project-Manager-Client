@@ -123,7 +123,7 @@ export class AddtaskComponent implements OnInit {
     this.aTask.endDate = moment(this.mainFormGroup.controls['endDate'].value).add(-1, 'months').toDate();
     this.aTask.priority = this.mainFormGroup.controls['priority'].value;
 
-    if (this.aParentTask) {
+    if (this.aParentTask.parentTaskId) {
       this.aTask.parentTask = this.aParentTask;
     }
     if (this.aProject) {
@@ -160,7 +160,7 @@ export class AddtaskComponent implements OnInit {
           alert('Task added successfully');
           this.errorBlock = false;
         } else {
-          alert('Error in adding Task' + " " + response['message']);
+          alert('Error in adding Task.' + " " + response['message']);
         }
 
       }, error => {

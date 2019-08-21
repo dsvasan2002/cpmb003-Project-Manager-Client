@@ -1,13 +1,15 @@
+<app-user-search (selectedUser)="selectedProjectManager($event)"></app-user-search>
 <!-- Add project fields -->
 <div class=" container col-md-6">
-  <div class=" container col-md-14">
+  <div class=" container col-md-16">
     <form [formGroup]="mainFormGroup" (ngSubmit)="addOrUpdateProjectButton()">
-      <div class="form-group row col-md-14">
-        <div class="col col-md-1">
+      <div class="form-group row col-md-16">
+        <div class="col col-md-3">
           <label for="projectName"> <b>Project:</b> </label>
         </div>
-        <div class="col col-md-10 float-right" style="align-self: center">
-          <input type="text" class="form-control" name="projectName" formControlName="projectName">
+        <!-- <div class="col col-md-10 float-right" style="align-self: center"> -->
+        <div class="col col-md-9 float-right">
+            <input type="text" required pattern=".*\S+.*" class="form-control" name="projectName" formControlName="projectName">
           <div *ngIf="mainFormGroup.controls['projectName'].invalid && (mainFormGroup.controls['projectName'].dirty)"
             class="alert alert-danger ">
             <div *ngIf="mainFormGroup.controls['projectName'].errors.required">
@@ -17,11 +19,11 @@
         </div>
       </div>
 
-      <div class="form-group row col-md-14">
-        <div class="col col-md-1"></div>
+      <div class="form-group row col-md-16">
+        <div class="col col-md-3"></div>
         <div class="col col-md-13">
           <div class="row">
-            <div class="col col-md-3">
+            <div class="col col-md-4">
               <input type="checkbox" value="setProjectDates" formControlName='setProjectDates' name='setProjectDates'>
               <small> Set Start and End Date</small>
             </div>
@@ -39,11 +41,11 @@
       </div>
 
 
-      <div class="form-group row col-md-14">
-        <div class="col col-md-1">
+      <div class="form-group row col-md-16">
+        <div class="col col-md-3">
           <label for="priority"> <b>Priority:</b> </label>
         </div>
-        <div class="col col-md-13">
+        <div class="col col-md-9">
           <span>
             <i>0 </i> <input type="range" id="priority" name="priority" formControlName="priority" min="0" max="30"
               step="1" style="width: 60%"><i> 30</i>
@@ -51,8 +53,8 @@
         </div>
       </div>
 
-      <div class="form-group row col-md-14">
-        <div class="col col-md-2">
+      <div class="form-group row col-md-16">
+        <div class="col col-md-3">
           <label for="projectManager"> <b>Manager:</b> </label>
         </div>
         <div class="col col-md-7 float-left">
@@ -68,7 +70,7 @@
       <div class="form-group row  float-right">
         <button style="width :100px; height:30px" type="submit"
           [disabled]="mainFormGroup.pristine || mainFormGroup.invalid">{{ _AddUpdateButton }}</button> &nbsp;
-        <button style="width :100px; height:30px" type="submit"
+        <button style="width :100px; height:30px" type="reset"
           [disabled]="mainFormGroup.pristine || mainFormGroup.invalid" (click)="resetProjectForm()">Reset</button>
       </div>
     </form>
@@ -174,4 +176,4 @@
   </div>
 
 </div>
-<app-user-search (selectedUser)="selectedProjectManager($event)"></app-user-search>
+<!-- <app-user-search (selectedUser)="selectedProjectManager($event)"></app-user-search> -->
