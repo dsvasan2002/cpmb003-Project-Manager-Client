@@ -11,9 +11,9 @@
             <label for="firstName">First Name:</label>
         </div>
         <div class="col col-md-9 float-right">
-          <input type="text" class="form-control" name="firstName" formControlName="firstName">
+          <input type="text" required pattern=".*\S+.*" class="form-control" name="firstName" formControlName="firstName">
           <div *ngIf= "mainFormGroup.controls['firstName'].invalid && (mainFormGroup.controls['firstName'].dirty)" class="alert alert-danger ">
-            <div *ngIf = "mainFormGroup.controls['firstName'].errors.required"> 
+            <div *ngIf = "mainFormGroup.controls['firstName'].errors.required || mainFormGroup.controls['firstName'].errors.pattern"> 
                A valid First Name is required
             </div>
           </div>
@@ -25,7 +25,7 @@
           <label for="lastName">Last Name:</label>
         </div>
         <div class="col col-md-9 float-right">
-          <input type="text" class="form-control"  name="lastName" formControlName="lastName">
+          <input type="text"  required pattern=".*\S+.*" class="form-control"  name="lastName" formControlName="lastName">
           <div *ngIf= "mainFormGroup.controls['lastName'].invalid && (mainFormGroup.controls['lastName'].dirty)" class="alert alert-danger">
              <div *ngIf = "mainFormGroup.controls['lastName'].errors.required"> 
                 A valid Last Name is required
@@ -39,7 +39,7 @@
           <label for="employeeId">Employee ID:</label>
         </div>
         <div class="col col-md-5 float-right">
-          <input type="text" class="form-control" name="employeeId" formControlName="employeeId">
+          <input type="text"  required pattern=".*\S+.*" class="form-control" name="employeeId" formControlName="employeeId">
           <div *ngIf= "mainFormGroup.controls['employeeId'].invalid && (mainFormGroup.controls['employeeId'].dirty)" class="alert alert-danger">
             <div *ngIf = "mainFormGroup.controls['employeeId'].errors.required"> 
                 A valid Employee ID is required
@@ -49,9 +49,9 @@
       </div>    
    
       <div class="form-group row col-md-8 float-right">
-        <button class="col col-md-16" type="submit" #AddOrUpdate [disabled]="mainFormGroup.pristine || mainFormGroup.invalid"> {{ _AddUpdateButton }} </button> &nbsp;
-        <!-- <button class="col col-md-16" *ngIf="this.isEditMode" type="submit" #AddOrUpdate [disabled]="mainFormGroup.pristine || UserAddUpdForm.invalid"> Update </button> &nbsp; -->
-        <button class="col col-md-16" type="submit" #reset [disabled]="mainFormGroup.pristine || mainFormGroup.invalid" (click)="resetUserAddUpdateForm()">Reset</button>
+        <!-- <button class="col col-md-16" type="submit" #AddOrUpdate [disabled]="mainFormGroup.pristine || mainFormGroup.invalid"> {{ _AddUpdateButton }} </button> &nbsp; -->
+        <button class="col col-md-16" type="submit" #AddOrUpdate [disabled]="mainFormGroup.pristine || mainFormGroup.invalid || !mainFormGroup.valid"> {{ _AddUpdateButton }} </button> &nbsp;
+        <button class="col col-md-16" type="reset" #reset [disabled]="mainFormGroup.pristine || mainFormGroup.invalid" (click)="resetUserAddUpdateForm()">Reset</button>
       </div>
     </form> 
   </div>
@@ -59,35 +59,6 @@
   <br>
   <hr> 
 
-<!-- <div class="panel-body container col-md-6">
-
-  <div class="form-inline" [class.has-error]="firstNameControl.invalid && firstNameControl.touched" [class.has-success]="firstNameControl.valid">
-    <label for="firstName" class="control-label" >First Name: </label>
-    <input id="firstName" required type="text" class="form-control col col-md-9 float-right" name="firstName" [(ngModel)]="anUser.firstName" #firstNameControl="ngModel">
-    <span class="help-block" *ngIf="firstNameControl.invalid && firstNameControl.touched">
-         First Name is required
-    </span>
-  </div>
-
-  <div class="form-inline" [class.has-error]="lastNameControl.invalid && lastNameControl.touched" [class.has-success]="lastNameControl.valid">
-    <label for="lastName" class="control-label" >Last Name: </label>
-    <input id="lastName" required type="text" class="form-control col col-md-9 float-right" name="lastName" [(ngModel)]="anUser.lastName" #lastNameControl="ngModel">
-      <span class="help-block" *ngIf="lastNameControl.invalid && lastNameControl.touched">
-         Last Name is required
-      </span>
-  </div>
-
-  <div class="form-inline" [class.has-error]="employeeIdControl.invalid && employeeIdControl.touched" [class.has-success]="employeeIdControl.valid">
-    <label for="employeeId" class="control-label" >Employee ID: </label>
-    <input id="employeeId" required type="text" class="form-control col col-md-9 float-right" name="employeeId" [(ngModel)]="anUser.employeeId" #employeeIdControl="ngModel">
-      <span class="help-block" *ngIf="employeeIdControl.invalid && employeeIdControl.touched">
-         Employee ID is required
-      </span>
-  </div>
-  <button class="btn btn-primary" (click)="resetPage()"> Reset </button>
-  <button *ngIf="!isEditMode" class="btn btn-primary" (click)="addNewUser(anUser)"> Add </button>
-  <button *ngIf="isEditMode" class="btn btn-primary" (click)="updateUser(anUser)"> Update </button>
-</div> -->
 
 <br><hr>
 <!-- Sort fields -->

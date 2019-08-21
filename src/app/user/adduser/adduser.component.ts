@@ -77,6 +77,7 @@ export class AdduserComponent implements OnInit {
 
   // Load User Form based on Users choice
   addOrUpdateUser() {
+
     this.anUser.firstName = this.mainFormGroup.controls['firstName'].value;
     this.anUser.lastName = this.mainFormGroup.controls['lastName'].value;
     this.anUser.employeeId = this.mainFormGroup.controls['employeeId'].value;
@@ -89,6 +90,7 @@ export class AdduserComponent implements OnInit {
   }
 
   addNewUser(anUser: UserClass) {
+
     this._userService.addNewUser(anUser).subscribe((res: any)=>{
 
       if (res['success']) {
@@ -152,6 +154,7 @@ export class AdduserComponent implements OnInit {
     this.anUser.firstName = null;
     this.anUser.lastName = null;
     this.anUser.employeeId = null;
+    this.isEditMode = false;
   }
 
   resetUserAddUpdateForm() {
