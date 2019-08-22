@@ -71,7 +71,7 @@
         <button style="width :100px; height:30px" type="submit"
           [disabled]="mainFormGroup.pristine || mainFormGroup.invalid">{{ _AddUpdateButton }}</button> &nbsp;
         <button style="width :100px; height:30px" type="reset"
-          [disabled]="mainFormGroup.pristine || mainFormGroup.invalid" (click)="resetProjectForm()">Reset</button>
+          [disabled]="mainFormGroup.pristine || mainFormGroup.invalid" (click)="resetMainFormGroup()">Reset</button>
       </div>
     </form>
   </div>

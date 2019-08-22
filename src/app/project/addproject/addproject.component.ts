@@ -33,7 +33,7 @@ export class AddprojectComponent implements OnInit {
     this.initMainForm();
     this.projectManager = new UserClass();
     this.aProject = new ProjectClass();
-
+    this.isEditMode = false;
   }
 
   ngOnInit() {
@@ -87,7 +87,7 @@ export class AddprojectComponent implements OnInit {
   addOrUpdateProjectButton() {
     this.aProject.projectName = this.mainFormGroup.controls['projectName'].value;
     this.aProject.priority = this.mainFormGroup.controls['priority'].value;
-    if (this.setProjectDates) {
+    if ( this.mainFormGroup.controls["setProjectDates"].value) {
       this.aProject.startDate = moment(this.mainFormGroup.controls['startDate'].value).add(-1, 'months').toDate();
       this.aProject.endDate = moment(this.mainFormGroup.controls['endDate'].value).add(-1, 'months').toDate();
     }
@@ -96,7 +96,7 @@ export class AddprojectComponent implements OnInit {
     }
 
     if (this.isEditMode) {
-      this.aProject.projectId = this.mainFormGroup.controls['projectId'].value;
+      // this.aProject.projectId = this.mainFormGroup.controls['projectId'].value;
       this.updateProject(this.aProject);
     } else {
       this.addNewProject(this.aProject);

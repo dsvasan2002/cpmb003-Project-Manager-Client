@@ -83,6 +83,7 @@ export class ViewtaskComponent implements OnInit {
   }
 
   filterTaskByProjectId(projectId: number): TaskClass[] {
+    console.log("in filterTaskByProjectId: projectId="+projectId);
     return this.tasksList.filter(task=>
       task.project.projectId == projectId);
   }

@@ -49,9 +49,8 @@
       </div>    
    
       <div class="form-group row col-md-8 float-right">
-        <!-- <button class="col col-md-16" type="submit" #AddOrUpdate [disabled]="mainFormGroup.pristine || mainFormGroup.invalid"> {{ _AddUpdateButton }} </button> &nbsp; -->
         <button class="col col-md-16" type="submit" #AddOrUpdate [disabled]="mainFormGroup.pristine || mainFormGroup.invalid || !mainFormGroup.valid"> {{ _AddUpdateButton }} </button> &nbsp;
-        <button class="col col-md-16" type="reset" #reset [disabled]="mainFormGroup.pristine || mainFormGroup.invalid" (click)="resetUserAddUpdateForm()">Reset</button>
+        <button class="col col-md-16" type="reset" #reset [disabled]="mainFormGroup.pristine" (click)="resetUserAddUpdateForm()">Reset</button>
       </div>
     </form> 
   </div>

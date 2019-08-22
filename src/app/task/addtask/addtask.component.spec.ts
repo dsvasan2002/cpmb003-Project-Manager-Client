@@ -175,6 +175,7 @@ describe('AddtaskComponent', () => {
       hasFinished: false
     };
 
+    
     component._AddUpdateButton = 'Update';
     component.isEditMode = true;
     component.addOrUpdateTaskButton();

@@ -57,11 +57,9 @@ export class UserSearchComponent implements OnInit {
   }
 
   selectUser(anUserId:number) {
-    console.log("selected User id:" + anUserId);
     this._userService.getAnUser(anUserId).subscribe((res: any)=>{
       if (res['success'] == true) {
         this.anUser = res['data'];
-        console.log("selected User:" + this.anUser);
         this.enableAddButton = true;
       } else {
         alert('error fetching user info. Please try again');
@@ -71,15 +69,9 @@ export class UserSearchComponent implements OnInit {
   }
 
   addUser() {
-    console.log("Emitting: " + this.anUser);
     this.selectedUser.emit(this.anUser);
     $('#userSearchModal').modal('toggle');
 
-    // $('#userSearchModal').on('hidden.bs.modal', function () {
-    //   $(this).removeData('bs.modal');
-    //   $(this).empty();
-    //   $(this).removeAttr('style');
-    // })
   }
 
 }

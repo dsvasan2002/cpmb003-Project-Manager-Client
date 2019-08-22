@@ -30,7 +30,7 @@ export class ProjectService {
   }
 
   updateProject(aProject: ProjectClass) {
-    return this._http.put(`${this.SERVICE_URL}` + '/' + aProject.projectId, aProject);
+    return this._http.post(`${this.SERVICE_URL}` + '/update', aProject);
   }
 
   deleteProject(aProjectId: number) {

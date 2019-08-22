@@ -106,8 +106,8 @@ describe('ProjectService', () => {
                     endDate  : moment(endDate.getDate() + 30).add(-1, 'months').toDate(),
                     managerId: 1};
       
-    httpPutSpy.put.and.returnValue(of(anproject));
-    projectPutService.updateProject(anproject).subscribe(
+    httpPostSpy.post.and.returnValue(of(anproject));
+    projectPostService.updateProject(anproject).subscribe(
       data => {expect(anproject.projectName).toEqual('UpdatedProject1')}
     )
   });
