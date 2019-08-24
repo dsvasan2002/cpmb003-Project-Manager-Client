@@ -47,9 +47,9 @@
         </div>
         <div class="col col-md-8">
           <span>
-            <i>0</i><input type="range" id="priority" name="priority" formControlName="priority" min="0" max="30" step="1"
-              style="width: 90%">
-              <i>30</i>
+            <i>0</i><input type="range" id="priority" name="priority" formControlName="priority" min="0" max="30"
+              step="1" style="width: 90%">
+            <i>30</i>
           </span>
         </div>
       </div>
@@ -69,14 +69,11 @@
       </div>
 
       <div class="form-group row col-md-10 ">
-        <div class="col-md-6"></div>
-        <div class="col-md-4">
-          <button style="width :100px; height:30px" type="submit"
-            [disabled]="mainFormGroup.pristine || mainFormGroup.invalid">{{ _AddUpdateButton }}</button> &nbsp;
-          <button style="width :100px; height:30px" type="reset"
-            [disabled]="mainFormGroup.pristine || mainFormGroup.invalid" (click)="resetMainFormGroup()">Reset</button>
-
-        </div>
+        <div class="col-md-3"></div>
+        <button class="col col-md-2" style="width :100px; height:30px" type="submit"
+          [disabled]="mainFormGroup.pristine || mainFormGroup.invalid">{{ _AddUpdateButton }}</button> &nbsp;
+        <button class="col col-md-2" style="width :100px; height:30px" type="reset"
+          [disabled]="mainFormGroup.pristine || mainFormGroup.invalid" (click)="resetMainFormGroup()">Reset</button>
       </div>
     </form>
   </div>

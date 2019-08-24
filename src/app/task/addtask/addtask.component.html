@@ -68,7 +68,7 @@
       <!-- Parent task selection field -->
       <div class="form-group row col-md-10">
         <div class="col col-md-2">
-          <label for="parentTaskName" style="font-size: larger"><b>Task:</b> </label>
+          <label for="parentTaskName" style="font-size: larger"><b>Parent Task:</b> </label>
         </div>
         <div class="col col-md-6 float-right">
           <input type="text" class="form-control" formControlName='parentTaskName' id="parentTaskName"
@@ -135,6 +135,7 @@
           <div class="col-md-3"></div>
         <button class="col col-md-2" type="submit" #AddOrUpdate
           [disabled]="mainFormGroup.pristine || mainFormGroup.invalid"> {{ _AddUpdateButton }} </button> 
+          &nbsp;
           <button class="col col-md-2" type="reset" #reset [disabled]="mainFormGroup.pristine"
           (click)="mainFormGroup.reset">Reset</button>
       </div>
