@@ -47,12 +47,10 @@ export class ViewtaskComponent implements OnInit {
           this.tasksList = res['data'];
           this.filteredTasksList = res['data'];
         } else {
-           //Log the info to the log handler
-           this.errorBlock = false;
-        }
+           alert('Failed to get tasks list' + res['message']);
+          }
       }, (error: any) => {
-        this.errorBlock = true;
-        this.errorText = error['message'];
+        alert('Failed to get tasks list' + error['message']);
       }
     )
   } 
@@ -69,10 +67,12 @@ export class ViewtaskComponent implements OnInit {
         if (response['success']) {
           alert('Updated the task as complete');
         } else {
+          alert('Failed to mark task as finished' + response['message']);
           this.errorBlock = true;
-          this.errorText = response['message'];
-          alert(this.errorText);
         }
+      }, (error: any) => {
+        alert('Failed to mark task as finished' + error['message']);
+        this.errorBlock = true;
       });
   }
 
@@ -83,7 +83,6 @@ export class ViewtaskComponent implements OnInit {
   }
 
   filterTaskByProjectId(projectId: number): TaskClass[] {
-    console.log("in filterTaskByProjectId: projectId="+projectId);
     return this.tasksList.filter(task=>
       task.project.projectId == projectId);
   }

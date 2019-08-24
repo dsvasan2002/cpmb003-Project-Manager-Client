@@ -61,7 +61,6 @@ export class AddtaskComponent implements OnInit {
   setTaskToUpdate() {
     this._taskService.getATask(this.aTaskId).subscribe((response: any) => {
       if (response['success']) {
-        console.log("response: " + response['data']);
         this.aTask = response['data'];
         this.initMainForm();
         this.isEditMode = true;
@@ -89,12 +88,11 @@ export class AddtaskComponent implements OnInit {
         }
 
       } else {
-        //Handle error here
+        alert('Error in adding Task ' + response['message']);
       }
     }, error => {
       this.errorBlock = true;
-      this.errorText = error['message'];
-      alert('Error in adding Task ' + this.errorText);
+      alert('Error in adding Task ' + error['message']);
     });
   }
 
@@ -143,7 +141,7 @@ export class AddtaskComponent implements OnInit {
         if (res['success']) {
           alert('Parent Task Added');
         } else {
-          alert('Error in adding Parent Task');
+          alert('Error in adding Parent Task. ' + res['message']);
         }
       });
 
@@ -165,13 +163,14 @@ export class AddtaskComponent implements OnInit {
         alert('Task added successfully');
         this.errorBlock = false;
       } else {
+        this.errorBlock = true;
         alert('Error in adding Task.' + " " + response['message']);
       }
 
     }, error => {
       this.errorBlock = true;
-      this.errorText = error['message'];
-      alert('Error in adding Task ' + this.errorText);
+      // this.errorText = error['message'];
+      alert('Error in adding Task ' +  error['message']);
     });
   }
 
@@ -182,13 +181,13 @@ export class AddtaskComponent implements OnInit {
         this.errorBlock = false;
       } else {
         this.errorBlock = true;
-        this.errorText = response['message'];
-        alert('Error in updating Task. ' + this.errorText);
+        // this.errorText = response['message'];
+        alert('Error in updating Task. ' +  response['message']);
       }
     }, error => {
       this.errorBlock = true;
-      this.errorText = error['message'];
-      alert('Error in updating Task ' + this.errorText);
+      // this.errorText = error['message'];
+      alert('Error in updating Task ' + error['message']);
     });
   }
 

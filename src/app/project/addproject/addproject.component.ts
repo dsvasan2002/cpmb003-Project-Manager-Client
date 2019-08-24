@@ -154,7 +154,7 @@ export class AddprojectComponent implements OnInit {
       }
     }, error => {
       this.errorBlock = true;
-      this.errorText = error['message'];
+      alert('Add Project failed' + error['message']);
     });
   }
 
@@ -169,7 +169,7 @@ export class AddprojectComponent implements OnInit {
       }
     }, error => {
       this.errorBlock = true;
-      this.errorText = error['message'];
+      alert('Update Project failed. ' + error['message']);
     });
   }
 
@@ -180,11 +180,11 @@ export class AddprojectComponent implements OnInit {
         alert('Project Delete successfull');
         this.getAllProjects();
       } else {
-        alert(response['message']);
+        alert('Project Delete failed. ' + response['message']);
       }
     }, error => {
       this.errorBlock = true;
-      this.errorText = error['message'];
+      alert('Project Delete failed. ' + error['message']);
     });
 
   }

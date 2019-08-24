@@ -3,16 +3,16 @@
 </h1>
 
 <!-- New User Task fields -->
-<div class=" container col-md-6">
+<!-- <div class=" container col-md-16"> -->
   <div class=" container col-md-16">
     <form [formGroup]="mainFormGroup" (ngSubmit)="addOrUpdateTaskButton()">
 
       <!-- Project -->
-      <div class="form-group row col-md-16">
-        <div class="col col-md-3">
-          <label for="projectName">Project</label>
+      <div class="form-group row col-md-10">
+        <div class="col col-md-2" >
+          <label for="projectName" style="font-size: larger"><b>Project:</b></label>
         </div>
-        <div class="col col-md-5 float-right">
+        <div class="col col-md-6 float-right">
           <input type="text" class="form-control" formControlName='projectName' id="projectName" name='projectName'
             aria-describedby='projectName' readonly>
         </div>
@@ -23,11 +23,13 @@
       </div>
 
       <!-- Task Name -->
-      <div class="form-group row col-md-16">
-        <div class="col col-md-3">
-          <label for="taskName">Task:</label>
+      <div class="form-group row col-md-10">
+        <div class="col col-md-2">
+          <label for="taskName" style="font-size: larger">
+            <b>Task:</b>
+          </label>
         </div>
-        <div class="col col-md-9 float-right">
+        <div class="col col-md-8">
           <input type="text" required pattern=".*\S+.*" class="form-control" name="taskName" formControlName="taskName">
           <div *ngIf="mainFormGroup.controls['taskName'].invalid && (mainFormGroup.controls['taskName'].dirty)"
             class="alert alert-danger ">
@@ -39,33 +41,36 @@
       </div>
 
       <!-- Parent task check box -->
-      <div class="form-group row col-md-16">
-        <div class="col col-md-3"></div>
+      <div class="form-group row col-md-10">
+        <div class="col col-md-2"></div>
         <div class="col col-md-3 float-right">
           <input type="checkbox" value="isParentTask" formControlName='isParentTask' name='isParentTask'
             [disabled]="taskId > 0">
-          <label for="parentTask" class="chkBxPadding"> Parent Task</label>
+          <label for="parentTask" class="chkBxPadding">  Parent Task</label>
         </div>
       </div>
 
       <!-- Priority field -->
-      <div class="form-group row col-md-16">
-        <div class="col col-md-3">
-          <label for="priority">Priority:</label>
+      <div class="form-group row col-md-10">
+        <div class="col col-md-2">
+          <label for="priority" style="font-size: larger"> <b> Priority:</b></label>
         </div>
-        <div class="col col-md-13">
+        <div class="col col-md-8">
           <span>
-            <i>0 </i> <input type="range" id="priority" name="priority" formControlName="priority" min="0" max="30"
-              step="1" style="width: 90%"><i> 30</i>
+            <i>0</i> 
+            <input type="range" id="priority" name="priority" formControlName="priority" min="0" max="30"
+              step="1" style="width: 90%">
+            <i>30</i>
           </span>
         </div>
       </div>
 
-      <div class="form-group row col-md-16">
-        <div class="col col-md-3">
-          <label for="parentTaskName">Parent Task: </label>
+      <!-- Parent task selection field -->
+      <div class="form-group row col-md-10">
+        <div class="col col-md-2">
+          <label for="parentTaskName" style="font-size: larger"><b>Task:</b> </label>
         </div>
-        <div class="col col-md-5 float-right">
+        <div class="col col-md-6 float-right">
           <input type="text" class="form-control" formControlName='parentTaskName' id="parentTaskName"
             name='parentTaskName' aria-describedby='parentTaskName' readonly>
         </div>
@@ -76,11 +81,11 @@
       </div>
 
       <!-- Task dates fields -->
-      <div class="form-group row col-md-16">
-        <div class="col col-md-16">
+      <div class="form-group row col-md-12">
+        <div class="col col-md-10">
           <div class="row">
-            <div class="col col-md-3">
-              <label for="startDate">Start Date:</label>
+            <div class="col col-md-2">
+              <label for="startDate" style="font-size: larger"><b>Start Date:</b></label>
             </div>
             <div class="col-md-3 col-sm-12">
               <input class="form-control" placeholder="Start Date" name='startDate' aria-describedby="startDate"
@@ -93,8 +98,8 @@
               </div>
 
             </div>
-            <div class="col col-md-3">
-              <label for="endDate">End Date:</label>
+            <div class="col col-md-2">
+              <label for="endDate" style="font-size: larger"><b>End Date:</b></label>
             </div>
             <div class="col col-md-3 col-sm-12">
               <input class="form-control" placeholder="End Date" name='endDate' aria-describedby="endDate"
@@ -110,28 +115,27 @@
         </div>
       </div>
 
-
-      <div class="form-group row col-md-16">
-        <div class="col col-md-3">
-          <label for="userName">User</label>
+      <!-- User Search fields -->
+      <div class="form-group row col-md-10">
+        <div class="col col-md-2">
+          <label for="userName" style="font-size: larger"><b>User:</b></label>
         </div>
-        <div class="col col-md-5 float-right">
+        <div class="col col-md-6 float-right">
           <input type="text" class="form-control" formControlName='userName' id="userName" name='userName'
             aria-describedby='userName' readonly>
         </div>
         <div class="col col-md-2">
           <button type="button" class="btn btn-default border" data-toggle="modal" data-target="#userSearchModal"
-            style="border-radius: 70%">Search</button>
+            style="border-radius: 50%">Search</button>
         </div>
       </div>
 
-
-
       <!-- form buttons  -->
-      <div class="form-group row col-md-8 float-right">
-        <button class="col col-md-16" type="submit" #AddOrUpdate
+      <div class="form-group row col-md-10 float-right">
+          <div class="col-md-3"></div>
+        <button class="col col-md-2" type="submit" #AddOrUpdate
           [disabled]="mainFormGroup.pristine || mainFormGroup.invalid"> {{ _AddUpdateButton }} </button> 
-          <button class="col col-md-16" type="reset" #reset [disabled]="mainFormGroup.pristine"
+          <button class="col col-md-2" type="reset" #reset [disabled]="mainFormGroup.pristine"
           (click)="mainFormGroup.reset">Reset</button>
       </div>
     </form>
@@ -142,52 +146,3 @@
   <app-project-search (selectedProject)="selectedProject($event)"></app-project-search>
   <app-task-search (selectedParentTask)="selectedParentTask($event)"></app-task-search>
   <app-user-search (selectedUser)="selectedUser($event)"></app-user-search>
-
-
-
-  <!-- <h1 *ngIf="errorBlock" >
-    <div class="errorBanner">{{errorText}}</div> 
-  </h1>
-  
-  <div class="panel-body">
-  
-    <div class="form-inline" [class.has-error]="taskNameControl.invalid && taskNameControl.touched" [class.has-success]="taskNameControl.valid">
-      <label for="taskName" class="control-label" >Task: </label>
-      <input id="taskName" required type="text" class="form-control" name="taskName" [(ngModel)]="aTask.taskName" #taskNameControl="ngModel">
-      <span class="help-block" *ngIf="taskNameControl.invalid && taskNameControl.touched">
-           Task Name is required
-      </span>
-    </div>
-  
-    <div class="form-inline" [class.has-error]="priorityControl.invalid && priorityControl.touched" [class.has-success]="priorityControl.valid">
-        <label for="priority" class="control-label" >Priority:</label>
-        <input id="priority" type="range" min=1 max=30 step=1 value=1 class="form-control" name="priority" [(ngModel)]="aTask.priority" #priorityControl="ngModel">
-        <span class="help-block" *ngIf="priorityControl.invalid && priorityControl.touched">
-             Priority is required
-        </span>
-    </div>
-    
-    <div class="form-inline" >
-        <label for="parentTaskName" class="control-label" >Parent Task:</label>
-        <input id="parentTaskName" required=false type="text" class="form-control" name="parentTaskName" [(ngModel)]="aTask.parentId" #parentTaskNameControl="ngModel">
-      </div>
-    
-  
-      <div class="form-inline" [class.has-error]="startDateControl.invalid && startDateControl.touched" [class.has-success]="startDateControl.valid">
-          <label for="startDate" class="control-label" >Start Date:</label>
-          <input id="startDate" required type="date" class="form-control" name="startDate" [(ngModel)]="aTask.startDate" #startDateControl="ngModel">
-          <span class="help-block" *ngIf="startDateControl.invalid && startDateControl.touched">
-               Start Date is required
-          </span>
-      </div>
-  
-      <div class="form-inline" [class.has-error]="endDateControl.invalid && endDateControl.touched" [class.has-success]="endDateControl.valid">
-          <label for="endDate" class="control-label" >End Date:</label>
-          <input id="endDate" required type="date" class="form-control" name="endDate" [(ngModel)]="aTask.endDate" #endDateControl="ngModel">
-          <span class="help-block" *ngIf="endDateControl.invalid && endDateControl.touched">
-               Start Date is required
-          </span>
-      </div>
-      <button class="btn" (click)="resetPage()"> Reset </button>
-      <button class="btn btn-primary" (click)="addNewTask()"> Add Task </button>
-  </div> -->

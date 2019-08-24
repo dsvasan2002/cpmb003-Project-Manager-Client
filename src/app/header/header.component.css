@@ -1,3 +1,9 @@
 .active {
      color: blue; 
+     font-size: larger;
+     font-style: italic;
+}
+
+.body { 
+     padding-bottom: 70px; 
 }

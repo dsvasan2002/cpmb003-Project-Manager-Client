@@ -27,9 +27,9 @@ export class ParentTaskService {
     return this._http.get<ParentTaskClass>(`${this.SERVICE_URL}` + '/' + aParentTaskId);
   }
 
-  getAParentTaskById(anId: string): Observable<ParentTaskClass> {
-    return this._http.get<ParentTaskClass>(`${this.SERVICE_URL}` + '/id/' + anId);
-  }
+  // getAParentTaskById(anId: string): Observable<ParentTaskClass> {
+  //   return this._http.get<ParentTaskClass>(`${this.SERVICE_URL}` + '/id/' + anId);
+  // }
 
   updateParentTask(aParentTask: ParentTaskClass) {
     return this._http.put(`${this.SERVICE_URL}` +'/'+aParentTask.parentTaskId, aParentTask);

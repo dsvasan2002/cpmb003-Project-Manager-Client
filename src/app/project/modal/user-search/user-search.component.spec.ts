@@ -65,7 +65,7 @@ describe('UserSearchComponent', () => {
 
     component.getAllUsers();
     fixture.detectChanges();
-    expect(component.errorBlock).toBe(false);
+    expect(component.errorBlock).toBe(true);
   });
 
   it ('selectUser should fetch the user information', () => {
@@ -89,7 +89,7 @@ describe('UserSearchComponent', () => {
     component.selectUser(anUser.userId);
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledWith(anUser.userId);
-    expect(component.errorBlock).toBe(false);
+    expect(component.errorBlock).toBe(true);
   });
 
   it ('filterUserByName should filter as expected', () => {

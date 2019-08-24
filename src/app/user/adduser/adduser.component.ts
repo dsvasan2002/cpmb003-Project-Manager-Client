@@ -67,11 +67,10 @@ export class AdduserComponent implements OnInit {
         this.usersList = res['data'];
         this.filteredUserList = res['data'];
       } else {
-        //Error: could not get all users"
+        alert('Get users failed.' + res['message']);
       }
     }, (error: any) => {
-      this.errorBlock = true;
-      this.errorText = error['message'];
+      alert('Get users failed.' + error['message']);
     })
   }
 
@@ -101,8 +100,7 @@ export class AdduserComponent implements OnInit {
         alert('Add user failed' + res['message']);
       }
     }, error => {
-      this.errorBlock = true;
-      this.errorText = error['message'];
+      alert('Add user failed' + error['message']);
     });
   }
 
@@ -125,11 +123,13 @@ export class AdduserComponent implements OnInit {
         this.initMainForm();
         this.getAllUsers();
       } else {
-        alert('Update user failed');
+        alert('Update user failed' + response['message']);
       }
     }, error => {
-      this.errorBlock = true;
-      this.errorText = error['message'];
+      alert('Update user failed' + error['message']);
+
+      // this.errorBlock = true;
+      // this.errorText = error['message'];
     });
   }
 
@@ -140,12 +140,10 @@ export class AdduserComponent implements OnInit {
         alert('User Delete successfull');
         this.getAllUsers();
       } else {
-        alert(response['message']);
+        alert('Delete user failed.' + response['message']);
       }
-
     }, error => {
-      this.errorBlock = true;
-      this.errorText = error['message'];
+      alert('Delete user failed.' + error['message']);
     });
    
   }

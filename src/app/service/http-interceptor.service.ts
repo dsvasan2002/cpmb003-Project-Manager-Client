@@ -16,12 +16,10 @@ export class HttpInterceptorService implements HttpInterceptor {
       catchError((error:HttpErrorResponse)=>{
         if (error instanceof HttpErrorResponse) {
           //Server side error
-          // console.log(error);
           Sentry.captureException(error);
           return throwError(error);
         } else {
           //Client side error
-          // console.log(error);
           Sentry.captureException(error); 
           return throwError(error);
         }

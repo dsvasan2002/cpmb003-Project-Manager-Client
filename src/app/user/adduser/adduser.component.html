@@ -1,117 +1,128 @@
-<h1 *ngIf="errorBlock" >
-  <div class="errorBanner">{{errorText}}</div> 
+<h1 *ngIf="errorBlock">
+  <div class="errorBanner">{{errorText}}</div>
 </h1>
 
-<!-- New User Input fields -->
-<div class=" container col-md-6">
+<div class=" container col-md-16">
+  <!-- New User Input fields -->
   <div class=" container col-md-16">
-    <form [formGroup]="mainFormGroup" (ngSubmit)="addOrUpdateUser()">   
-      <div class="form-group row col-md-16">
+    <form [formGroup]="mainFormGroup" (ngSubmit)="addOrUpdateUser()">
+      <div class="form-group row col-md-10">
         <div class="col col-md-3">
-            <label for="firstName">First Name:</label>
+          <label for="firstName" style="font-size: larger"><b>First Name:</b></label>
         </div>
-        <div class="col col-md-9 float-right">
-          <input type="text" required pattern=".*\S+.*" class="form-control" name="firstName" formControlName="firstName">
-          <div *ngIf= "mainFormGroup.controls['firstName'].invalid && (mainFormGroup.controls['firstName'].dirty)" class="alert alert-danger ">
-            <div *ngIf = "mainFormGroup.controls['firstName'].errors.required || mainFormGroup.controls['firstName'].errors.pattern"> 
-               A valid First Name is required
+        <div class="col col-md-7 float-right">
+          <input type="text" required pattern=".*\S+.*" class="form-control" name="firstName"
+            formControlName="firstName">
+          <div *ngIf="mainFormGroup.controls['firstName'].invalid && (mainFormGroup.controls['firstName'].dirty)"
+            class="alert alert-danger ">
+            <div
+              *ngIf="mainFormGroup.controls['firstName'].errors.required || mainFormGroup.controls['firstName'].errors.pattern">
+              A valid First Name is required
             </div>
           </div>
         </div>
       </div>
-   
-      <div class="form-group row col-md-16">
+
+      <div class="form-group row col-md-10">
         <div class="col col-md-3">
-          <label for="lastName">Last Name:</label>
+          <label for="lastName" style="font-size: larger"><b>Last Name:</b></label>
         </div>
-        <div class="col col-md-9 float-right">
-          <input type="text"  required pattern=".*\S+.*" class="form-control"  name="lastName" formControlName="lastName">
-          <div *ngIf= "mainFormGroup.controls['lastName'].invalid && (mainFormGroup.controls['lastName'].dirty)" class="alert alert-danger">
-             <div *ngIf = "mainFormGroup.controls['lastName'].errors.required"> 
-                A valid Last Name is required
-             </div>
+        <div class="col col-md-7 float-right">
+          <input type="text" required pattern=".*\S+.*" class="form-control" name="lastName" formControlName="lastName">
+          <div *ngIf="mainFormGroup.controls['lastName'].invalid && (mainFormGroup.controls['lastName'].dirty)"
+            class="alert alert-danger">
+            <div *ngIf="mainFormGroup.controls['lastName'].errors.required">
+              A valid Last Name is required
+            </div>
           </div>
         </div>
       </div>
-   
-      <div class="form-group row col-md-16">
+
+      <div class="form-group row col-md-10">
         <div class="col col-md-3">
-          <label for="employeeId">Employee ID:</label>
+          <label for="employeeId" style="font-size: larger"><b>Employee ID:</b></label>
         </div>
-        <div class="col col-md-5 float-right">
-          <input type="text" required pattern=".*\S+.*" class="form-control" name="employeeId" formControlName="employeeId">
-          <div *ngIf= "mainFormGroup.controls['employeeId'].invalid && (mainFormGroup.controls['employeeId'].dirty)" class="alert alert-danger">
-            <div *ngIf = "mainFormGroup.controls['employeeId'].errors.required"> 
-                A valid Employee ID is required
+        <div class="col col-md-3 float-right">
+          <input type="text" required pattern=".*\S+.*" class="form-control" name="employeeId"
+            formControlName="employeeId">
+          <div *ngIf="mainFormGroup.controls['employeeId'].invalid && (mainFormGroup.controls['employeeId'].dirty)"
+            class="alert alert-danger">
+            <div *ngIf="mainFormGroup.controls['employeeId'].errors.required">
+              A valid Employee ID is required
             </div>
-          </div>          
+          </div>
         </div>
-      </div>    
-   
-      <div class="form-group row col-md-8 float-right">
-        <button class="col col-md-16" type="submit" #AddOrUpdate [disabled]="mainFormGroup.pristine || mainFormGroup.invalid || !mainFormGroup.valid"> {{ _AddUpdateButton }} </button> &nbsp;
-        <button class="col col-md-16" type="reset" #reset [disabled]="mainFormGroup.pristine" (click)="resetUserAddUpdateForm()">Reset</button>
       </div>
-    </form> 
+
+      <div class="form-group row col-md-10 float-right">
+        <div class="col-md-3"></div>
+        <button class="col col-md-2" type="submit" #AddOrUpdate
+          [disabled]="mainFormGroup.pristine || mainFormGroup.invalid || !mainFormGroup.valid"> {{ _AddUpdateButton }}
+        </button> &nbsp;
+        <button class="col col-md-2" type="reset" #reset [disabled]="mainFormGroup.pristine"
+          (click)="resetUserAddUpdateForm()">Reset</button>
+      </div>
+    </form>
+    <br>
+    <hr style="border: solid blue">
   </div>
 
-  <br>
-  <hr> 
+  <!-- Sort fields -->
+  <div class="container col-md-16">
+    <div class="row">
+      <div class="col col-md-4">
+        <div class="form-inline">
+          <input id="searchUserString" form="searchUserString" type="text" placeholder="Search User..."
+            class="form-control" [(ngModel)]="searchUserString" #searchUserStringControl="ngModel"
+            [ngModelOptions]="{standalone: true}">
+        </div>
+      </div>
+      <div class="col col-md-1">
+        <label>Sort:</label>
+      </div>
+      <div class="col col-md-5">
+        <button type="button" (click)="sortUsersList('firstName')">First Name</button> &nbsp;
+        <button type="button" (click)="sortUsersList('lastName')">Last Name</button> &nbsp;
+        <button type="button" (click)="sortUsersList('employeeId')">Id</button> &nbsp;
+      </div>
+    </div>
 
-
-<br><hr>
-<!-- Sort fields -->
-<div class="container col-md-16">
-  <div class="row col-md-16">
-    <div class="col col-md-5">
-      <div class="form-inline">
-        <input id="searchUserString" form="searchUserString" type="text" placeholder="Search User" class="form-control" [(ngModel)]="searchUserString" #searchUserStringControl="ngModel" [ngModelOptions]="{standalone: true}">
-     </div>
-    </div>
-    <div class="col col-md-1" >
-      <label>Sort:</label>
-    </div>
-    <div class="col col-md-6">
-      <button type="button" (click)="sortUsersList('firstName')" >First Name</button> &nbsp;
-      <button type="button" (click)="sortUsersList('lastName')" >Last Name</button> &nbsp;
-      <button type="button" (click)="sortUsersList('employeeId')">Id</button> &nbsp;
-    </div>
   </div>
-</div>
 
-<!-- <br><hr> -->
-<!-- user list fields -->
-<div class="container col-md-16">
-  <div class="list-group col-md-16" *ngFor="let user of filteredUserList">
-    <div class="list-item col-md-16" >
+  <!-- user list fields -->
+  <div class="container col-md-16">
+    <hr style="border-top: dotted 1px;">
+    <div class="list-group " *ngFor="let user of filteredUserList">
+      <div class="list-item">
 
-      <div class="row col-md-16">
-        <div class="col col-md-9 float-left">
-          <input type="text" [value]="user.firstName" id="firstName" readonly class="form-control" >
+        <div class="row col-md-10">
+          <div class="col col-md-8 float-left">
+            <input type="text" [value]="user.firstName" id="firstName" readonly class="form-control">
+          </div>
+          <div class="col col-md-2 float-right">
+            <button style="width :100px; height:30px" type="button" (click)="editUser(user)">Edit</button>
+          </div>
         </div>
-        <div class="col col-md-3 float-right">
-          <button class="col col-md-10" type="button" (click)="editUser(user)">Edit</button>
+
+        <div class="row col-md-10">
+          <div class="col col-md-8 float-left">
+            <input type="text" [value]="user.lastName" id="lastName" readonly class="form-control">
+          </div>
+          <div class="col col-md-2 float-right">
+            <button style="width :100px; height:30px" type="button" (click)="deleteUser(user.userId)">Delete</button>
+          </div>
+        </div>
+
+        <div class="row col-md-10">
+          <div class="col col-md-8 float-left">
+            <input type="text" [value]="user.employeeId" id="employeeId" readonly class="form-control">
+          </div>
+          <div class="col col-md-2 float-right">
+            <input type="hidden">
+          </div>
         </div>
       </div>
-
-      <div class="row col-md-16">
-        <div class="col col-md-9 float-left">
-          <input type="text" [value]="user.lastName" id="lastName" readonly class="form-control" >
-        </div>
-        <div class="col col-md-3 float-right">
-          <button class="col col-md-10" type="button" (click)="deleteUser(user.userId)">Delete</button>
-        </div>
-      </div>
-
-      <div class="row col-md-16">
-        <div class="col col-md-4 float-left">
-          <input type="text" [value]="user.employeeId" id="employeeId" readonly class="form-control" >
-        </div>
-       <div class="col col-md-2 float-right">
-          <input type="hidden">
-        </div>
-      </div>
+      <hr style="border-top: dotted 1px;">
     </div>
-  <hr>
   </div>
 </div>

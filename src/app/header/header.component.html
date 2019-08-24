@@ -1,27 +1,31 @@
-<div class="container col-md-6">
+<div class="container col-md-16">
     <h1>Welcome to CPMB003 Project Manager </h1>
 
   <nav class="navbar navbar-expand-md navbar-light">
     <div class="collapse navbar-collapse" id="navbarLinks" style="font-size: 20px">
         <ul class="navbar-nav mr-auto">
+
           <li class="nav-item col-md-4">
-            <a class="nav-link" active-link="active" [routerLink]="['addProject']">Add Project</a>
+            <a class="nav-link" routerLinkActive="active" [routerLink]="['addProject']">Add Project</a>
           </li>
 
           <li class="nav-item col-md-4">
-            <a class="nav-link" active-link="active" [routerLink]="['addTask']">Add Task</a>
+            <a class="nav-link" routerLinkActive="active" [routerLink]="['addTask']">Add Task</a>
           </li>   
 
           <li class="nav-item col-md-4">
-            <a class="nav-link" active-link="active" [routerLink]="['addUser']">Add User</a>
+            <a class="nav-link" routerLinkActive="active" [routerLink]="['addUser']">Add User</a>
           </li>  
 
           <li class="nav-item col-md-4">
-            <a class="nav-link" active-link="active" [routerLink]="['viewTask']">View Task</a>
+            <a class="nav-link" routerLinkActive="active" [routerLink]="['viewTask']">View Task</a>
           </li>
         </ul>
     </div>    
   </nav>
 </div>
 
-<br><router-outlet></router-outlet>
+<br>
+<div class="body">
+    <router-outlet></router-outlet>
+</div>

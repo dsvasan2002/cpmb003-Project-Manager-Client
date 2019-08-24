@@ -37,8 +37,12 @@ export class UserSearchComponent implements OnInit {
         this.filteredUserList = res['data'];
       } else {
         //Error: could not get all users
-        this.errorBlock = false;
+        alert('Error fetching users. Please try again.' + res['message']);
+        this.errorBlock = true;
       }
+    }, error => {
+      this.errorBlock = true;
+      alert('Error fetching users. Please try again.' + error['message']);
     })
   }
 
@@ -58,20 +62,22 @@ export class UserSearchComponent implements OnInit {
 
   selectUser(anUserId:number) {
     this._userService.getAnUser(anUserId).subscribe((res: any)=>{
+      this.enableAddButton = true;
       if (res['success'] == true) {
         this.anUser = res['data'];
-        this.enableAddButton = true;
       } else {
-        alert('error fetching user info. Please try again');
-        this.enableAddButton = false;
+        alert('error fetching user info. Please try again.' + res['message']);
+        this.errorBlock = true;
       }
+    }, error => {
+      this.errorBlock = true;
+      alert('Error fetching users. Please try again.' + error['message']);
     });
   }
 
   addUser() {
     this.selectedUser.emit(this.anUser);
     $('#userSearchModal').modal('toggle');
-
   }
 
 }

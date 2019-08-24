@@ -144,7 +144,7 @@ describe('AddtaskComponent', () => {
     component.addNewTask(aTask);
     expect(spyAdd).toHaveBeenCalled();
     fixture.detectChanges();
-    expect(component.errorBlock).toBe(false);
+    expect(component.errorBlock).toBe(true);
 
   });
 

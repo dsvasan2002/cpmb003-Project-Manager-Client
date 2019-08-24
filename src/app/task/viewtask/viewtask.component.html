@@ -1,60 +1,63 @@
-
-
 <app-project-search (selectedProject)="selectedProject($event)"></app-project-search>
 
-<div class="container container col-md-14" style="margin-top: 70px;">
-
-    <div class="row col-md-14   form-group" style="margin-top: 70px;" style="text-align: right">
-  
-        <div class="col col-md-1" style="text-align-last: right">
-        <label>Project:</label>
-        </div>
-        <div class="col col-md-2">
-           <input type="text" style="width: 350px" class="form-control" name="aProject.projectName" aria-describedby="aProject.projectName" 
-           readonly [(ngModel)]="aProject && aProject.projectName">
-        </div>
-        <div class="col col-md-3">
-           <button class="btn btn-default border" style="border-radius: 50%" 
-           data-toggle="modal" data-target="#projectSearchModal">Search</button>
-        </div>
-     
-    <div class="col col-md-5">
-       <label> Sort Task By:</label>
-          <button type="button" [disabled]="!filteredTasksList" (click)="sortTasksList('startDate')">Start Date</button> &nbsp;
-          <button type="button" [disabled]="!filteredTasksList" (click)="sortTasksList('endDate')">End Date</button>&nbsp;
-          <button type="button" [disabled]="!filteredTasksList" (click)="sortTasksList('priority')">Priority</button>&nbsp;
-          <button type="button" [disabled]="!filteredTasksList" (click)="sortTasksList('hasFinished')">Completed</button>&nbsp;
+<div class="container container col-md-16">
+  <div class="row col-md-14   form-group" style="margin-top: 70px;" style="text-align: right">
+    <div class="col col-md-1" style="text-align-last: right">
+      <label style="font-size: larger"><b>Project:</b></label>
     </div>
-   </div>
+    <div class="col col-md-2">
+      <input type="text" style="width: 350px" class="form-control" name="aProject.projectName"
+        aria-describedby="aProject.projectName" readonly [(ngModel)]="aProject && aProject.projectName">
+    </div>
+    <div class="col col-md-3">
+      <button class="btn btn-default border" style="border-radius: 50%" data-toggle="modal"
+        data-target="#projectSearchModal">Search</button>
+    </div>
 
-  <table class="table table-hover" >
-      <thead>
-        <tr>
-          <th>Task</th>
-          <th>Parent</th>
-          <th>Priority</th>
-          <th>Start Date</th>
-          <th>End Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let task of filteredTasksList">
-            <td> {{task.taskName }} </td>
-            <td>
-                <label style ="font-weight: normal; background-color:#f2f2f2 ;width: 175px; height: 60px;" *ngIf="!task.parentTask">This Task has NO Parent</label>
-                <label style ="font-weight: normal; background-color:#f2f2f2 ; width: 175px; height: 60px;" *ngIf="task.parentTask">{{task.parentTask.parentTaskName}}</label>
-            </td>
-            <td> {{task.priority }} </td>
-            <td width="100px"> {{task.startDate | date:'dd/MM/yyyy' }} </td>
-            <td width="100px"> {{task.endDate | date:'dd/MM/yyyy' }} </td>
-          <td>
-            <button *ngIf="!task.hasFinished" class="btn btn-primary" style="width: 90px"  (click)="updateSelectedTask(task)"> Edit</button>
-            <button *ngIf="task.hasFinished" class="btn btn-primary"  style="width: 90px" (click)="updateSelectedTask(task)"> View</button>
-          </td>
-          <td>
-              <button *ngIf="!task.hasFinished" class="btn btn-danger"  style="width: 90px" (click)="finishTask(task)"> End Task </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="col col-md-5">
+      <label> Sort Task By:</label>
+      <button type="button" [disabled]="!filteredTasksList" (click)="sortTasksList('startDate')">Start Date</button>
+      &nbsp;
+      <button type="button" [disabled]="!filteredTasksList" (click)="sortTasksList('endDate')">End Date</button>&nbsp;
+      <button type="button" [disabled]="!filteredTasksList" (click)="sortTasksList('priority')">Priority</button>&nbsp;
+      <button type="button" [disabled]="!filteredTasksList"
+        (click)="sortTasksList('hasFinished')">Completed</button>&nbsp;
+    </div>
   </div>
+
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Task</th>
+        <th>Parent</th>
+        <th>Priority</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let task of filteredTasksList">
+        <td> {{task.taskName }} </td>
+        <td>
+          <label style="font-weight: normal; background-color:#f2f2f2 ;width: 175px; height: 60px;"
+            *ngIf="!task.parentTask">This Task has NO Parent</label>
+          <label style="font-weight: normal; background-color:#f2f2f2 ; width: 175px; height: 60px;"
+            *ngIf="task.parentTask">{{task.parentTask.parentTaskName}}</label>
+        </td>
+        <td> {{task.priority }} </td>
+        <td width="100px"> {{task.startDate | date:'dd/MM/yyyy' }} </td>
+        <td width="100px"> {{task.endDate | date:'dd/MM/yyyy' }} </td>
+        <td>
+          <button *ngIf="!task.hasFinished" class="btn btn-primary" style="width: 90px"
+            (click)="updateSelectedTask(task)"> Edit</button>
+          <button *ngIf="task.hasFinished" class="btn btn-primary" style="width: 90px"
+            (click)="updateSelectedTask(task)"> View</button>
+        </td>
+        <td>
+          <button *ngIf="!task.hasFinished" class="btn btn-danger" style="width: 90px" (click)="finishTask(task)"> End
+            Task </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

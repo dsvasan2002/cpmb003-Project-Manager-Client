@@ -1,15 +1,15 @@
 <app-user-search (selectedUser)="selectedProjectManager($event)"></app-user-search>
 <!-- Add project fields -->
-<div class=" container col-md-6">
+<div class=" container col-md-16">
   <div class=" container col-md-16">
     <form [formGroup]="mainFormGroup" (ngSubmit)="addOrUpdateProjectButton()">
-      <div class="form-group row col-md-16">
-        <div class="col col-md-3">
-          <label for="projectName"> <b>Project:</b> </label>
+      <div class="form-group row col-md-10">
+        <div class="col col-md-2 float-right">
+          <label for="projectName" style="font-size: larger"> <b>Project:</b> </label>
         </div>
-        <!-- <div class="col col-md-10 float-right" style="align-self: center"> -->
-        <div class="col col-md-9 float-right">
-            <input type="text" required pattern=".*\S+.*" class="form-control" name="projectName" formControlName="projectName">
+        <div class="col col-md-8 float-right">
+          <input type="text" required pattern=".*\S+.*" class="form-control" name="projectName"
+            formControlName="projectName">
           <div *ngIf="mainFormGroup.controls['projectName'].invalid && (mainFormGroup.controls['projectName'].dirty)"
             class="alert alert-danger ">
             <div *ngIf="mainFormGroup.controls['projectName'].errors.required">
@@ -19,9 +19,9 @@
         </div>
       </div>
 
-      <div class="form-group row col-md-16">
-        <div class="col col-md-3"></div>
-        <div class="col col-md-13">
+      <div class="form-group row col-md-10">
+        <div class="col col-md-2"></div>
+        <div class="col col-md-8">
           <div class="row">
             <div class="col col-md-4">
               <input type="checkbox" value="setProjectDates" formControlName='setProjectDates' name='setProjectDates'>
@@ -41,139 +41,147 @@
       </div>
 
 
-      <div class="form-group row col-md-16">
-        <div class="col col-md-3">
-          <label for="priority"> <b>Priority:</b> </label>
+      <div class="form-group row col-md-10">
+        <div class="col col-md-2">
+          <label for="priority" style="font-size: larger"> <b>Priority:</b> </label>
         </div>
-        <div class="col col-md-9">
+        <div class="col col-md-8">
           <span>
-            <i>0 </i> <input type="range" id="priority" name="priority" formControlName="priority" min="0" max="30"
-              step="1" style="width: 60%"><i> 30</i>
+            <i>0</i><input type="range" id="priority" name="priority" formControlName="priority" min="0" max="30" step="1"
+              style="width: 90%">
+              <i>30</i>
           </span>
         </div>
       </div>
 
-      <div class="form-group row col-md-16">
-        <div class="col col-md-3">
-          <label for="projectManager"> <b>Manager:</b> </label>
+      <div class="form-group row col-md-10">
+        <div class="col col-md-2">
+          <label for="projectManager" style="font-size: larger"> <b>Manager:</b> </label>
         </div>
         <div class="col col-md-7 float-left">
           <input type="text" class="form-control" formControlName='projectManager' id="projectManager"
             name='projectManager' aria-describedby='projectManager' readonly>
         </div>
-        <div class="col col-md-2">
+        <div class="col col-md-1">
           <button type="button" class="btn btn-default border" data-toggle="modal" data-target="#userSearchModal"
-            style="border-radius: 70%">Search</button>
+            style="border-radius: 100%">Search</button>
         </div>
       </div>
 
-      <div class="form-group row  float-right">
-        <button style="width :100px; height:30px" type="submit"
-          [disabled]="mainFormGroup.pristine || mainFormGroup.invalid">{{ _AddUpdateButton }}</button> &nbsp;
-        <button style="width :100px; height:30px" type="reset"
-          [disabled]="mainFormGroup.pristine || mainFormGroup.invalid" (click)="resetMainFormGroup()">Reset</button>
+      <div class="form-group row col-md-10 ">
+        <div class="col-md-6"></div>
+        <div class="col-md-4">
+          <button style="width :100px; height:30px" type="submit"
+            [disabled]="mainFormGroup.pristine || mainFormGroup.invalid">{{ _AddUpdateButton }}</button> &nbsp;
+          <button style="width :100px; height:30px" type="reset"
+            [disabled]="mainFormGroup.pristine || mainFormGroup.invalid" (click)="resetMainFormGroup()">Reset</button>
+
+        </div>
       </div>
     </form>
   </div>
 
   <br>
   <hr>
+  <div class=" container col-md-16">
+    <div class="col-md-2"></div>
 
-  <!-- Search fields   -->
-  <div class="row">
-    <div class="form-inline">
-      <input id="searchProjectString" form="searchProjectString" type="text" placeholder="Search Project"
-        class="form-control" [(ngModel)]="searchProjectString" #searchProjectStringControl="ngModel"
-        [ngModelOptions]="{standalone: true}">
-    </div>
-  </div>
 
-  <br>
-  <!-- Sort fields -->
-  <div class="row form-group">
-    <div class="col-md-3 controlTopPadding">
-      <span>Sort By:</span>
+    <!-- Search fields   -->
+    <div class="row col-md-10">
+      <input style="width: 80%" id="searchProjectString" form="searchProjectString" type="text"
+        placeholder="Search Project" class="form-control" [(ngModel)]="searchProjectString"
+        #searchProjectStringControl="ngModel" [ngModelOptions]="{standalone: true}">
     </div>
-    <div class="col-md-9">
-      <div class="row">
-        <button type="button" style="width :100px; height:30px"
-          [disabled]="filteredProjectsList && filteredProjectsList.length==0"
-          (click)="sortProjectsList('startDate')">Start Date</button> &nbsp; &nbsp;
-        <button type="button" style="width :100px; height:30px"
-          [disabled]="filteredProjectsList && filteredProjectsList.length==0" (click)="sortProjectsList('endDate')">End
-          Date</button> &nbsp; &nbsp;
-        <button type="button" style="width :100px; height:30px"
-          [disabled]="filteredProjectsList && filteredProjectsList.length==0"
-          (click)="sortProjectsList('priority')">Priority</button> &nbsp; &nbsp;
-        <button type="button" style="width :100px; height:30px"
-          [disabled]="filteredProjectsList && filteredProjectsList.length==0"
-          (click)="sortProjectsList('CompletedTasks')">Completed</button> &nbsp;
+
+    <br>
+    <!-- Sort fields -->
+    <div class="row form-group col-md-10">
+      <div class="col-md-3 controlTopPadding">
+        <span>Sort By:</span>
+      </div>
+      <div class="col-md-9">
+        <div class="row">
+          <button type="button" style="width :100px; height:30px"
+            [disabled]="filteredProjectsList && filteredProjectsList.length==0"
+            (click)="sortProjectsList('startDate')">Start Date</button> &nbsp; &nbsp;
+          <button type="button" style="width :100px; height:30px"
+            [disabled]="filteredProjectsList && filteredProjectsList.length==0"
+            (click)="sortProjectsList('endDate')">End
+            Date</button> &nbsp; &nbsp;
+          <button type="button" style="width :100px; height:30px"
+            [disabled]="filteredProjectsList && filteredProjectsList.length==0"
+            (click)="sortProjectsList('priority')">Priority</button> &nbsp; &nbsp;
+          <button type="button" style="width :100px; height:30px"
+            [disabled]="filteredProjectsList && filteredProjectsList.length==0"
+            (click)="sortProjectsList('CompletedTasks')">Completed</button> &nbsp;
+        </div>
+      </div>
+    </div>
+
+    <!-- Project Display fields -->
+    <div class="list-group col-md-10" *ngFor="let project of filteredProjectsList">
+      <div>
+        <div class="row form-group">
+          <div class="col-md-6">
+            <table style="background-color:#f2f2f2 ; width: 100%" cellpadding=2>
+              <tr>
+                <td id="dispProjectName">
+                  Project: <b>{{project.projectName}}</b>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">&nbsp;</td>
+              </tr>
+              <tr>
+                <td>No of Tasks: {{project.TotalTasks}}</td>
+                <td>Completed: {{project.CompletedTasks}}</td>
+              </tr>
+              <tr>
+                <td id="dispStartDate">Start Date: {{project.startDate | date: 'dd-MM-yyyy' }}</td>
+                <td id="dispEndDate">End Date: {{project.endDate | date: 'dd-MM-yyyy'}}</td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="col-md-1">
+            <table height="100%" cellpadding=0>
+              <tr height="20%">
+                <td>
+                  <label>Priority</label>
+                </td>
+              </tr>
+              <tr height="80%" style="background-color:#f2f2f2">
+                <td>
+                  <div>
+                    <span id="dispPriority">{{project.priority}}</span>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="col-md-1 ml-3">
+            <table cellpadding=5>
+              <tr>
+                <td>
+                  <button type="button" style="width :100px; height: 46px"
+                    (click)="handleEditButton(project)">Update</button>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <button type="button" style="width :100px; height: 46px"
+                    (click)="handleSuspendButton(project.projectId)">Suspend</button>
+                </td>
+              </tr>
+            </table>
+          </div>
+
+        </div>
+        <hr>
       </div>
     </div>
   </div>
-
-  <!-- Project Display fields -->
-  <div class="list-group" *ngFor="let project of filteredProjectsList">
-    <div>
-      <div class="row form-group">
-        <div class="col-md-8">
-          <table style="background-color:#f2f2f2 ; width: 100%" cellpadding=2>
-            <tr>
-              <td id="dispProjectName">
-                Project: <b>{{project.projectName}}</b>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2">&nbsp;</td>
-            </tr>
-            <tr>
-              <td>No of Tasks: {{project.TotalTasks}}</td>
-              <td>Completed: {{project.CompletedTasks}}</td>
-            </tr>
-            <tr>
-              <td id="dispStartDate">Start Date: {{project.startDate | date: 'dd-MM-yyyy' }}</td>
-              <td id="dispEndDate">End Date: {{project.endDate | date: 'dd-MM-yyyy'}}</td>
-            </tr>
-          </table>
-        </div>
-
-        <div class="col-md-1">
-          <table height="100%" cellpadding=0>
-            <tr height="20%">
-              <td>
-                <label>Priority</label>
-              </td>
-            </tr>
-            <tr height="80%" style="background-color:#f2f2f2">
-              <td>
-                <div>
-                  <span id="dispPriority">{{project.priority}}</span>
-                </div>
-              </td>
-            </tr>
-          </table>
-        </div>
-
-        <div class="col-md-2 ml-3">
-          <table cellpadding=5>
-            <tr>
-              <td>
-                <button type="button" style="width :75px" (click)="handleEditButton(project)">Update</button> &nbsp;
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <button type="button" style="width :75px"
-                  (click)="handleSuspendButton(project.projectId)">Suspend</button>
-              </td>
-            </tr>
-          </table>
-        </div>
-
-      </div>
-      <hr>
-    </div>
-  </div>
-
 </div>
 <!-- <app-user-search (selectedUser)="selectedProjectManager($event)"></app-user-search> -->
