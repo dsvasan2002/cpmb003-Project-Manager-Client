@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IUser, UserClass } from 'src/app/model/user.model';
 import { UserService } from '../../service/user.service';
-// import { User } from '@sentry/types';
+import { User } from '@sentry/types';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { consoleSandbox } from '@sentry/utils';
 
@@ -96,6 +96,7 @@ export class AdduserComponent implements OnInit {
         alert('Add user Successfull');
         this.getAllUsers();
         this.resetPage();
+        this.resetUserAddUpdateForm();
       } else {
         alert('Add user failed' + res['message']);
       }

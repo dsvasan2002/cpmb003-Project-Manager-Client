@@ -18,7 +18,7 @@
         </div>
         <div class="col col-md-2">
           <button type="button" class="btn btn-default border" data-toggle="modal" data-target="#projectSearchModal"
-            style="border-radius: 100%" [disabled]="taskId > 0">Search</button>
+            style="border-radius: 100%" [disabled]="(taskId > 0) || finishedTask">Search</button>
         </div>
       </div>
 
@@ -30,7 +30,7 @@
           </label>
         </div>
         <div class="col col-md-8">
-          <input type="text" required pattern=".*\S+.*" class="form-control" name="taskName" formControlName="taskName">
+          <input [disabled]="finishedTask" type="text" required pattern=".*\S+.*" class="form-control" name="taskName" formControlName="taskName">
           <div *ngIf="mainFormGroup.controls['taskName'].invalid && (mainFormGroup.controls['taskName'].dirty)"
             class="alert alert-danger ">
             <div *ngIf="mainFormGroup.controls['taskName'].errors.required">
@@ -45,7 +45,7 @@
         <div class="col col-md-2"></div>
         <div class="col col-md-3 float-right">
           <input type="checkbox" value="isParentTask" formControlName='isParentTask' name='isParentTask'
-            [disabled]="taskId > 0">
+            [disabled]="(taskId > 0) || finishedTask">
           <label for="parentTask" class="chkBxPadding">  Parent Task</label>
         </div>
       </div>
@@ -58,7 +58,7 @@
         <div class="col col-md-8">
           <span>
             <i>0</i> 
-            <input type="range" id="priority" name="priority" formControlName="priority" min="0" max="30"
+            <input [disabled]="finishedTask" type="range" id="priority" name="priority" formControlName="priority" min="0" max="30"
               step="1" style="width: 90%">
             <i>30</i>
           </span>
@@ -75,7 +75,7 @@
             name='parentTaskName' aria-describedby='parentTaskName' readonly>
         </div>
         <div class="col col-md-2">
-          <button type="button" class="btn btn-default border" data-toggle="modal" data-target="#parentTaskSearchModal"
+          <button [disabled]="finishedTask" type="button" class="btn btn-default border" data-toggle="modal" data-target="#parentTaskSearchModal"
             style="border-radius: 70%">Search</button>
         </div>
       </div>
@@ -88,7 +88,7 @@
               <label for="startDate" style="font-size: larger"><b>Start Date:</b></label>
             </div>
             <div class="col-md-3 col-sm-12">
-              <input class="form-control" placeholder="Start Date" name='startDate' aria-describedby="startDate"
+              <input [disabled]="finishedTask" class="form-control" placeholder="Start Date" name='startDate' aria-describedby="startDate"
                 formControlName='startDate' ngbDatepicker #startDate="ngbDatepicker" (focus)="startDate.toggle()" />
               <div *ngIf="mainFormGroup.controls['startDate'].invalid && (mainFormGroup.controls['startDate'].dirty)"
                 class="alert alert-danger ">
@@ -102,7 +102,7 @@
               <label for="endDate" style="font-size: larger"><b>End Date:</b></label>
             </div>
             <div class="col col-md-3 col-sm-12">
-              <input class="form-control" placeholder="End Date" name='endDate' aria-describedby="endDate"
+              <input [disabled]="finishedTask" class="form-control" placeholder="End Date" name='endDate' aria-describedby="endDate"
                 formControlName='endDate' ngbDatepicker #endDate="ngbDatepicker" (focus)="endDate.toggle()">
               <div *ngIf="mainFormGroup.controls['endDate'].invalid && (mainFormGroup.controls['endDate'].dirty)"
                 class="alert alert-danger ">
@@ -125,7 +125,7 @@
             aria-describedby='userName' readonly>
         </div>
         <div class="col col-md-2">
-          <button type="button" class="btn btn-default border" data-toggle="modal" data-target="#userSearchModal"
+          <button [disabled]="finishedTask" type="button" class="btn btn-default border" data-toggle="modal" data-target="#userSearchModal"
             style="border-radius: 50%">Search</button>
         </div>
       </div>
@@ -134,7 +134,7 @@
       <div class="form-group row col-md-10 float-right">
           <div class="col-md-3"></div>
         <button class="col col-md-2" type="submit" #AddOrUpdate
-          [disabled]="mainFormGroup.pristine || mainFormGroup.invalid"> {{ _AddUpdateButton }} </button> 
+          [disabled]="mainFormGroup.pristine || mainFormGroup.invalid || finishedTask"> {{ _AddUpdateButton }} </button> 
           &nbsp;
           <button class="col col-md-2" type="reset" #reset [disabled]="mainFormGroup.pristine"
           (click)="mainFormGroup.reset">Reset</button>

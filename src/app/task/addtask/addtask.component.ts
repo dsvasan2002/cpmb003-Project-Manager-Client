@@ -37,6 +37,7 @@ export class AddtaskComponent implements OnInit {
 
   anUser: UserClass;
   aTaskId: number;
+  finishedTask: boolean = false;
 
   constructor(private _taskService: TaskService,
     private _formBuilder: FormBuilder,
@@ -63,8 +64,12 @@ export class AddtaskComponent implements OnInit {
       if (response['success']) {
         this.aTask = response['data'];
         this.initMainForm();
-        this.isEditMode = true;
         this._AddUpdateButton = "Update";
+        this.isEditMode = true;
+        if (this.aTask.hasFinished) {
+          this.finishedTask = true;
+          this.mainFormGroup.controls["taskName"].disable({onlySelf: true});
+        }
         this.mainFormGroup.controls["taskId"].setValue(this.aTask.taskId);
         this.mainFormGroup.controls["projectName"].setValue(this.aTask.project.projectName);
         this.mainFormGroup.controls["taskName"].setValue(this.aTask.taskName);
@@ -111,6 +116,7 @@ export class AddtaskComponent implements OnInit {
       userName: ' '
     });
     this.isEditMode = false;
+    this.finishedTask =  false;
     this._AddUpdateButton = "Add";
   }
 
@@ -162,6 +168,8 @@ export class AddtaskComponent implements OnInit {
       if (response['success']) {
         alert('Task added successfully');
         this.errorBlock = false;
+        this.mainFormGroup.reset();
+
       } else {
         this.errorBlock = true;
         alert('Error in adding Task.' + " " + response['message']);
